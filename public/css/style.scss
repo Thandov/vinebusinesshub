@@ -1,0 +1,90 @@
+.img-wrap {
+    height: 150px;
+    background-color: white;
+}
+.fi-title {
+    font-weight: bold;
+}
+
+.logo_frame {
+    height: 150px;
+    width: 150px;
+}
+.jumbotron.homehead {
+    background-image: url("../img/banner1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+
+    .text-center {
+        position: relative;
+        z-index: 999999;
+        color: #fff;
+
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+ul.nav.nav-pills.sidepills {
+    .nav-item {
+        width: 100%;
+    }
+}
+.accordion-body {
+    .sidepills {
+        font-size: 12px;
+    }
+}
+#aboutLogo {
+    width: 250px;
+}
+#contactLogo {
+    width: 150px;
+}
+.aboutHeading{
+    background-image: url('../img/about/banner.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    h1, p {
+        position: relative;
+        z-index: 99999;
+        color: #fff;
+    }
+        &::before{
+        content: "";
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+}
+.stockimgs{
+    position: relative;
+    h4{
+        position: absolute;
+        z-index: 999999;
+        color: #fff;
+    }
+    &::before{
+        content: "";
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
