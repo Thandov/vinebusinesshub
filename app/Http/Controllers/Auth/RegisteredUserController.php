@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
                 'activation_status' => 1,
             ]);
             
-            /*                     $details = [
+            /*        $details = [
                         'title' => 'Mail from The Vine SA',
                         'body' => 'Welcome to the Vine Family'
                     ]; */

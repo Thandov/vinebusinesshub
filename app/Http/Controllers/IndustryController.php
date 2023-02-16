@@ -50,9 +50,36 @@ class IndustryController extends Controller
             DB::table('industries')->insert($datasave);
         }
 
-        return redirect()->back();
-    }
+        //return redirect()->back();
 
+
+        pendingIndustry::create([
+            'name'=>$request->input('industry_name')
+        ]);
+
+        Mail::to('admin')->send(new NewIndustryAdded($request->input('industry_name')));
+        return response()->json([
+            'status'=>'success',
+        ]);
+    }
+    public function approveIndustry($id)
+    {
+        $pendingIndustry = PendingIndustry::fnd($id);
+
+        Industry::create([
+            'name' =>$pendingIndustry->name
+        ]);
+        $pendingIndustry->delete;
+
+        return redirect()->back()->with('success','Industry added');
+    }
+ 
+    public function rejectIndustry($id){
+ 
+        pendingIndustry::find($id)->delete();
+        return redirect()->back()->with('success','Industry REJECTED!!');
+
+    }
     /**
      * Display the specified resource.
      *
@@ -118,5 +145,5 @@ class IndustryController extends Controller
         return json_encode(array("statuscode" => 1, "message" =>  $request->service_name[0]." Inserted"));
     }
 
-
+    
 }

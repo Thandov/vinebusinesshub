@@ -56,6 +56,8 @@ class AdminpanelController extends Controller
         ->select('*')
         ->get();
         
+        $item = Business::all();
+
         return view('adminpanel', ['admintowns' => $towns , 'adminmunicipalities' => $municipalities , 'admindistricts' => $districts , 'adminprovinces' => $provinces ,'adminbusinesses' => $businesses ,'adminindustries' => $industries, 'adminservices' => $services]); 
      }
 
@@ -86,5 +88,19 @@ class AdminpanelController extends Controller
          $data->save();
          return redirect('adminpanel');
          
+     }
+
+     public function viewbusiness($id)
+     {
+         //
+         $data = Business::find($id);
+         $data->view();
+         return redirect('viewBusiness');
+     }
+
+     public function item($id)
+     {
+       // $item = Business::find($id);
+        $item->view();
      }
 }

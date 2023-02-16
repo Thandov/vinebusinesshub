@@ -1,10 +1,11 @@
 <x-app-layout title="Business Dashbard">
+    <script src="{{ asset('js/form.js') }}"></script>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Business Dashboard') }}
         </h2>
     </x-slot>
-
+    <script src="{{ asset('js/form.js') }}"></script>
     <div class="container py-12">
         <div class="row">
             <div class="col-md-12">
@@ -73,12 +74,17 @@
                                                                     <label for="business_name"
                                                                         class="block text-sm font-medium text-gray-700">Business
                                                                         Name
+                                                                        @error('business_name')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror
                                                                     </label>
                                                                     <input type="text" name="business_name"
                                                                         value="{{ $business[0]->business_name ?? '' }}"
                                                                         id="business_name" autocomplete="given-name"
-                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                                                </div>
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                                                                
+                                                                    </div>
                                                                 <div class="col-span-12 md:col-span-6">
                                                                     <label for="business_number"
                                                                         class="block text-sm font-medium text-gray-700">Business
@@ -190,57 +196,61 @@
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                 </div>
                                                                 <div class="col-span-12">
-                                                                    <label
-                                                                        class="block text-sm font-medium text-gray-700">
-                                                                        Logo
+                                                                    <label class="block text-sm font-medium text-gray-700">
+                                                                      Logo
                                                                     </label>
-                                                                    <div
-                                                                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                                                        <div class="space-y-1 text-center"
-                                                                            id="logouploader"
-                                                                            @if(!is_null($business[0]->logo))
-                                                                            style="display: none" @endif>
-                                                                            <div>
-                                                                                <svg class="mx-auto h-12 w-12 text-gray-400"
-                                                                                    stroke="currentColor" fill="none"
-                                                                                    viewBox="0 0 48 48"
-                                                                                    aria-hidden="true">
-                                                                                    <path
-                                                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                                                        stroke-width="2"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round" />
-                                                                                </svg>
-                                                                                <div class="text-sm text-gray-600">
-                                                                                    <label for="file-upload"
-                                                                                        class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                                                                        <span>Upload a file</span>
-                                                                                        <input id="file-upload"
-                                                                                            value="{{$business[0]->logo}}"
-                                                                                            name="file-upload"
-                                                                                            type="file" class="sr-only">
-
-                                                                                    </label>
-                                                                                    <p class="pl-1">or drag and drop</p>
-                                                                                </div>
-                                                                                <p class="text-xs text-gray-500">
-                                                                                    PNG, JPG, GIF up to 10MB
-                                                                                </p>
-                                                                            </div>
+                                                                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                                      <div class="space-y-1 text-center" id="logouploader">
+                                                                        <img id="logo-preview" src="#" style="display: none; width: 250px" alt="">
+                                                                        <div id="logo-uploader" @if(!is_null($business[0]->logo)) style="display: none" @endif>
+                                                                          <svg class="mx-auto h-12 w-12 text-gray-400"
+                                                                            stroke="currentColor" fill="none"
+                                                                            viewBox="0 0 48 48"
+                                                                            aria-hidden="true">
+                                                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                              stroke-width="2"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                          </svg>
+                                                                          <div class="text-sm text-gray-600">
+                                                                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
+                                                                              <span>Upload a file</span>
+                                                                              <input id="file-upload" value="{{$business[0]->logo}}" name="file-upload" type="file" class="sr-only" style="display:none" onchange="readURL(this);" data-target="file-upload">
+                                                                            </label>
+                                                                            <p class="pl-1">or drag and drop</p>
+                                                                          </div>
+                                                                          <p class="text-xs text-gray-500">
+                                                                            PNG, JPG, GIF up to 10MB
+                                                                          </p>
                                                                         </div>
-                                                                        @if(!empty($business[0]->logo) )
-                                                                        <img style="width: 250px"
-                                                                            src="/img/{{$business[0]->logo}}"
-                                                                            alt="{{ $business[0]->logo }}" srcset="">
-                                                                        @endif
+                                                                      </div>
                                                                     </div>
                                                                     <div class="mt-1 flex items-center">
-                                                                        <button type="button"
-                                                                            class="changeLogoBtn bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                                                            Change
-                                                                        </button>
+                                                                      <button type="button" class="changeLogoBtn bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                        Change
+                                                                      </button>
                                                                     </div>
-                                                                </div>
+                                                                  </div>
+                                                                  
+                                                             
+                                                                    <script>
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function(e) {
+       $('#logo-preview').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(input.files[0]);
+     $('#logo-preview').show();
+   }
+ }
+ 
+ $("input[type='file']").change(function() {
+   readURL(this);
+ });
+</script>
+                                                                  
+                                                         
 
                                                             </div>
                                                         </div>
@@ -553,8 +563,9 @@
     <!-- Modal -->
     <div class="modal fade" id="newIndustry" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="newIndustryLabel" aria-hidden="true">
-        <form class="ajax" data-target="insertIndustry" id="insertIndustry"
-            action="business/businessdashboard/insertIndustry" method="post">
+        <form class="ajax" data-target="pendingApprovals" id="pendingApprovals"
+            action="business/businessdashboard/pendingApprovals" method="post">
+            <input type="hidden" name="linkKey" value="industriesApprovals">
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -565,7 +576,7 @@
                     <div class="modal-body">
 
                         <input type="hidden" class="serviceId" id="serviceId" name="id" value="abc">
-                        <input type="text" name="service_name[]" id="newIndustry"
+                        <input type="text" name="item_name" id="newIndustry"
                             class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                     </div>
@@ -590,9 +601,8 @@ jQuery(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
-    /*
-
+    //
+     //this where the "other " modification should happen
         jQuery(document).on('change', '#industryId', function(e) {
             e.preventDefault();
 
@@ -604,24 +614,18 @@ jQuery(document).ready(function() {
 
             jQuery(document).on('click', '#newbtn', function(e) {
                 e.preventDefault();
-                var serviceArray = new Array(),
-                    id, target, refreshTarget;
-
-
-                jQuery.map($("input[name='service_name[]']"), function(obj, index) {
-                    if ($(obj).val()) {
-                        serviceArray.push($(obj).val());
-                    }
-                });
+             
                 id = $(this).find('.serviceId').val();
 
                 jQuery.ajax({
-                    url: "/business/businessdashboard/insertIndustry",
+                    url: "{{ route('business.businessdashboard.pendingApprovals') }}",
                     type: 'post',
                     data: {
-                        'service_name': serviceArray,
-                        'id': id
-                    },
+  'item_name': jQuery('input[name="item_name"]').val(),
+  'id': id,
+  'linkKey': jQuery('input[name="linkKey"]').val()
+},
+
                     dataType: 'JSON',
                     success: function(response) {
                         console.log(response);
@@ -646,7 +650,8 @@ jQuery(document).ready(function() {
                         }
                     }
                 });
-            }); */
+            }); 
+            
     jQuery(document).on('click', '.changeLogoBtn', function(e) {
         e.preventDefault();
         $("#logouploader").css("display", "block");

@@ -22,6 +22,7 @@ class CreateServicesTable extends Migration
         Schema::table('services', function (Blueprint $table) {
             $table->foreign('industryId')->references('id')->on('industries')->onDelete('cascade');
         });
+       
     }
 
     /**
