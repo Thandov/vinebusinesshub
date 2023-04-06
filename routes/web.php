@@ -81,7 +81,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('adminpanel/viewBusiness/{id}', [AdminpanelController::class, 'viewBusinessAdmin'])->name('adminpanel.viewBusiness');
     Route::get('adminpanel/activateBusiness/{id}', [AdminpanelController::class, 'activatebusiness'])->name('adminpanel.activateBusiness');
     Route::get('adminpanel/deactivateBusiness/{id}', [AdminpanelController::class, 'deactivatebusiness'])->name('adminpanel.deactivateBusiness');
-    Route::get('adminpanel/pending_approval/{id}', [AdminpanelController::class, 'adminpending_approval'])->name('adminpanel.adminpending_approval');
+    Route::get('adminpanel/adminpending_approvals/{id}', [AdminpanelController::class, 'adminpending_approval'])->name('adminpanel.adminpending_approval');
 
 });
 
