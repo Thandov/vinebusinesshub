@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth', 'role:business']], function () {
     //Edit the business admin data insertclientservice
     Route::post('/business/businessdashboard/insertclientservice', [ServicesController::class, 'insertclientservice'])->name('business.businessdashboard.insertclientservice');
     Route::post('business/businessdashboard/insertIndustry', [IndustryController::class, 'insertIndustry'])->name('business.businessdashboard.insertIndustry');
+   // Route::post('business/businessdashboard/create', [PendingApprovalsController::class, 'create'])->name('business.businessdashboard.insertIndustry');
     Route::get('business/businessdashboard/deleteBusinessandUser/{id}', [BusinessController::class, 'deleteBusinessandUser'])->name('business.businessdashboard.deleteBusinessandUser');
 });
 
@@ -77,8 +78,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('admin/adminpanel/deleteProvince/{id}', [ProvinceController::class, 'destroy'])->name('admin.adminpanel.deleteProvince');
 
     Route::get('adminpanel/deleteBusiness/{id}', [AdminpanelController::class, 'deleteBusinessAdmin'])->name('adminpanel.deleteBusiness');
+    Route::get('adminpanel/viewBusiness/{id}', [AdminpanelController::class, 'viewBusinessAdmin'])->name('adminpanel.viewBusiness');
     Route::get('adminpanel/activateBusiness/{id}', [AdminpanelController::class, 'activatebusiness'])->name('adminpanel.activateBusiness');
     Route::get('adminpanel/deactivateBusiness/{id}', [AdminpanelController::class, 'deactivatebusiness'])->name('adminpanel.deactivateBusiness');
+    Route::get('adminpanel/pending_approval/{id}', [AdminpanelController::class, 'adminpending_approval'])->name('adminpanel.adminpending_approval');
+
 });
 
 //Change the district options

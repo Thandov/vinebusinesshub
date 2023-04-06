@@ -41,7 +41,7 @@ class DistrictsController extends Controller
      */
     public function store(Request $request)
     {
-        echo $request->service_namce;
+        echo $request->service_name;
         exit;
                 for ($i=0; $i<count($request->service_name); $i++) {
 
@@ -52,7 +52,7 @@ class DistrictsController extends Controller
             DB::table('municipal_districts')->insert($datasave);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('status', 'District updated!');;
     }
 
     /**

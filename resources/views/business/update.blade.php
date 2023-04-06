@@ -1,4 +1,4 @@
-<x-app-layout title="Udate">
+<x-app-layout title="Update">
     Update
     
 </x-app-layout>

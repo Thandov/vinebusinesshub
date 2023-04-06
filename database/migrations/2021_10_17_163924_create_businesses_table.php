@@ -39,6 +39,7 @@ class CreateBusinessesTable extends Migration
         Schema::table('businesses', function (Blueprint $table) {
             $table->foreign('provinceId')->references('id')->on('provinces')->onDelete('cascade');
             $table->foreign('districtId')->references('id')->on('municipal_districts')->onDelete('cascade');
+            $table->foreign('municipalityId')->references('id')->on('municipalities')->onDelete('cascade');
             $table->foreign('company_rep')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('industryId')->references('id')->on('industries')->onDelete('cascade');
         });

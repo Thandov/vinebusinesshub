@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Business;
 use App\Models\Industry;
+use App\Models\Municipality;
+use App\Models\MunicipalDistrict;
 use App\Models\Province;
 use Illuminate\Support\Facades\DB;
 
@@ -34,7 +36,12 @@ class DashboardController extends Controller
         ->select('municipal_districts.municipal_district', 'provinces.province', 'provinces.id')
         ->get();
 
-        return view('home', ['business' => $business, 'industry' => $industry, 'provinces' => $provinces, 'municipal_districts' => $municipal_districts]);
+        $municipalities = DB::table('municipalities')
+        ->leftjoin('municipal_districts', 'municipal_districts.id', '=', 'municipalities.districtId')
+       ->select('municipalities.municipality', 'municipal_districts.municipal_district', 'municipal_districts.id')
+       ->get();
+
+        return view('home', ['business' => $business, 'industry' => $industry, 'provinces' => $provinces, 'municipal_districts' => $municipal_districts, 'municipalities' => $municipalities]);
 
     }
     public function index() 
@@ -58,50 +65,102 @@ class DashboardController extends Controller
         return view('businessprofileview');
     }
     public function action(Request $request)
-    {
-
-        
+    {  
         if ($request->ajax()) {
             $output = '';
             $query = $request->get('query');
             $viewType = $request->get('viewType');
             $searchOption = $request->get('searchOption');
+            $selectedDistrict = $request->get('selectedDistrict');
             $numOfCols = 3;
             $rowCount = 0;
             $bootstrapColWidth = 12 / $numOfCols;
 
-            if ($query != '') {
+            if ($query != '') 
+                //BusinessName Search Option
+                {
                 if ($searchOption === "businessNameSearch") {
                     $data = DB::table('businesses')
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
                     ->select('businesses.id','businesses.logo', 'businesses.business_name', 'industries.industry')
                     ->where('business_name', 'LIKE', $query . '%')
                     ->get();
-                } elseif($searchOption === "provinceSearch") {
+                } 
+                //Province Search Option
+                elseif($searchOption === "provinceSearch") {
                     $data = DB::table('businesses')
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
                     ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
                     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province')
                     ->where('province', 'LIKE', $query . '%')
                     ->get();
-                }elseif($searchOption === "industrySearch") {
+                }
+                //District Search Option
+                elseif($searchOption === "districtSearch") {
                     $data = DB::table('businesses')
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
                     ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
-                    ->select('businesses.id', 'businesses.business_name', 'industries.industry', 'provinces.province')
-                    ->where('industry', 'LIKE', $query . '%')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province','municipal_districts.municipal_district')
+                    ->where('municipal_district', 'LIKE', $query . '%')
                     ->get();
+                    
                 }
-                
+                //Municipality Search Option
+
+                elseif($searchOption === "municipalitySearch") {
+                    $data = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
+                    ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                    ->join('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province','municipalities.municipality')
+                    ->where('municipality', 'LIKE', $query . '%')
+                    ->get();
+                  
+                }
+                //Industry Search Option
+                elseif($searchOption === "industrySearch") {
+                   if(!empty($selectedDistrict)){
+                    $data = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
+                    ->join('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
+                    ->leftJoin('provinces', function($join){
+                     $join->on('provinces.id', '=', 'businesses.provinceId')
+                     ->orOn('provinces.id', '=', 'businesses.districtId')
+                      ->orOn('provinces.id', '=', 'businesses.municipalityId');
+                    })
+                    ->select('businesses.id','businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province','municipalities.municipality','municipal_districts.municipal_district')
+                    ->where('industry', 'LIKE', $query . '%')
+                    ->where('provinces.province', '=', $request->selectedProvince)
+                   ->where('municipal_districts.municipal_district', '=', $request->selectedDistrict)
+                   ->where('municipalities.municipality', '=', $request->selectedMunicipality)
+                    ->get();
+                   }else{
+                    $data = DB::table('businesses')
+                    ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+                   ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                   ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+                   ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
+                   ->where('industry', 'LIKE', $query . '%')
+                  ->get();
+                   }
+                  
+                }                 
+
             } else {
                 $data = DB::table('businesses')
                 ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
                 ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
-                ->select('businesses.*', 'businesses.business_name', 'industries.industry', 'provinces.province')
+                ->leftjoin('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
+                ->leftjoin('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
+                ->select('businesses.*', 'businesses.business_name', 'industries.industry', 'provinces.province','municipalities.municipality')
                 ->where('activation_status', '=', 1)
                 ->get();
 
             }
+            
             $total_row = $data->count();
 
             if ($total_row > 0) {

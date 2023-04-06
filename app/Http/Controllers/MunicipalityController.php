@@ -34,15 +34,15 @@ class MunicipalityController extends Controller
      */
     public function store(Request $request)
     {
-        for ($i = 0; $i < count($request->service_name); ++$i) {
+        for ($i = 0; $i < count($request->service_name); $i++) {
             $datasave = [
                 'municipality' => $request->service_name[$i],
-                'districtId' => $request->id,
+               'districtId' => $request->id,
             ];
             DB::table('municipalities')->insert($datasave);
         }
 
-        return redirect()->back()->with('status', 'Profile updated!');
+        return redirect()->back()->with('status', 'Municipality updated!');
     }
 
     /**

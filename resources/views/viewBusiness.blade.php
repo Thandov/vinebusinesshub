@@ -160,7 +160,7 @@
                                     <hr>
                                     <ol class="py-3 ml-5" style="list-style: block">
                                         @if($clientsservices ?? '')
-                                        @for($i=0; $i <count($clientsservices); $i++) @if( $clientsservices[$i]->
+                                        @for($i=0; $i < count($clientsservices); $i++) @if( $clientsservices[$i]->
                                             service_name)
                                             <li>
                                                 <p class="">{{$clientsservices[$i]->service_name}}</p>
@@ -172,8 +172,7 @@
                                 </div>
                                 <div class="col-md-6 py-3">
                                     <div class="col-span-6 sm:col-span-12 lg:col-span-12">
-                                        <h3 class="md:col-span-2 text-medium leading-5 text-gray-500 font-bold">
-                                            Location: </h3>
+                                       
                                         <p class="text-sm font-medium leading-5 text-gray-500">
                                             <span class="font-bold">Province: </span>{{ $business[0]->province ?? '' }}
                                         </p>

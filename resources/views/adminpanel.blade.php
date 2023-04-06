@@ -14,22 +14,23 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="bg-white border-b border-gray-200">
-
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900" id="business-tab"
+                            <button class="nav-link text-sm font-medium text-gray-900 active" id="business-tab"
                                 data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab"
                                 aria-controls="business" aria-selected="true">Businesses</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900" id="services-tab"
-                                data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab"
-                                aria-controls="services" aria-selected="false">Services</button>
-                        </li>
+                       
                         <li class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="profile-tab"
                                 data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab"
                                 aria-controls="profile" aria-selected="false">Industries</button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-sm font-medium text-gray-900" id="services-tab"
+                                data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab"
+                                aria-controls="services" aria-selected="false">Services</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="provinces-tab"
@@ -37,21 +38,33 @@
                                 aria-controls="provinces" aria-selected="false">Provinces</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900" id="districts-tab"
-                                data-bs-toggle="tab" data-bs-target="#districts" type="button" role="tab"
-                                aria-controls="districts" aria-selected="false">Districts</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900 active" id="municipalities-tab"
+                            <button class="nav-link text-sm font-medium text-gray-900 " id="municipalities-tab"
                                 data-bs-toggle="tab" data-bs-target="#municipalities" type="button" role="tab"
                                 aria-controls="municipalities" aria-selected="false">Municipalities</button>
                         </li>
 
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-sm font-medium text-gray-900" id="districts-tab"
+                                data-bs-toggle="tab" data-bs-target="#districts" type="button" role="tab"
+                                aria-controls="districts" aria-selected="false">Districts</button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-sm font-medium text-gray-900" id="pendingApproval-tab"
+                                data-bs-toggle="tab" data-bs-target="#pendingApproval" type="button" role="tab"
+                                aria-controls="pendingApproval" aria-selected="false">PendingApprovals</button>
+                        </li>     
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-sm font-medium text-gray-900" id="Approvals-tab"
+                                data-bs-toggle="tab" data-bs-target="#Approvals" type="button" role="tab"
+                                aria-controls="Approvals" aria-selected="false">Approvals</button>
+                        </li>      
                     </ul>
                     <!-- Tabs container -->
                     <div class="tab-content" id="myTabContent">
                         <!-- Tab for businesses -->
-                        <div class="tab-pane fade" id="business" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-pane fade show active" id="business" role="tabpanel" aria-labelledby="home-tab">
                             <!-- This example requires Tailwind CSS v2.0+ -->
                             <div class="flex flex-col">
                                 <div class="my-2 pb-5 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -113,15 +126,20 @@
                                                             <a href="adminpanel/activateBusiness/{{$business->id}}"
                                                                 class="activateBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                                                 id="{{$business->id}}"
-                                                                onclick="activateBusiness({{$business->id}});">Activate</a>
-
+                                                                onclick="activateBusiness({{$business->id}});">Activate</a>                                                         
                                                             @else
+
+                                                            <a href="/viewBusiness/{{ $business->id }}"
+                                                                class="viewBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                                                id="{{$business->id}}"
+                                                                onclick="viewBusiness({{$business->id}});">View</a>
+
                                                             <a href="adminpanel/deactivateBusiness/{{$business->id}}"
                                                                 class="deactivateBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                                                                 id="{{$business->id}}"
                                                                 onclick="deactivateBusiness({{$business->id}});">Deactivate</a>
                                                             @endif
-
+                                           
                                                             <a href="adminpanel/deleteBusiness/{{$business->id}}"
                                                                 class="deleteBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                                 id="{{$business->id}}"
@@ -129,7 +147,6 @@
                                                         </td>
                                                     </tr>
                                                     @endforeach
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -324,7 +341,6 @@
                                             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                                 <table class="min-w-full divide-y divide-gray-200">
                                                     <thead class="bg-gray-50">
-
                                                         <tr>
                                                             <th colspan="2"
                                                                 class="px-6 py-0 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -351,10 +367,7 @@
                                                                     id="{{$province->id}}">Delete</a>
                                                             </td>
                                                         </tr>
-
                                                         @endforeach
-
-
                                                         <!-- More people... -->
                                                     </tbody>
                                                     <tfoot class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -375,10 +388,7 @@
                                     </div>
                                 </div>
                             </form>
-
                             @endif
-
-
                         </div>
                         <!-- Tab for District -->
                         <div class="tab-pane fade" id="districts" role="tabpanel" aria-labelledby="contact-tab">
@@ -491,7 +501,7 @@
                             </div>
                         </div>
                         <!-- Tab for Municipalities -->
-                        <div class="tab-pane fade show active" id="municipalities" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="tab-pane fade " id="municipalities" role="tabpanel" aria-labelledby="contact-tab">
                             <div class="container-fluid mt-5">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-3">
@@ -538,12 +548,8 @@
                                                     </div>
                                                 </div>
                                                 @endforeach
-
-
                                             </div>
-
                                         </div>
-
                                     </div>
                                     <div class="col-sm-12 col-md-9">
                                         <div class="tab-content">
@@ -636,11 +642,133 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+                         <!-- Tab for PendingApprovals -->
+                         <div class="tab-pane fade" id="pendingApproval" role="tabpanel" aria-labelledby="pendingApprovals-tab">
+                            <div class="flex flex-col">
+                                <div class="my-2 pb-5 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"id="test">
+                                            <table class="min-w-full divide-y divide-gray-200"id="pendingTableWrapper">
+                                                <thead class="bg-gray-50">
+                                                    <tr>
+                                                        <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Item
+                                                        </th>
+                                                        <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Description
+                                                        </th>
+                                                        <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Business Name
+                                                        </th>
+                                                        <th scope="col" class="relative px-6 py-3">
+                                                            <span class="sr-only">Edit</span>
+                                                        </th>
+                                                    </tr>
+                                                </thead> <tbody class="bg-white divide-y divide-gray-200"id="pendingApprovals">
+                                                    @foreach ($adminpending_approvals as $adminpending_approval)
+                                                    <tr id="adminpending_approval{{ $adminpending_approval->id }}">
+                                                        <td class="px-2 py-2 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {{ $adminpending_approval->the_content }}
+                                                                    </div>
+                                                                    <td class="px-2 py-2 whitespace-nowrap">
+                                                                        <div class="flex items-center">
+                                                                            <div class="ml-4">
+                                                                               <div class="text-sm font-medium text-gray-900">
+                                                                                {{ $adminpending_approval->approval_type }}
+                                                                            </div>
+                                                                            <td class="px-2 py-2 whitespace-nowrap">
+                                                                                <div class="flex items-center">
+                                                                                    <div class="ml-4">
+                                                                                        <div class="text-sm font-medium text-gray-900">
+                                                                                            {{ $adminpending_approval->who_id }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                                                               <a href="adminpanel/adminpending_approval/{{$adminpending_approval->id}}"
+                                                                                    class="approvalBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                                                                    id="{{$adminpending_approval->id}}"
+                                                                                    on click="adminpending_approval({{$adminpending_approval->id}});">Approve</a>  
+                                                                                    
+                                                                                    <a href="adminpanel/declineadminpending_approval/{{$adminpending_approval->id}}"
+                                                                                        class="declineBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                                                                                        id="{{$adminpending_approval->id}}"
+                                                                                        on click="declineadminpending_approval({{$adminpending_approval->id}});">Decline</a>  
+                                           
+                                                                            </td>
+                                                                                    </tr>
+                                                                                        @endforeach
+                                                                                    </tbody>
+                                                                                    </table>
+                                                                                    </div> 
+                                                                                </div>
+                                                                        </div>
+                                                            </div>
+                        </div>
+                        <!-- Tab for Approvals -->
+                        <div class="tab-pane fade" id="Approvals" role="tabpanel" aria-labelledby="Approvals-tab">
+                            <div class="flex flex-col">
+                                <div class="my-2 pb-5 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"id="test">
+                                            <table class="min-w-full divide-y divide-gray-200"id="pendingTableWrapper">
+                                                <thead class="bg-gray-50">
+                                                    <tr>
+                                                        <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Approved Items
+                                                        </th>
+                                                        <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Description
+                                                        </th>
+                                                        <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Admin Name
+                                                        </th>
+                                                        <th scope="col" class="relative px-6 py-3">
+                                                            <span class="sr-only">Edit</span>
+                                                        </th>
+                                                    </tr>
+                                                </thead> <tbody class="bg-white divide-y divide-gray-200"id="pendingApprovals">
+                                                    @foreach ($adminpending_approvals as $adminpending_approval)
+                                                    <tr id="adminpending_approval{{ $adminpending_approval->id }}">
+                                                        <td class="px-2 py-2 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {{ $adminpending_approval->the_content }}
+                                                                    </div>
+                                                                    <td class="px-2 py-2 whitespace-nowrap">
+                                                                        <div class="flex items-center">
+                                                                            <div class="ml-4">
+                                                                               <div class="text-sm font-medium text-gray-900">
+                                                                                {{ $adminpending_approval->approval_type }}
+                                                                            </div>
+                                                                            <td class="px-2 py-2 whitespace-nowrap">
+                                                                                <div class="flex items-center">
+                                                                                    <div class="ml-4">
+                                                                                        <div class="text-sm font-medium text-gray-900">
+                                                                                            {{ $adminpending_approval->who_id }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                                    </tr>
+                                                                                        @endforeach
+                                                                                    </tbody>
+                                                                                    </table>
+                                                                                    </div> 
+                                                                                </div>
+                                                                        </div>
+                                                            </div>
+                        </div>
+                        
+
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
     </div>
@@ -702,7 +830,7 @@ jQuery(document).ready(function() {
         '.activateBusinessBtn, .deleteProvinceBtn, .deactivateBusinessBtn, .deleteIndustryBtn, .deleteBusinessBtn, .deleteBtn',
         function(e) {
             e.preventDefault();
-        });
+        }); 
 
 });
 
@@ -942,6 +1070,9 @@ function deactivateBusiness(id) {
         }
     });
 }
+
+
+        
 jQuery(document).on('change', '#provinceOptions', function() {
     var query = jQuery(this).val(),
         searchOption = "provinceSearch",

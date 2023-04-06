@@ -7,6 +7,7 @@ use App\Models\Business;
 use App\Models\Industry;
 use App\Models\Province;
 use App\Models\Services;
+use App\Models\pendingApprovals;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,9 +20,7 @@ class AdminpanelController extends Controller
      */
     public function index()
     {
-
-
-
+        
     }
     public function displayAll() 
     {
@@ -55,8 +54,12 @@ class AdminpanelController extends Controller
         $towns = DB::table('towns')
         ->select('*')
         ->get();
+
+        $pending_approvals = DB::table('pending_approvals')
+        ->select('*')
+        ->get();
         
-        return view('adminpanel', ['admintowns' => $towns , 'adminmunicipalities' => $municipalities , 'admindistricts' => $districts , 'adminprovinces' => $provinces ,'adminbusinesses' => $businesses ,'adminindustries' => $industries, 'adminservices' => $services]); 
+        return view('adminpanel', ['admintowns' => $towns , 'adminmunicipalities' => $municipalities , 'admindistricts' => $districts , 'adminprovinces' => $provinces ,'adminbusinesses' => $businesses ,'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals'=>$pending_approvals]); 
      }
 
      public function deleteBusinessAdmin($id)
@@ -87,4 +90,25 @@ class AdminpanelController extends Controller
          return redirect('adminpanel');
          
      }
+
+     public function viewbusiness($id)
+     {
+         //
+         $data = Business::find($id);
+         $data->view();
+         return redirect('viewBusiness');
+         
+     }
+
+     public function adminpending_approval($id)
+     {
+         //
+         $data = pending_approval::find($id);
+         DB::table('industries')->insert($data);
+         DB::table('pending_approvals')->where('id', $id)->delete();
+        return redirect('adminpanel');
+
+     }
+     
+  
 }

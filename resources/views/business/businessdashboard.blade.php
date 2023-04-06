@@ -73,12 +73,17 @@
                                                                     <label for="business_name"
                                                                         class="block text-sm font-medium text-gray-700">Business
                                                                         Name
+                                                                        @error('business_name')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror
                                                                     </label>
                                                                     <input type="text" name="business_name"
                                                                         value="{{ $business[0]->business_name ?? '' }}"
                                                                         id="business_name" autocomplete="given-name"
-                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                                                </div>
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                                                                
+                                                                    </div>
                                                                 <div class="col-span-12 md:col-span-6">
                                                                     <label for="business_number"
                                                                         class="block text-sm font-medium text-gray-700">Business
@@ -196,6 +201,7 @@
                                                                     </label>
                                                                     <div
                                                                         class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                                        <img id="logo-preview" src="#" style="display: none; width: 250px" alt="">
                                                                         <div class="space-y-1 text-center"
                                                                             id="logouploader"
                                                                             @if(!is_null($business[0]->logo))
@@ -297,11 +303,11 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-span-6 sm:col-span-12 lg:col-span-12">
-                                                                    <label for="region"
+                                                                    <label for="municipality"
                                                                         class="block text-sm font-medium text-gray-700">Municipality</label>
                                                                     <select id="municipalityOptions"
                                                                         name="municipalityId"
-                                                                        autocomplete="municipality"
+                                                                        autocomplete="municipalityId"
                                                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
 
                                                                         @if($municipalities ?? '' )
@@ -309,14 +315,12 @@
                                                                         @if($municipality->districtId ===
                                                                         $business[0]->districtId )
                                                                         <option value="{{ $municipality->id ?? '' }}"
-                                                                            @if($municipality->districtId ===
-                                                                            $business[0]->districtId)
+                                                                          
                                                                             @if($municipality->id ===
                                                                             $business[0]->municipalityId) selected
-                                                                            @endif @endif>
-                                                                            @if($municipality->districtId ===
-                                                                            $business[0]->districtId)
-                                                                            {{ $municipality->municipality }} @endif
+                                                                             @endif>
+                                                                         
+                                                                            {{ $municipality->municipality }} 
                                                                         </option>
                                                                         @endif
                                                                         @endforeach
@@ -553,9 +557,10 @@
     <!-- Modal -->
     <div class="modal fade" id="newIndustry" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="newIndustryLabel" aria-hidden="true">
-        <form class="ajax" data-target="insertIndustry" id="insertIndustry"
-            action="business/businessdashboard/insertIndustry" method="post">
+        <form class="form-group" data-target="insertIndustry" id="insertIndustry" action="{{ route('business.businessdashboard.insertIndustry') }}" method="post">
             @csrf
+            <input type="hidden"name="approval_type" value="new_industry">
+            <input type="hidden"name="who_id" value="{{ auth()->user()->id }} ">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -563,16 +568,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
-                        <input type="hidden" class="serviceId" id="serviceId" name="id" value="abc">
-                        <input type="text" name="service_name[]" id="newIndustry"
+                        <input type="text" name="the_content"
                             class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button id="newbtn" type="submit" class="btn btn-primary">Save</button>
-
                     </div>
                 </div>
             </div>
@@ -581,18 +582,29 @@
 
 </x-app-layout>
 <script>
+    function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function(e) {
+       $('#logo-preview').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(input.files[0]);
+     $('#logo-preview').show();
+   }
+ }
+ 
+ $("input[type='file']").change(function() {
+   readURL(this);
+ });
+    
 jQuery(document).ready(function() {
     var selectedprovinceId = $(this).find(":selected").val();
-    //changeDistrict(selectedprovinceId);
 
     jQuery.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
-    /*
-
         jQuery(document).on('change', '#industryId', function(e) {
             e.preventDefault();
 
@@ -602,51 +614,53 @@ jQuery(document).ready(function() {
             }
         });
 
-            jQuery(document).on('click', '#newbtn', function(e) {
-                e.preventDefault();
-                var serviceArray = new Array(),
-                    id, target, refreshTarget;
+        /*
+        jQuery(document).on('click', '#newbtn', function(e) {
+            e.preventDefault();
+            var serviceArray = new Array(),
+                id, target, refreshTarget;
 
 
-                jQuery.map($("input[name='service_name[]']"), function(obj, index) {
-                    if ($(obj).val()) {
-                        serviceArray.push($(obj).val());
+            jQuery.map($("input[name='service_name[]']"), function(obj, index) {
+                if ($(obj).val()) {
+                    serviceArray.push($(obj).val());
+                }
+            });
+            id = $(this).find('.serviceId').val();
+
+            jQuery.ajax({
+                url: "/business/businessdashboard/insertIndustry",
+                type: 'post',
+                data: {
+                    'service_name': serviceArray,
+                    'id': id
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    console.log(response);
+
+                },
+                error: function(jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status === 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status === 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'function Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
-                });
-                id = $(this).find('.serviceId').val();
-
-                jQuery.ajax({
-                    url: "/business/businessdashboard/insertIndustry",
-                    type: 'post',
-                    data: {
-                        'service_name': serviceArray,
-                        'id': id
-                    },
-                    dataType: 'JSON',
-                    success: function(response) {
-                        console.log(response);
-
-                    },
-                    error: function(jqXHR, exception) {
-                        var msg = '';
-                        if (jqXHR.status === 0) {
-                            msg = 'Not connect.\n Verify Network.';
-                        } else if (jqXHR.status === 404) {
-                            msg = 'Requested page not found. [404]';
-                        } else if (jqXHR.status === 500) {
-                            msg = 'Internal Server Error [500].';
-                        } else if (exception === 'parsererror') {
-                            msg = 'function Requested JSON parse failed.';
-                        } else if (exception === 'timeout') {
-                            msg = 'Time out error.';
-                        } else if (exception === 'abort') {
-                            msg = 'Ajax request aborted.';
-                        } else {
-                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                        }
-                    }
-                });
-            }); */
+                }
+            });
+        }); 
+        */
     jQuery(document).on('click', '.changeLogoBtn', function(e) {
         e.preventDefault();
         $("#logouploader").css("display", "block");
@@ -665,6 +679,7 @@ jQuery(document).ready(function() {
         var provinceId = $(this).find(":selected").val();
         changeMunicipality(provinceId);
     });
+    
 });
 
 function deleteBusinessandUser(id) {

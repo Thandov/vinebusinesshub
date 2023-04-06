@@ -94,7 +94,7 @@ trait Creator
             setlocale(LC_NUMERIC, $locale);
         }
 
-        static::setLastErrors(parent::getLastErrors());
+     //   static::setLastErrors(parent::getLastErrors());
     }
 
     /**
@@ -924,11 +924,13 @@ trait Creator
      *
      * @return void
      */
-    private static function setLastErrors(array $lastErrors)
+    
+    private static function setLastErrors($lastErrors)
     {
         static::$lastErrors = $lastErrors;
     }
-
+     
+    
     /**
      * {@inheritdoc}
      */

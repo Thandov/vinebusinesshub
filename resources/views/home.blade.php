@@ -28,6 +28,7 @@
                         <div class="col-12">
                             <h4 class="pb-2 font-bold">Search criteria:</h4>
                         </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -41,6 +42,7 @@
                             <label for="province" class="block text-sm font-medium text-gray-700">Province</label>
                             <select id="provinceOptions"
                                 class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="" selected disabled>Select Province</option>
                                 {{ $provinces ?? '' }} @if($provinces ?? '' ) @foreach($provinces ?? '' as $province)
                                 <option value="{{ $province->id }}" data-name="{{ $province->province }}">
                                     {{ $province->province }}</option>
@@ -59,31 +61,25 @@
                                 class="block text-sm font-medium text-gray-700">Municipality</label>
                             <select id="municipalityOptions"
                                 class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+
                                 {{ $municipalities ?? '' }} @if($municipalities ?? '' ) @foreach($municipalities ?? ''
                                 as $municipality)
                                 <option>{{ $municipality->municipality }}</option>
                                 @endforeach @endif
                             </select>
                         </div>
-                        <!--  <div class="col-12">
-                            <label for="town" class="block text-sm font-medium text-gray-700">Town</label>
-                            <select id="townOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"></select>
-                        </div> -->
+    
                         <div class="col-12">
                             <label for="Industry" class="block text-sm font-medium text-gray-700">Industry</label>
                             <select id="industryOptions"
                                 class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-
+                                <option value="" selected disabled>Select industry</option>
                                 @if($industry ?? '' ) @foreach($industry as $indust)
                                 <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
                                 @endforeach @endif
                             </select>
                         </div>
-                        <div class="col-12">
-                            <button type="submit"
-                                class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Submit</button>
-                        </div>
+                        
                     </div>
                 </div>
             </form>
@@ -100,6 +96,12 @@ jQuery(document).ready(function() {
     changeDistrict(selectedprovinceId);
     fetch_customer_data(" ", "businessNameSearch", "cardView");
 
+    //Resert the Industry option to its Default Value 
+    jQuery("#liveSearch, #provinceOptions, #districtOptions, #municipalityOptions").on("change", function() {
+        jQuery("#industryOptions").val("");
+
+    });
+
     jQuery.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -110,11 +112,55 @@ jQuery(document).ready(function() {
         console.log(searchOption);
         jQuery.ajax({
             url: "{{ route('home.action') }}",
-            menthod: 'GET',
+            method: 'GET',
             data: {
                 query: query,
                 searchOption: searchOption,
                 viewType: viewType
+
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (viewType == "listView") {
+                    jQuery('tbody').html(data.table_data);
+                } else {
+                    jQuery('#test').html(data.table_data);
+                }
+                console.log(data);
+            },
+            error: function(jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status === 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status === 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'function Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                alert(msg);
+            }
+        });
+    }
+    function fetch_customer_industry(query = "", searchOption = "", viewType = "",selectedProvince = "",selectedDistrict = "",selectedMunicipality = "") {
+        console.log(searchOption);
+        jQuery.ajax({
+            url: "{{ route('home.action') }}",
+            method: 'GET',
+            data: {
+                query: query,
+                searchOption: searchOption,
+                viewType: viewType,
+                selectedProvince:selectedProvince,
+               selectedDistrict:selectedDistrict,
+                selectedMunicipality:selectedMunicipality
             },
             dataType: 'json',
             success: function(data) {
@@ -153,32 +199,60 @@ jQuery(document).ready(function() {
         fetch_customer_data(query, searchOption, viewType);
 
     });
-    jQuery(document).on('change', '#provinceOptions', function() {
 
-        //alert($.trim($(this).find('option:selected').text()));
+    
+    jQuery(document).on('change', '#provinceOptions', function() {
 
         var query = $.trim($(this).find('option:selected').text()),
             searchOption = "provinceSearch",
             viewType = "cardView";
-        fetch_customer_data(query, searchOption, viewType);
         var provinceId = $(this).find(":selected").val();
-
         changeDistrict(provinceId);
-    });
-    jQuery(document).on('change', '#districtOptions', function() {
-        var query = jQuery(this).val(),
-            searchOption = "industrySearch",
-            viewType = "cardView";
         fetch_customer_data(query, searchOption, viewType);
+
+    });
+
+
+    jQuery(document).on('change', '#districtOptions', function() {
+        var query = $.trim($(this).find('option:selected').text()),
+            searchOption = "districtSearch",
+            viewType = "cardView";
         var provinceId = $(this).find(":selected").val();
         changeMunicipality(provinceId);
-    });
-    jQuery(document).on('change', '#industryOptions', function() {
-        var query = jQuery(this).val(),
-            searchOption = "industrySearch",
-            viewType = "cardView";
+
         fetch_customer_data(query, searchOption, viewType);
     });
+
+
+
+    jQuery(document).on('change', '#municipalityOptions', function() {
+        var query = $.trim($(this).find('option:selected').text()),
+            searchOption = "municipalitySearch",
+            viewType = "cardView";
+            var municipalityId = $(this).find(":selected").val();
+
+        fetch_customer_data(query, searchOption, viewType);
+    });
+
+
+    jQuery(document).on('change', '#industryOptions', function() {
+        var query = $.trim($(this).find('option:selected').text()),
+        searchOption = "industrySearch",
+        viewType = "cardView";
+
+    var provinceOptions = document.getElementById("provinceOptions");
+    var selectedProvince = provinceOptions.selectedIndex !== -1 ? provinceOptions.options[provinceOptions.selectedIndex].text : null;
+
+    var districtOptions = document.getElementById("districtOptions");
+    var selectedDistrict = districtOptions.selectedIndex !== -1 ? districtOptions.options[districtOptions.selectedIndex].text : null;
+
+    var municipalityOptions = document.getElementById("municipalityOptions");
+    var selectedMunicipality = municipalityOptions.selectedIndex !== -1 ? municipalityOptions.options[municipalityOptions.selectedIndex].text : null;
+
+
+    fetch_customer_industry(query, searchOption, viewType, selectedProvince, selectedDistrict, selectedMunicipality);
+
+        });
 });
 
 function changeDistrict($id) {
@@ -211,7 +285,7 @@ function changeDistrict($id) {
 function changeMunicipality($id) {
     jQuery.ajax({
         url: "{{ route('home.changeMunicipality') }}",
-        menthod: 'GET',
+        method: 'GET',
         data: {
             id: $id
         },
@@ -227,6 +301,7 @@ function changeMunicipality($id) {
                         '</option>');
             });
             $("#municipalityOptions").val($("#municipalityOptions option:first").val());
+            var selectedMunicipality = $("#municipalityOptions").find(":selected").val();
         }
     });
 }

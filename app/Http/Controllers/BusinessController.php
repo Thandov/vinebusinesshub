@@ -15,6 +15,8 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     
     public function index()
     {
         $business = DB::table('businesses')
@@ -49,6 +51,15 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'business_name' => 'required|string|min:5|max:255',
+        ], [
+            'business_name.required' => 'Business Name is required',
+            'business_name.string' => 'Business Name must be a string',
+            'business_name.min' => 'Business Name must be at least 5 characters',
+            'business_name.max' => 'Business Name may not be greater than 255 characters',
+        ]);
+
     }
 
     /**
@@ -280,7 +291,7 @@ class BusinessController extends Controller
             ->select('*')
             ->where('users.id', $business[0]->id)
             ->get();
-
+           //dd($clientsservices);
         return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services,  'industries' => $industries,  'clientsservices' => $clientsservices]);
     }
 

@@ -107,15 +107,19 @@ class IndustryController extends Controller
 
     public function insertIndustry(Request $request)
     {
-
-        for ($i=0; $i<count($request->service_name); $i++) {
+        $uid = 0;
+     //dd($request->all());
             $datasave = [
-                'industry' => $request->service_name[$i],
-            ];
-            DB::table('industries')->insert($datasave);
-        }
+                'who_id' => $request->input("who_id"),
+                'uid' => $uid,
+                'the_content' => $request->input("the_content"),
+                'approval_type' => $request->input("approval_type"),
 
-        return json_encode(array("statuscode" => 1, "message" =>  $request->service_name[0]." Inserted"));
+            ];
+            DB::table('pending_approvals')->insert($datasave);
+        
+
+        return redirect()->back();
     }
 
 
