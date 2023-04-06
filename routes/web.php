@@ -92,5 +92,5 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
 Route::get('/viewBusiness/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
-
+   
 require __DIR__.'/auth.php';
