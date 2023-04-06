@@ -115,7 +115,7 @@ class ServicesController extends Controller
               {
                   return response()->json(['error'  => $error->errors()->all()]);
                 }
-
+            }
         $service_name = $request->service_name;
 
         for($i=0; $i<count($service_name); $i++)
@@ -127,7 +127,7 @@ class ServicesController extends Controller
             ];
             DB::table('services')->insert($datasave);
         }
-        }
+        
 
        return redirect('adminpanel')->with('status', 'Profile updated!');
 
