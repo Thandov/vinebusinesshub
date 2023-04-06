@@ -15,6 +15,7 @@ class AddApprovalStatusToPendingApprovalsTable extends Migration
     {
         Schema::table('pending_approvals', function (Blueprint $table) {
             //
+            $table->string('approval_status')->nullable();
         });
     }
 

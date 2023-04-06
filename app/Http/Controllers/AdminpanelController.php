@@ -104,6 +104,7 @@ class AdminpanelController extends Controller
      {
          //
          $data = pending_approval::find($id);
+         $data->approval_status = 1;
          DB::table('industries')->insert($data);
          DB::table('pending_approval')->where('id', $id)->delete();
         return redirect('adminpanel');

@@ -689,6 +689,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
+
                                                                             <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
                                                                                <a href="adminpanel/adminpending_approval/{{$adminpending_approval->id}}"
                                                                                     class="approvalBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"

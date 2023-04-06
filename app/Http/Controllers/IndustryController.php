@@ -108,12 +108,12 @@ class IndustryController extends Controller
     public function insertIndustry(Request $request)
     {
         $uid = 0;
-     //dd($request->all());
             $datasave = [
                 'who_id' => $request->input("who_id"),
                 'uid' => $uid,
                 'the_content' => $request->input("the_content"),
                 'approval_type' => $request->input("approval_type"),
+                'approval_status' => 0,
 
             ];
             DB::table('pending_approvals')->insert($datasave);
