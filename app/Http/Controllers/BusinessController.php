@@ -68,6 +68,7 @@ class BusinessController extends Controller
             ->where('businesses.company_rep', $id)
             ->get();
 
+        
         $provinces = DB::table('provinces')
             ->select('*')
             ->get();

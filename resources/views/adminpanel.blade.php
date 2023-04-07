@@ -17,23 +17,25 @@
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab" aria-controls="business" aria-selected="true">Businesses</button>
+                            <button class="nav-link text-sm font-medium text-gray-900 active" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab" aria-controls="business" aria-selected="true">Businesses</button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-sm font-medium text-gray-900" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Industries</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false">Services</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Industries</button>
+                            <button class="nav-link text-sm font-medium text-gray-900" id="provinces-tab" data-bs-toggle="tab" data-bs-target="#provinces" type="button" role="tab" aria-controls="provinces" aria-selected="false">Provinces</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900" id="provinces-tab" data-bs-toggle="tab" data-bs-target="#provinces" type="button" role="tab" aria-controls="provinces" aria-selected="false">Provinces</button>
+                            <button class="nav-link text-sm font-medium text-gray-900 " id="municipalities-tab" data-bs-toggle="tab" data-bs-target="#municipalities" type="button" role="tab" aria-controls="municipalities" aria-selected="false">Municipalities</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="districts-tab" data-bs-toggle="tab" data-bs-target="#districts" type="button" role="tab" aria-controls="districts" aria-selected="false">Districts</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link text-sm font-medium text-gray-900 active" id="municipalities-tab" data-bs-toggle="tab" data-bs-target="#municipalities" type="button" role="tab" aria-controls="municipalities" aria-selected="false">Municipalities</button>
-                        </li>
+
                         <li class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="" data-bs-toggle="tab" data-bs-target="#approvals" type="button" role="tab" aria-controls="approvals" aria-selected="false">Pending Approvals</button>
                         </li>
@@ -93,13 +95,17 @@
                                                         </td>
                                                         <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
                                                             @if($business->activation_status == 0)
-                                                            <a href="adminpanel/activateBusiness/{{$business->id}}" class="activateBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{$business->id}}" onclick="activateBusiness({{$business->id}});">Activate</a>
+                                                            <a href="adminpanel/activateBusiness/{{$business->id}}" class="activateBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{$business->id}}" onclick="activateBusiness('{{$business->id}}');">Activate</a>
+
 
                                                             @else
-                                                            <a href="adminpanel/deactivateBusiness/{{$business->id}}" class="deactivateBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" id="{{$business->id}}" onclick="deactivateBusiness({{$business->id}});">Deactivate</a>
+
+                                                            <a href="/viewBusiness/{{ $business->id }}" class="viewBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" id="{{$business->id}}" onclick="viewBusiness('{{$business->id}}');">View</a>
+
+                                                            <a href="adminpanel/deactivateBusiness/{{$business->id}}" class="deactivateBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" id="{{$business->id}}" onclick="deactivateBusiness('{{$business->id}}');">Deactivate</a>
                                                             @endif
 
-                                                            <a href="adminpanel/deleteBusiness/{{$business->id}}" class="deleteBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$business->id}}" onclick="deleteBusiness({{$business->id}});">Delete</a>
+                                                            <a href="adminpanel/deleteBusiness/{{$business->id}}" class="deleteBusinessBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$business->id}}" onclick="deleteBusiness('{{$business->id}}');">Delete</a>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -127,7 +133,7 @@
                                                             <th colspan="2" class="px-6 py-0 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                                 Name
                                                             </th>
-                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider text-right">
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                                                 <div class="addRowIndustry inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" data-target="industriesTable">Add</div>
                                                             </th>
                                                         </tr>
@@ -139,7 +145,7 @@
                                                                 <p class="text-sm font-medium text-gray-900">{{$indust->industry}}</p>
                                                             </td>
                                                             <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium" data-target="industriesTable">
-                                                                <a href="/adminpanel/deleteIndustry/{{$indust->id}}" onclick="deleteIndustry({{$indust->id}})" class="deleteIndustryBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$indust->id}}">Delete</a>
+                                                                <a href="/adminpanel/deleteIndustry/{{$indust->id}}" onclick="deleteIndustry('{{$indust->id}}')" class="deleteIndustryBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$indust->id}}">Delete</a>
                                                             </td>
                                                         </tr>
                                                         @endforeach
@@ -219,7 +225,7 @@
                                                                                         <input disabled type="text" name="name_service" value="@php echo $adminservices[$i]->service_name; @endphp " autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                                     </td>
                                                                                     <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium" data-target="@php echo $tablename; @endphp">
-                                                                                        <a href="/admin/adminpanel/destroy/{{$adminservices[$i]->id}}" class="deleteBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$adminservices[$i]->id}}" onclick="deleteService({{$adminservices[$i]->id}});">Delete</a>
+                                                                                        <a href="/admin/adminpanel/destroy/{{$adminservices[$i]->id}}" class="deleteBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$adminservices[$i]->id}}" onclick="deleteService('{{$adminservices[$i]->id}}');">Delete</a>
                                                                                     </td>
                                                                                 </tr>
                                                                                 @endif @endfor @endif
@@ -268,7 +274,7 @@
                                                             <th colspan="2" class="px-6 py-0 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                                 Name
                                                             </th>
-                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider text-right">
+                                                            <th class="px-6 py-3 text-xs font-medium text-gray-500 tracking-wider text-right">
                                                                 <div class="addRowProvince inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" data-target="provinceTable">Add</div>
                                                             </th>
                                                         </tr>
@@ -280,7 +286,7 @@
                                                                 <p class="text-sm font-medium text-gray-900">{{$province->province}}</p>
                                                             </td>
                                                             <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium" data-target="provinceTable">
-                                                                <a href="/adminpanel/deleteProvince/{{$province->id}}" onclick="deleteProvince({{$province->id}})" class="deleteProvinceBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$province->id}}">Delete</a>
+                                                                <a href="/adminpanel/deleteProvince/{{$province->id}}" onclick="deleteProvince('{{$province->id}}')" class="deleteProvinceBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$province->id}}">Delete</a>
                                                             </td>
                                                         </tr>
 
@@ -363,7 +369,7 @@
                                                                                         <input disabled type="text" name="name_service" value="@php echo $admindistricts[$i]->municipal_district; @endphp " autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                                     </td>
                                                                                     <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium" data-target="@php echo $tablename; @endphp">
-                                                                                        <a href="/admin/adminpanel/deleteMuni/destroy/{{$admindistricts[$i]->id}}" class="deleteBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$admindistricts[$i]->id}}" onclick="deleteMunicipality({{$admindistricts[$i]->id}});">Delete</a>
+                                                                                        <a href="/admin/adminpanel/deleteMuni/destroy/{{$admindistricts[$i]->id}}" class="deleteBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$admindistricts[$i]->id}}" onclick="deleteMunicipality('{{$admindistricts[$i]->id}}');">Delete</a>
                                                                                     </td>
                                                                                 </tr>
                                                                                 @endif @endfor @endif
@@ -476,7 +482,7 @@
                                                                                         <input disabled type="text" name="name_service" value="@php echo $adminmunicipalities[$i]->municipality; @endphp " autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                                     </td>
                                                                                     <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium" data-target="@php echo $tablename; @endphp">
-                                                                                        <a href="/admin/adminpanel/deleteMuni/destroy/{{$adminmunicipalities[$i]->id}}" class="deleteBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$adminmunicipalities[$i]->id}}" onclick="deleteMunicipality({{$adminmunicipalities[$i]->id}});">Delete</a>
+                                                                                        <a href="/admin/adminpanel/deleteMuni/destroy/{{$adminmunicipalities[$i]->id}}" class="deleteBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$adminmunicipalities[$i]->id}}" onclick="deleteMunicipality('{{$adminmunicipalities[$i]->id}}');">Delete</a>
                                                                                     </td>
                                                                                 </tr>
                                                                                 @endif @endfor @endif
@@ -556,10 +562,10 @@
                                                         </td>
 
                                                         <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                                            @if($business->business_name == 0)
-                                                            <a href="adminpanel/approveItem/{{$business->id}}" class="approveItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{$business->id}}" onclick="approveItem({{$business->id}});">Approve</a>
+                                                            @if($business->activation_status == 0)
+                                                            <a href="adminpanel/approveItem/{{$businesses->id}}" class="approveItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{$businesses->id}}" onclick="approveItem('{{$businesses->id}}');">Approve</a>
                                                             @else
-                                                            <a href="adminpanel/declineItem/{{$business->id}}" class="declineItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$business->id}}" onclick="declineItem({{$business->id}});">Decline</a>
+                                                            <a href="adminpanel/declineItem/{{$business->id}}" class="declineItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$business->id}}" onclick="declineItem('{{$business->id}}');">Decline</a>
                                                             @endif
                                                         </td>
 
@@ -578,7 +584,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </x-app-layout>
 
 <script>

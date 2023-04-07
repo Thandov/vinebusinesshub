@@ -77,7 +77,6 @@ class AdminpanelController extends Controller
          return redirect('adminpanel');
          
      }
-
      public function deactivatebusiness($id)
      {
          //
@@ -86,5 +85,19 @@ class AdminpanelController extends Controller
          $data->save();
          return redirect('adminpanel');
          
+     }
+
+     public function viewbusiness($id)
+     {
+         //
+         $data = Business::find($id);
+         $data->view();
+         return redirect('viewBusiness');
+     }
+
+     public function item($id)
+     {
+        $item = Business::find($id);
+        $item->view();
      }
 }
