@@ -7,7 +7,7 @@ use App\Models\Business;
 use App\Models\Industry;
 use App\Models\Province;
 use App\Models\Services;
-use App\Models\pendingApprovals;
+use App\Models\pendingApproval;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -67,7 +67,7 @@ class AdminpanelController extends Controller
 
          $data = Business::find($id);
          $data->delete();
-         return redirect('adminpanel');
+         return redirect('adminpanel')->with('status', 'Business deleted!');
          
      }
 
@@ -77,7 +77,7 @@ class AdminpanelController extends Controller
          $data = Business::find($id);
          $data->activation_status = 1;
          $data->save();
-         return redirect('adminpanel');
+         return redirect('adminpanel')->with('status', 'Business Activated!');
          
      }
 
@@ -87,7 +87,7 @@ class AdminpanelController extends Controller
          $data = Business::find($id);
          $data->activation_status = 0;
          $data->save();
-         return redirect('adminpanel');
+         return redirect('adminpanel')->with('status', 'Business Deactivated!');
          
      }
 
@@ -99,17 +99,25 @@ class AdminpanelController extends Controller
          return redirect('viewBusiness');
          
      }
-
-     public function adminpending_approval($id)
+     public function approveindustry($id)
      {
          //
-         $data = pending_approval::find($id);
+         $data = PendingApproval::find($id) ;
          $data->approval_status = 1;
-         DB::table('industries')->insert($data);
-         DB::table('pending_approval')->where('id', $id)->delete();
-        return redirect('adminpanel');
 
-     }
-     
-  
+         DB::table('industries')->insert($data);
+         DB::table('pending_approvals')->where('id', $id)->delete();
+         return redirect('adminpanel')->with('status', 'Industry APPROVED!');
+         
+     }  
+     public function declineindustry($id)
+     {
+         //
+         $data = PendingApproval::find($id) ;
+         $data->approval_status = 0;
+        // DB::table('industries')->save($data);
+         DB::table('pending_approvals')->where('id', $id)->save();
+         return redirect('adminpanel')->with('status', 'Industry Declined!');
+         
+     }  
 }

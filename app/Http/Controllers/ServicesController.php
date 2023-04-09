@@ -129,7 +129,7 @@ class ServicesController extends Controller
         }
         
 
-       return redirect('adminpanel')->with('status', 'Profile updated!');
+       return redirect('adminpanel')->with('status', 'Service updated!');
 
     }
 

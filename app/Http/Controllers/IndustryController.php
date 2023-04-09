@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Services;
 use App\Models\Industry;
 use App\Models\Province;
+use App\Models\pendingApproval;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -121,6 +122,29 @@ class IndustryController extends Controller
 
         return redirect()->back();
     }
+
+    
+    public function approveindustry(Request $request)
+     {
+         //
+         /*
+         $data = PendingApproval::find($id) ;
+         DB::table('industries')->save($data);
+         DB::table('pending_approval')->where('id', $id)->delete();
+         return redirect('adminpanel')->with('status', 'Industry APPROVED!');
+
+         */
+        for ($i=0; $i<count($request->service_name); $i++) {
+            $datasave = [
+                'approval_type' => $request->service_name[$i],
+            ];
+            DB::table('industries')->insert($datasave);
+        }
+
+        return json_encode(array("statuscode" => 1, "message" =>  $request->service_name[0]." Inserted"));
+
+         
+     }  
 
 
 }

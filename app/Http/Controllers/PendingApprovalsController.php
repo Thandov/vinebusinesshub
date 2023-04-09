@@ -87,7 +87,7 @@ class PendingApprovalsController extends Controller
     public function insertIndustry(Request $request)
     {
         
-      //dd($request->input("service_name"));
+      dd($request);
         for ($i=0; $i<count($request->service_name); $i++) {
             $datasave = [
                 'approval_type' => $request->service_name[$i],

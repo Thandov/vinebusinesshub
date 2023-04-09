@@ -9,7 +9,5 @@ class Industry extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-     'industry',
-    ];
+    protected $fillable = ['industry', ];
 }

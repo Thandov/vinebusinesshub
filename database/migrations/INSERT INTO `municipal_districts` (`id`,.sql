@@ -20,8 +20,6 @@ INSERT INTO `municipal_districts` (`id`, `municipal_district`, `provinceId`, `cr
 (NULL, 'uMzinyathi District', 3, NOW(), NOW()),
 (NULL, 'uThukela District', 3, NOW(), NOW()),
 (NULL, 'Zululand District', 3, NOW(), NOW()),
-
-
 (NULL, 'Capricorn District', 4, NOW(), NOW()),
 (NULL, 'Mopani District', 4, NOW(), NOW()),
 (NULL, 'Sekhukhune District', 4, NOW(), NOW()),
@@ -53,11 +51,3 @@ INSERT INTO `municipal_districts` (`id`, `municipal_district`, `provinceId`, `cr
 (NULL, 'Joe Gqabi District', 9, NOW(), NOW()),
 (NULL, 'OR Tambo District', 9, NOW(), NOW()),
 (NULL, 'Sarah Baartman District', 9, NOW(), NOW()),
-
-
-
-
-
-
-
-

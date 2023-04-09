@@ -14,5 +14,6 @@ class PendingApproval extends Model
          'who_id',
          'uid',
          'the_content',
+         'approval_status',
         ];
 }

@@ -661,6 +661,10 @@
                                                         <th scope="col"class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                             Business Name
                                                         </th>
+                                                        <th scope="col"
+                                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                            Status
+                                                        </th>
                                                         <th scope="col" class="relative px-6 py-3">
                                                             <span class="sr-only">Edit</span>
                                                         </th>
@@ -689,18 +693,28 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
+                                                                            <td class="px-2 py-2 whitespace-nowrap">
+                                                                                <span
+                                                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full @if($adminpending_approval->approval_status == 1) bg-green-100 text-green-800 @else bg-red-100 text-red-800 @endif">
+                                                                                    @if($adminpending_approval->approval_status == 0) pending Approval
+                                                                                    @else Approved @endif
+                                                                                </span>
 
-                                                                            <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                                                               <a href="adminpanel/adminpending_approval/{{$adminpending_approval->id}}"
+                                                                            </td>
+                                                                            <td>
+                                                                                @if($adminpending_approval->approval_status == 0)
+                                                                                <a href="adminpanel/approveIndustry/{{$adminpending_approval->id}}"
                                                                                     class="approvalBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                                                                     id="{{$adminpending_approval->id}}"
-                                                                                    on click="adminpending_approval({{$adminpending_approval->id}});">Approve</a>  
-                                                                                    
-                                                                                    <a href="adminpanel/declineadminpending_approval/{{$adminpending_approval->id}}"
-                                                                                        class="declineBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                                                                                        id="{{$adminpending_approval->id}}"
-                                                                                        on click="declineadminpending_approval({{$adminpending_approval->id}});">Decline</a>  
-                                           
+                                                                                    on click="approveIndustry({{$adminpending_approval->id}});">Approve</a>
+                                                                                    @else 
+                                                                                     
+                                                                              <a href="adminpanel/declineIndustry/{{$adminpending_approval->id}}"
+                                                                                  class="declineBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                                                                                   id="{{$adminpending_approval->id}}"
+                                                                                   on click="declineIndustry({{$adminpending_approval->id}});">Decline</a>  
+                                                                        @endif
+
                                                                             </td>
                                                                                     </tr>
                                                                                         @endforeach
@@ -735,6 +749,7 @@
                                                     </tr>
                                                 </thead> <tbody class="bg-white divide-y divide-gray-200"id="pendingApprovals">
                                                     @foreach ($adminpending_approvals as $adminpending_approval)
+                                                    @if($adminpending_approval->approval_status == 1)
                                                     <tr id="adminpending_approval{{ $adminpending_approval->id }}">
                                                         <td class="px-2 py-2 whitespace-nowrap">
                                                             <div class="flex items-center">
@@ -752,11 +767,12 @@
                                                                                 <div class="flex items-center">
                                                                                     <div class="ml-4">
                                                                                         <div class="text-sm font-medium text-gray-900">
-                                                                                            {{ $adminpending_approval->who_id }}
+                                                                                            {{ $adminpending_approval->uid }}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
+                                                                            @endif
                                                                                     </tr>
                                                                                         @endforeach
                                                                                     </tbody>
