@@ -16,4 +16,5 @@ class PendingApproval extends Model
          'the_content',
          'approval_status',
         ];
+        
 }

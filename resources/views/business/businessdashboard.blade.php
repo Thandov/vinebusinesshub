@@ -559,7 +559,7 @@
         aria-labelledby="newIndustryLabel" aria-hidden="true">
         <form class="form-group" data-target="insertIndustry" id="insertIndustry" action="{{ route('business.businessdashboard.insertIndustry') }}" method="post">
             @csrf
-            <input type="hidden"name="approval_type" value="new_industry">
+            <input type="hidden"name="approval_type" value="new industry">
             <input type="hidden"name="who_id" value="{{ auth()->user()->id }} ">
             <div class="modal-dialog">
                 <div class="modal-content">

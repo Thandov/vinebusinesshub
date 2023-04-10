@@ -56,12 +56,14 @@ class AdminpanelController extends Controller
         ->get();
 
         $pending_approvals = DB::table('pending_approvals')
-        ->select('*')
+        ->join('businesses', 'pending_approvals.who_id', '=', 'businesses.id')
+        ->leftjoin('users', 'pending_approvals.uid', '=', 'users.id')
+        ->select('pending_approvals.*', 'businesses.business_name','users.name')
         ->get();
         
         return view('adminpanel', ['admintowns' => $towns , 'adminmunicipalities' => $municipalities , 'admindistricts' => $districts , 'adminprovinces' => $provinces ,'adminbusinesses' => $businesses ,'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals'=>$pending_approvals]); 
      }
-
+    
      public function deleteBusinessAdmin($id)
      {
 
@@ -99,25 +101,47 @@ class AdminpanelController extends Controller
          return redirect('viewBusiness');
          
      }
+
+
      public function approveindustry($id)
      {
-         //
-         $data = PendingApproval::find($id) ;
-         $data->approval_status = 1;
+           // Get the pending approval record by ID
+    $pendingApproval = PendingApproval::find($id);
 
-         DB::table('industries')->insert($data);
-         DB::table('pending_approvals')->where('id', $id)->delete();
-         return redirect('adminpanel')->with('status', 'Industry APPROVED!');
-         
-     }  
-     public function declineindustry($id)
-     {
-         //
-         $data = PendingApproval::find($id) ;
-         $data->approval_status = 0;
-        // DB::table('industries')->save($data);
-         DB::table('pending_approvals')->where('id', $id)->save();
-         return redirect('adminpanel')->with('status', 'Industry Declined!');
-         
-     }  
+    // Check if the approval status is pending (0)
+    if ($pendingApproval->approval_status == 0 || $pendingApproval->approval_status == 2) {
+        // Insert the_content into the industry column in the industries table
+        $industry = new Industry();
+        $industry->industry = $pendingApproval->the_content;
+        $industry->save();
+
+        // Update the approval status to approved (1)
+        $pendingApproval->approval_status = 1;
+        $pendingApproval->save();
+
+        // Remove the pending approval record
+        //$pendingApproval->delete();
+        $pendingApproval->uid = auth()->user()->id;
+
+        $pendingApproval->save();
+        // Return a success message
+        return redirect('adminpanel')->with('status', 'Industry APPROVED!');
+    } 
+        
+}
+     
+
+
+    public function declineindustry(Request $request,$id)
+{
+    $record = DB::table('pending_approvals')->where('id', $id)->where('approval_status', 1)->first();
+    if (!$record) {
+        // record doesn't exist or doesn't have approval_status = 1
+        return response()->json(['message' => 'Invalid request'], 400);
+    }
+
+    // update the approval_status to 2 (declined)
+    DB::table('pending_approvals')->where('id', $id)->update(['approval_status' => 2]);
+
+    return redirect('adminpanel')->with('status', 'Industry Declined!');}
 }
