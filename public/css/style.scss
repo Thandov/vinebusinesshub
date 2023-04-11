@@ -7,6 +7,7 @@
 }
 
 .logo_frame {
+    background-color: #fff;
     height: 150px;
     width: 150px;
 }
@@ -21,7 +22,6 @@
         position: relative;
         z-index: 999999;
         color: #fff;
-
     }
     &::before {
         content: "";
@@ -49,18 +49,19 @@ ul.nav.nav-pills.sidepills {
 #contactLogo {
     width: 150px;
 }
-.aboutHeading{
-    background-image: url('../img/about/banner.jpg');
+.aboutHeading {
+    background-image: url("../img/about/banner.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    h1, p {
+    h1,
+    p {
         position: relative;
         z-index: 99999;
         color: #fff;
     }
-        &::before{
+    &::before {
         content: "";
         position: absolute;
         background-color: rgba(0, 0, 0, 0.7);
@@ -69,16 +70,15 @@ ul.nav.nav-pills.sidepills {
         left: 0;
         right: 0;
     }
-    
 }
-.stockimgs{
+.stockimgs {
     position: relative;
-    h4{
+    h4 {
         position: absolute;
         z-index: 999999;
         color: #fff;
     }
-    &::before{
+    &::before {
         content: "";
         position: absolute;
         background-color: rgba(0, 0, 0, 0.7);
@@ -86,5 +86,12 @@ ul.nav.nav-pills.sidepills {
         bottom: 0;
         left: 0;
         right: 0;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .logo_frame {
+        height: 100%;
+        width: 100%;
     }
 }
