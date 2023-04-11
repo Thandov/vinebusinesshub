@@ -51,7 +51,7 @@ class RegisteredUserController extends Controller
         if ($request->role_id === 'business') {
             $business = Business::create([
                 'company_rep' => $user->id,
-                'activation_status' => 1,
+                'activation_status' => 0,
             ]);
             
             /*                     $details = [

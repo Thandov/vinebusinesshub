@@ -8,6 +8,7 @@
 }
 
 .logo_frame {
+  background-color: #fff;
   height: 150px;
   width: 150px;
 }
@@ -19,13 +20,11 @@
   background-position: center;
   position: relative;
 }
-
 .jumbotron.homehead .text-center {
   position: relative;
   z-index: 999999;
   color: #fff;
 }
-
 .jumbotron.homehead::before {
   content: "";
   position: absolute;
@@ -59,13 +58,12 @@ ul.nav.nav-pills.sidepills .nav-item {
   background-size: cover;
   position: relative;
 }
-
-.aboutHeading h1, .aboutHeading p {
+.aboutHeading h1,
+.aboutHeading p {
   position: relative;
   z-index: 99999;
   color: #fff;
 }
-
 .aboutHeading::before {
   content: "";
   position: absolute;
@@ -79,13 +77,11 @@ ul.nav.nav-pills.sidepills .nav-item {
 .stockimgs {
   position: relative;
 }
-
 .stockimgs h4 {
   position: absolute;
   z-index: 999999;
   color: #fff;
 }
-
 .stockimgs::before {
   content: "";
   position: absolute;
@@ -95,4 +91,10 @@ ul.nav.nav-pills.sidepills .nav-item {
   left: 0;
   right: 0;
 }
-/*# sourceMappingURL=style.css.map */
+
+@media screen and (min-width: 600px) {
+  .logo_frame {
+    height: 100%;
+    width: 100%;
+  }
+}/*# sourceMappingURL=style.css.map */
