@@ -1,6 +1,8 @@
 <?php
 
 namespace Database\Factories;
+use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 use App\Models\Business;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -39,8 +41,10 @@ class BusinessFactory extends Factory
             'business_bio' => "'".$this->faker->paragraph($nbSentences = 3, $variableNbSentences = true)."'",
             'email' => "'".$arr[0].'@'.$website[0].'.co.za'."'",
             'provinceId' => rand(1,9),
-            'townId' => rand(1,10),
+            'districtId' => rand(1,9),
+            'municipalityId' => rand(1,9),
             'address' =>  "'".$this->faker->address()."'",
+            'town' =>  "'".$this->faker->address()."'",
             'company_reg' => 1,
             'website' => 'wwww.'.$website[0].'.co.za',
             'industryId' => rand(1,10),
@@ -48,7 +52,8 @@ class BusinessFactory extends Factory
             'twitter' => 'twitter',
             'instagram' => 'instagram',
             'logo' => 'a.png',
-            'marketingpic' => 'a.png'
+            'marketingpic' => 'a.png',
+            'activation_status' => 1,
         ];
 
         $company_rep +1;

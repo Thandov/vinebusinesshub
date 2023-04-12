@@ -108,7 +108,7 @@ class AdminpanelController extends Controller
            // Get the pending approval record by ID
     $pendingApproval = PendingApproval::find($id);
 
-    // Check if the approval status is pending (0)
+    // Check if the approval status is pending
     if ($pendingApproval->approval_status == 0 || $pendingApproval->approval_status == 2) {
         // Insert the_content into the industry column in the industries table
         $industry = new Industry();
