@@ -78,16 +78,21 @@
                                                                             {{ $message }}</p>
                                                                         @enderror
                                                                     </label>
-                                                                    <input type="text" name="business_name"
+                                                                    <input type="text" name="business_name" 
                                                                         value="{{ $business[0]->business_name ?? '' }}"
                                                                         id="business_name" autocomplete="given-name"
-                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                 
                                                                     </div>
                                                                 <div class="col-span-12 md:col-span-6">
                                                                     <label for="business_number"
                                                                         class="block text-sm font-medium text-gray-700">Business
                                                                         Number
+                                                                        
+                                                                        @error('business_number')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror
                                                                     </label>
                                                                     <input type="text" name="business_number"
                                                                         value="{{ $business[0]->business_number ?? '' }}"
@@ -98,6 +103,10 @@
                                                                     <label for="email"
                                                                         class="block text-sm font-medium text-gray-700">Email
                                                                         address
+                                                                        @error('email')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror
                                                                     </label>
                                                                     <input type="text"
                                                                         value="{{ $business[0]->email ?? '' }}"
@@ -129,7 +138,11 @@
                                                                 <div class="col-span-12 md:col-span-12 ">
                                                                     <label for="company_reg"
                                                                         class="block text-sm font-medium text-gray-700">Company
-                                                                        Registration Number</label>
+                                                                        Registration Number
+                                                                        @error('company_reg')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror</label>
                                                                     <input type="text"
                                                                         value="{{ $business[0]->company_reg ?? '' }}"
                                                                         name="company_reg" id="company_reg"
@@ -195,9 +208,13 @@
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                 </div>
                                                                 <div class="col-span-12">
-                                                                    <label
+                                                                    <label for ="logo"
                                                                         class="block text-sm font-medium text-gray-700">
                                                                         Logo
+                                                                        @error('logo')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{str_replace('logo field', 'logo', $message)  }}</p>
+                                                                        @enderror
                                                                     </label>
                                                                     <div
                                                                         class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
@@ -226,6 +243,7 @@
                                                                                             name="file-upload"
                                                                                             type="file" class="sr-only">
 
+
                                                                                     </label>
                                                                                     <p class="pl-1">or drag and drop</p>
                                                                                 </div>
@@ -241,13 +259,12 @@
                                                                         @endif
                                                                     </div>
                                                                     <div class="mt-1 flex items-center">
-                                                                        <button type="button"
-                                                                            class="changeLogoBtn bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                        <button id="change-logo-btn" type="button"
+                                                                            class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                                                             Change
                                                                         </button>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -258,7 +275,11 @@
                                                                 <div class="col-span-12 md:col-span-12">
                                                                     <label for="address"
                                                                         class="block text-sm font-medium text-gray-700">Street
-                                                                        address </label>
+                                                                        address
+                                                                        @error('address')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror </label>
                                                                     <input type="text"
                                                                         value="{{ $business[0]->address ?? '' }}"
                                                                         name="address" id="address"
@@ -267,7 +288,11 @@
                                                                 </div>
                                                                 <div class="col-span-12 sm:col-span-12">
                                                                     <label for="province"
-                                                                        class="block text-sm font-medium text-gray-700">Province</label>
+                                                                        class="block text-sm font-medium text-gray-700">Province
+                                                                        @error('province')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror</label>
                                                                     <select id="provinceOptions" name="province"
                                                                         autocomplete="province"
                                                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
@@ -329,7 +354,12 @@
                                                                 </div>
                                                                 <div class="col-span-6 sm:col-span-12">
                                                                     <label for="town"
-                                                                        class="block text-sm font-medium text-gray-700">Town</label>
+                                                                        class="block text-sm font-medium text-gray-700">Town
+                                                                        @error('town')
+                                                                        <p class="text-red-500 text-medium">
+                                                                            {{ $message }}</p>
+                                                                        @enderror
+                                                                    </label>
                                                                     <input type="text"
                                                                         value="{{ $business[0]->town ?? '' }}"
                                                                         name="town" id="town"
@@ -423,7 +453,6 @@
 
                                                                     <div id="activationwrap"
                                                                         class="mt-2 d-flex align-items-center justify-content-start">
-
                                                                         <br>
                                                                         <a href="/send-email/{{ $business[0]->email}}"
                                                                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 @if($business[0]->activation_status == 0) focus:ring-yellow-500 bg-yellow-600 hover:bg-yellow-700 @else focus:ring-green-500 bg-green-600 hover:bg-green-700 @endif"
@@ -431,8 +460,6 @@
                                                                             @if($business[0]->activation_status == 0)
                                                                             Not Activated @else Activated @endif</a>
                                                                     </div>
-
-
                                                                 </div>
                                                                 <div class="col-span-3 sm:col-span-3">
                                                                     <label for="company-website"
@@ -455,10 +482,7 @@
 
                                                                     </div>
                                                                 </div>
-
                                                             </div>
-
-
                                                         </div>
                                                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                                                             <button type="submit"
@@ -568,7 +592,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="the_content"
+                        <input type="text" name="the_content" required 
+                        pattern="^[A-Z][a-zA-Z\s]*$"
+                        title="Please enter a word starting with a capital letter"
                             class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
                     <div class="modal-footer">
@@ -592,10 +618,23 @@
      $('#logo-preview').show();
    }
  }
- 
  $("input[type='file']").change(function() {
    readURL(this);
  });
+
+  $(document).ready(function() {
+        // Event listener for the "Change" button
+        $("#change-logo-btn").click(function() {
+            $('#logo-preview').attr('src', '').hide();
+            $("#file-upload").trigger("click");
+        });
+
+         // Event listener for file upload input
+         $("input[type='file']").change(function() {
+            readURL(this);
+        });
+        
+    });
     
 jQuery(document).ready(function() {
     var selectedprovinceId = $(this).find(":selected").val();
@@ -681,6 +720,8 @@ jQuery(document).ready(function() {
     });
     
 });
+
+
 
 function deleteBusinessandUser(id) {
     confirm("This will delete your user profile and your business profile <br><br> Would you like to continue?");

@@ -163,6 +163,13 @@ class BusinessController extends Controller
     {
         $validated = $req->validate([
             'business_bio' => 'required|unique:businesses|max:1000',
+            'email' => 'required|unique:businesses|max:250',
+            'business_number' => 'required|unique:businesses|max:15',
+            'business_name' => 'required|nullable:businesses|max:255',
+            'address' => 'required|nullable:businesses|max:255',
+            'town' => 'required|nullable:businesses|max:255',
+            'company_reg' => 'required|nullable:businesses|max:255',
+            
         ]);
     
 
