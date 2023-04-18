@@ -242,8 +242,6 @@
                                                                                             value="{{$business[0]->logo}}"
                                                                                             name="file-upload"
                                                                                             type="file" class="sr-only">
-
-
                                                                                     </label>
                                                                                     <p class="pl-1">or drag and drop</p>
                                                                                 </div>
@@ -564,6 +562,46 @@
                                                             </div>
                                                         </div>
                                                     </form>
+                                                    <div class="md:mt-8 md:col-span-2 grid grid-cols-3 gap-6">
+                                                        <div class="bg-green-500 overflow-hidden shadow-xl sm:rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 relative">
+                                                          <div class="p-6">
+                                                            <h3 class="text-lg font-semibold mb-2 text-center absolute inset-0 flex items-center justify-center text-white opacity-100 transition duration-500 ease-in-out hover:opacity-0 hover:text-green-500">
+                                                                Web development
+                                                            </h3>
+                                                            <p class="leading-relaxed mb-2 hidden md:block hover:text-blue-600 transition duration-500 opacity-0 hover:opacity-100 text-white">
+                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ante eget lacus tempor, at mattis est elementum. Sed vel nisi bibendum, iaculis eros eu, dictum nisi. Duis euismod commodo leo, at interdum est facilisis non.
+                                                            </p>
+                                                            <button class="bg-white text-green-500 font-bold py-2 px-4 rounded mt-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+                                                              Get Quote
+                                                            </button>
+                                                          </div>
+                                                        </div>
+                                                        <div class="bg-green-500 overflow-hidden shadow-xl sm:rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 relative">
+                                                            <div class="p-6">
+                                                              <h3 class="text-lg font-semibold mb-2 text-center absolute inset-0 flex items-center justify-center text-white opacity-100 transition duration-500 ease-in-out hover:opacity-0">
+                                                                Get business Plan or Registration 
+                                                              </h3>
+                                                              <p class="leading-relaxed mb-2 hidden md:block hover:text-blue-600 transition duration-500 opacity-0 hover:opacity-100 text-white">
+                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ante eget lacus tempor, at mattis est elementum. Sed vel nisi bibendum, iaculis eros eu, dictum nisi. Duis euismod commodo leo, at interdum est facilisis non.
+                                                              </p>
+                                                              <button class="bg-white text-green-500 font-bold py-2 px-4 rounded mt-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+                                                                Get Quote
+                                                              </button>
+                                                            </div>
+                                                          </div>
+                                                          <div class="bg-green-500 overflow-hidden shadow-xl sm:rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 relative">
+                                                            <div class="p-6">
+                                                              <h3 class="text-lg font-semibold mb-2 text-center absolute inset-0 flex items-center justify-center text-white opacity-100 transition duration-500 ease-in-out hover:opacity-0">
+                                                                Get Accounting Services
+                                                              </h3>
+                                                              <p class="leading-relaxed mb-2 hidden md:block hover:text-blue-600 transition duration-500 opacity-0 hover:opacity-100 text-white">
+                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ante eget lacus tempor, at mattis est elementum. Sed vel nisi bibendum, iaculis eros eu, dictum nisi. Duis euismod commodo leo, at interdum est facilisis non.
+                                                              </p>
+                                                              <button class="bg-white text-green-500 font-bold py-2 px-4 rounded mt-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+                                                                Get Quote
+                                                              </button>
+                                                            </div>
+                                                          </div>
                                                     @endif @endforeach
                                                 </div>
                                             </div>
@@ -584,7 +622,7 @@
         <form class="form-group" data-target="insertIndustry" id="insertIndustry" action="{{ route('business.businessdashboard.insertIndustry') }}" method="post">
             @csrf
             <input type="hidden"name="approval_type" value="new industry">
-            <input type="hidden"name="who_id" value="{{ auth()->user()->id }} ">
+            <input type="hidden" name="who_id" value="{{ auth()->user()->id }} ">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -592,6 +630,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="alert alert-success d-none" id="success-message"></div>
                         <input type="text" name="the_content" required 
                         pattern="^[A-Z][a-zA-Z\s]*$"
                         title="Please enter a word starting with a capital letter"
@@ -612,30 +651,24 @@
    if (input.files && input.files[0]) {
      var reader = new FileReader();
      reader.onload = function(e) {
-       $('#logo-preview').attr('src', e.target.result);
-     }
+        $('#logo-preview').attr('src', '').attr('src', e.target.result)     }
      reader.readAsDataURL(input.files[0]);
      $('#logo-preview').show();
    }
- }
- $("input[type='file']").change(function() {
-   readURL(this);
- });
 
+    }
   $(document).ready(function() {
-        // Event listener for the "Change" button
         $("#change-logo-btn").click(function() {
-            $('#logo-preview').attr('src', '').hide();
+            $('#logo-preview').attr('src', '').show();
             $("#file-upload").trigger("click");
         });
 
-         // Event listener for file upload input
          $("input[type='file']").change(function() {
             readURL(this);
         });
         
     });
-    
+
 jQuery(document).ready(function() {
     var selectedprovinceId = $(this).find(":selected").val();
 
@@ -652,6 +685,23 @@ jQuery(document).ready(function() {
                 $('#newIndustry').modal('show');
             }
         });
+
+        $(function() {
+        $('#insertIndustry').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#success-message').html(response.message).removeClass('d-none');
+                setTimeout(function() {
+                    $('#newIndustry').modal('hide');
+                }, 2000); // 2 second delay before closing modal
+            }
+        });
+    });
+});
 
         /*
         jQuery(document).on('click', '#newbtn', function(e) {

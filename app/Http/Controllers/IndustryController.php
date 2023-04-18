@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Session;
 use Illuminate\Http\RedirectResponse;
+use App\Mail\NewIndustryNotification;
+use Illuminate\Support\Facades\Mail;
 
 class IndustryController extends Controller
 {
@@ -42,8 +44,6 @@ class IndustryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
         for ($i=0; $i<count($request->service_name); $i++) {
             $datasave = [
                 'industry' => $request->service_name[$i],
@@ -109,31 +109,30 @@ class IndustryController extends Controller
     public function insertIndustry(Request $request)
     {
         $uid = 0;
+
+        
+    $business_id = $request->input("who_id");
+    $business_name = DB::table('businesses')->where('id', $business_id)->value('business_name');
+
             $datasave = [
                 'who_id' => $request->input("who_id"),
                 'uid' => $uid,
                 'the_content' => $request->input("the_content"),
                 'approval_type' => $request->input("approval_type"),
                 'approval_status' => 0,
-
             ];
             DB::table('pending_approvals')->insert($datasave);
-        
+            
 
-        return redirect()->back();
-    }
+            $industry = $request->input("the_content");
 
-    
+            Mail::to('ntokozoflex99@gmail.com')->send(new NewIndustryNotification($industry, $business_name));
+            
+          return response()->json(['message' => 'Your industry is submitted for review!']);
+        }
+
     public function approveindustry(Request $request)
      {
-         //
-         /*
-         $data = PendingApproval::find($id) ;
-         DB::table('industries')->save($data);
-         DB::table('pending_approval')->where('id', $id)->delete();
-         return redirect('adminpanel')->with('status', 'Industry APPROVED!');
-
-         */
         for ($i=0; $i<count($request->service_name); $i++) {
             $datasave = [
                 'approval_type' => $request->service_name[$i],
@@ -142,9 +141,5 @@ class IndustryController extends Controller
         }
 
         return json_encode(array("statuscode" => 1, "message" =>  $request->service_name[0]." Inserted"));
-
-         
      }  
-
-
 }

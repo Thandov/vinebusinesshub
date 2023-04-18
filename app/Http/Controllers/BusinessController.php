@@ -236,19 +236,24 @@ class BusinessController extends Controller
         
         if (!empty($req->file('file-upload'))) {
             $filename = $data->logo;
-
+         
             //If first time uploading logo
             if (is_null($data->logo) || $data->logo !==  $req->file('file-upload')) {
-                //update the record for business_name
-                $name = str_replace(' ', '_', strtolower($req->business_name));
-                $image = $req->file('file-upload');
-                $newImageName = time().'-'.$name.'.'.$req->file('file-upload')->extension();
-                $req->file('file-upload')->move(public_path('img'), $newImageName);
-                $data->logo = $newImageName;
-            } 
-           
-           
-        }
+               //update the record for business_name
+               $name = str_replace(' ', '_', strtolower($req->business_name));
+               $image = $req->file('file-upload');
+               $newImageName = time().'-'.$name.'.'.$req->file('file-upload')->extension();
+               $req->file('file-upload')->move(public_path('img'), $newImageName);
+               $data->logo = $newImageName;
+            }
+            else {
+               // update the logo attribute with the new file name
+               $name = str_replace(' ', '_', strtolower($req->business_name));
+               $newImageName = time().'-'.$name.'.'.$req->file('file-upload')->extension();
+               $req->file('file-upload')->move(public_path('img'), $newImageName);
+               $data->logo = $newImageName;
+            }
+         }
         if ($req->marketingpic != $data->marketingpic) {
             //update the record for business_name
             $data->marketingpic = $req->marketingpic;

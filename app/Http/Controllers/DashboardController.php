@@ -16,12 +16,12 @@ class DashboardController extends Controller
 {
     public function displayBusinesses() 
     {
-        $business = DB::table('businesses')
+        $businesses = DB::table('businesses')
         ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
         ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
         ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
         ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
-        ->get();
+        ->paginate(5);
          
         $industry = DB::table('industries')
         ->select('industries.industry')
@@ -41,9 +41,14 @@ class DashboardController extends Controller
        ->select('municipalities.municipality', 'municipal_districts.municipal_district', 'municipal_districts.id')
        ->get();
 
-        return view('home', ['business' => $business, 'industry' => $industry, 'provinces' => $provinces, 'municipal_districts' => $municipal_districts, 'municipalities' => $municipalities]);
+        return view('home',compact(['businesses', 'industry' , 'provinces' , 'municipal_districts' , 'municipalities']));
 
     }
+    
+    public function displayBusinessPagination(){
+
+    }
+
     public function index() 
     {
         if(Auth::user()->hasRole('business')) {
@@ -157,7 +162,7 @@ class DashboardController extends Controller
                 ->leftjoin('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
                 ->select('businesses.*', 'businesses.business_name', 'industries.industry', 'provinces.province','municipalities.municipality')
                 ->where('activation_status', '=', 1)
-                ->get();
+                ->paginate(5);
 
             }
             
