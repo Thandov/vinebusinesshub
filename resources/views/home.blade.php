@@ -122,7 +122,7 @@ jQuery(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 jQuery('#test').html(data.table_data);
-                jQuery('#pagination').html(data.data.links);
+                jQuery('#pagination').innerHtml(data.data.links);
                 console.log(data);
             },
             error: function(jqXHR, exception) {
