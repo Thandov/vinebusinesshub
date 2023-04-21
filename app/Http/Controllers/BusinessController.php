@@ -6,7 +6,11 @@ use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ServiceRequest;
+
 
 class BusinessController extends Controller
 {
@@ -310,5 +314,17 @@ class BusinessController extends Controller
     public function uploadLogo(Request $request)
     {
         echo $request;
+    }
+
+    public function serviceRequest(Request $request)
+    {
+        $validatedData = $request->validate([
+            'request' => 'required|string'
+        ]);
+
+   
+        Mail::to('ntokozoflex99@gmail.com')->send(new ServiceRequest($validatedData['request']));
+
+        return redirect()->back()->with('success', 'Your request has been submitted. Thank you!');
     }
 }

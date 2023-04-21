@@ -1,6 +1,5 @@
 <x-app-layout>
-    <div class="container">
-
+    <div class="container max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="row">
             <!-- Section Titile -->
             <div class="col-md-6 mt-3 d-flex align-items-center justify-content-center contact-widget-section2 wow animated fadeInLeft"

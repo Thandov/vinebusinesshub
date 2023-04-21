@@ -10,6 +10,7 @@ use App\Models\Services;
 use App\Models\pendingApproval;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class AdminpanelController extends Controller
 {
@@ -105,42 +106,31 @@ class AdminpanelController extends Controller
 
      public function approveindustry($id)
      {
-           // Get the pending approval record by ID
-    $pendingApproval = PendingApproval::find($id);
+        $pendingApproval = PendingApproval::find($id);
 
-    // Check if the approval status is pending
     if ($pendingApproval->approval_status == 0 || $pendingApproval->approval_status == 2) {
-        // Insert the_content into the industry column in the industries table
         $industry = new Industry();
         $industry->industry = $pendingApproval->the_content;
         $industry->save();
 
-        // Update the approval status to approved (1)
         $pendingApproval->approval_status = 1;
         $pendingApproval->save();
 
-        // Remove the pending approval record
-        //$pendingApproval->delete();
         $pendingApproval->uid = auth()->user()->id;
 
         $pendingApproval->save();
-        // Return a success message
-        return redirect('adminpanel')->with('status', 'Industry APPROVED!');
+        return redirect()->back()->with('status', 'Industry APPROVED!');
     } 
         
 }
-     
-
-
+    
     public function declineindustry(Request $request,$id)
 {
     $record = DB::table('pending_approvals')->where('id', $id)->where('approval_status', 1)->first();
     if (!$record) {
-        // record doesn't exist or doesn't have approval_status = 1
         return response()->json(['message' => 'Invalid request'], 400);
     }
 
-    // update the approval_status to 2 (declined)
     DB::table('pending_approvals')->where('id', $id)->update(['approval_status' => 2]);
 
     return redirect('adminpanel')->with('status', 'Industry Declined!');}

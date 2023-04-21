@@ -20,15 +20,14 @@
         {{ session('status') }}
     </div>
     @endif
-    <div class="container-fluid">
-        <div class="row">
-            <form class="col-md-4">
+    <div class="container max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="row">
+            <form class="col-md-3">
                 <div class="container bg-white shadow-sm py-12 rounded-md">
                     <div class="row">
                         <div class="col-12">
                             <h4 class="pb-2 font-bold">Search criteria:</h4>
                         </div>
-                        
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -61,7 +60,6 @@
                                 class="block text-sm font-medium text-gray-700">Municipality</label>
                             <select id="municipalityOptions"
                                 class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-
                                 {{ $municipalities ?? '' }} @if($municipalities ?? '' ) @foreach($municipalities ?? ''
                                 as $municipality)
                                 <option>{{ $municipality->municipality }}</option>
@@ -79,22 +77,24 @@
                                 @endforeach @endif
                             </select>
                         </div>
-                        
                     </div>
                 </div>
             </form>
-            <div class="col-md-8">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-5 mt-md-0" id="test"></div>
-            </div>
-        </div>
+            <div class="col-md-9">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5 mt-md-0" id="test">
+                    @foreach ($businesses as $business)
+                    <x-businessCard :business="$business" logo="{{$business->logo }}"/>
+                    @endforeach             
+                   </div>
+            </div></div>
+            <div id="pagination"></div>
     </div>
 </x-app-layout>
-
 <script>
 jQuery(document).ready(function() {
     var selectedprovinceId = $(this).find(":selected").val();
     changeDistrict(selectedprovinceId);
-    fetch_customer_data(" ", "businessNameSearch", "cardView");
+   // fetch_customer_data(" ", "businessNameSearch", "cardView");
 
     //Resert the Industry option to its Default Value 
     jQuery("#liveSearch, #provinceOptions, #districtOptions, #municipalityOptions").on("change", function() {
@@ -121,11 +121,8 @@ jQuery(document).ready(function() {
             },
             dataType: 'json',
             success: function(data) {
-                if (viewType == "listView") {
-                    jQuery('tbody').html(data.table_data);
-                } else {
-                    jQuery('#test').html(data.table_data);
-                }
+                jQuery('#test').html(data.table_data);
+                jQuery('#pagination').html(data.data.links);
                 console.log(data);
             },
             error: function(jqXHR, exception) {
@@ -208,7 +205,7 @@ jQuery(document).ready(function() {
             viewType = "cardView";
         var provinceId = $(this).find(":selected").val();
         changeDistrict(provinceId);
-        fetch_customer_data(query, searchOption, viewType);
+        fetch_customer_industry(query, searchOption, viewType);
 
     });
 
@@ -220,7 +217,7 @@ jQuery(document).ready(function() {
         var provinceId = $(this).find(":selected").val();
         changeMunicipality(provinceId);
 
-        fetch_customer_data(query, searchOption, viewType);
+        fetch_customer_industry(query, searchOption, viewType);
     });
 
 
@@ -231,7 +228,7 @@ jQuery(document).ready(function() {
             viewType = "cardView";
             var municipalityId = $(this).find(":selected").val();
 
-        fetch_customer_data(query, searchOption, viewType);
+            fetch_customer_industry(query, searchOption, viewType);
     });
 
 
@@ -249,6 +246,7 @@ jQuery(document).ready(function() {
     var municipalityOptions = document.getElementById("municipalityOptions");
     var selectedMunicipality = municipalityOptions.selectedIndex !== -1 ? municipalityOptions.options[municipalityOptions.selectedIndex].text : null;
 
+    var industryId = $(this).find(":selected").val();
 
     fetch_customer_industry(query, searchOption, viewType, selectedProvince, selectedDistrict, selectedMunicipality);
 

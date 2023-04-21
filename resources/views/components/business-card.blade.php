@@ -7,6 +7,7 @@
     @endif    </div>
     <div class="card-body text-center">
         <h5 class="font-bold card-title text-green-600">{{$business->business_name}}</h5>
-        <h5 class="font-bold card-title text-green-600">{{$business->industry}}</h5>
+        <p class=" card-text-xs ">{{$business->industry}}</p>
+        <a href="{{ route('viewBusiness', ['id' => $business->id]) }}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
     </div>                                                  
 </div>

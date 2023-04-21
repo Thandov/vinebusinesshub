@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="container py-12">
-        <div class="row">
-            <div class="col-md-12">
+<div class="row max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="col-md-12">
                 <div class="row">
                     <div class="col">
                         <div>
@@ -561,47 +561,8 @@
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                    </form>
                                                     <div class="md:mt-8 md:col-span-2 grid grid-cols-3 gap-6">
-                                                        <div class="bg-green-500 overflow-hidden shadow-xl sm:rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 relative">
-                                                          <div class="p-6">
-                                                            <h3 class="text-lg font-semibold mb-2 text-center absolute inset-0 flex items-center justify-center text-white opacity-100 transition duration-500 ease-in-out hover:opacity-0 hover:text-green-500">
-                                                                Web development
-                                                            </h3>
-                                                            <p class="leading-relaxed mb-2 hidden md:block hover:text-blue-600 transition duration-500 opacity-0 hover:opacity-100 text-white">
-                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ante eget lacus tempor, at mattis est elementum. Sed vel nisi bibendum, iaculis eros eu, dictum nisi. Duis euismod commodo leo, at interdum est facilisis non.
-                                                            </p>
-                                                            <button class="bg-white text-green-500 font-bold py-2 px-4 rounded mt-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-                                                              Get Quote
-                                                            </button>
-                                                          </div>
-                                                        </div>
-                                                        <div class="bg-green-500 overflow-hidden shadow-xl sm:rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 relative">
-                                                            <div class="p-6">
-                                                              <h3 class="text-lg font-semibold mb-2 text-center absolute inset-0 flex items-center justify-center text-white opacity-100 transition duration-500 ease-in-out hover:opacity-0">
-                                                                Get business Plan or Registration 
-                                                              </h3>
-                                                              <p class="leading-relaxed mb-2 hidden md:block hover:text-blue-600 transition duration-500 opacity-0 hover:opacity-100 text-white">
-                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ante eget lacus tempor, at mattis est elementum. Sed vel nisi bibendum, iaculis eros eu, dictum nisi. Duis euismod commodo leo, at interdum est facilisis non.
-                                                              </p>
-                                                              <button class="bg-white text-green-500 font-bold py-2 px-4 rounded mt-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-                                                                Get Quote
-                                                              </button>
-                                                            </div>
-                                                          </div>
-                                                          <div class="bg-green-500 overflow-hidden shadow-xl sm:rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 relative">
-                                                            <div class="p-6">
-                                                              <h3 class="text-lg font-semibold mb-2 text-center absolute inset-0 flex items-center justify-center text-white opacity-100 transition duration-500 ease-in-out hover:opacity-0">
-                                                                Get Accounting Services
-                                                              </h3>
-                                                              <p class="leading-relaxed mb-2 hidden md:block hover:text-blue-600 transition duration-500 opacity-0 hover:opacity-100 text-white">
-                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce porttitor ante eget lacus tempor, at mattis est elementum. Sed vel nisi bibendum, iaculis eros eu, dictum nisi. Duis euismod commodo leo, at interdum est facilisis non.
-                                                              </p>
-                                                              <button class="bg-white text-green-500 font-bold py-2 px-4 rounded mt-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-                                                                Get Quote
-                                                              </button>
-                                                            </div>
-                                                          </div>
+                                                     
                                                     @endif @endforeach
                                                 </div>
                                             </div>
