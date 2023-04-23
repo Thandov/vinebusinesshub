@@ -563,7 +563,7 @@
 
                                                         <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
                                                             @if($business->activation_status == 0)
-                                                            <a href="adminpanel/approveItem/{{$businesses->id}}" class="approveItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{$businesses->id}}" onclick="approveItem('{{$businesses->id}}');">Approve</a>
+                                                            <a href="adminpanel/approveItem/{{$business->id}}" class="approveItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{$business->id}}" onclick="approveItem('{{$business->id}}');">Approve</a>
                                                             @else
                                                             <a href="adminpanel/declineItem/{{$business->id}}" class="declineItemBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="{{$business->id}}" onclick="declineItem('{{$business->id}}');">Decline</a>
                                                             @endif
