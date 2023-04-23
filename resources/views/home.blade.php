@@ -92,7 +92,7 @@
 <script>
 jQuery(document).ready(function() {
 
-    $(document).on('click', 'pagination-links a', function(e) {
+    $(document).on('click', '#pagination-links a', function(e) {
         e.preventDefault();
         var url = $(this).attr('href');
         $.ajax({
