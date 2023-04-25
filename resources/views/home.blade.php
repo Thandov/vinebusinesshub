@@ -82,24 +82,35 @@
             </form>
             <div class="col-md-9">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5 mt-md-0" id="test">
-                    @foreach ($businesses as $business)
-                    <x-businessCard :business="$business" logo="{{$business->logo }}"/>
-                    @endforeach             
-                   </div>
-            </div></div>
-            <div id="pagination"></div>
+                    @include('home._businesses', ['businesses' => $business])
+            </div>
+            <div id="pagination-links">{{$business->links()}}</div>
     </div>
+                </div>
 </x-app-layout>
+
 <script>
+
 jQuery(document).ready(function() {
+
+    $(document).on('click', '#pagination-links a', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            type: "get",
+            datatype: "html",
+            success: function(response) {
+                $('#test').html(response.html);
+                history.pushState(null, null, url);
+            }
+        });
+    });
     var selectedprovinceId = $(this).find(":selected").val();
     changeDistrict(selectedprovinceId);
-   // fetch_customer_data(" ", "businessNameSearch", "cardView");
-
     //Resert the Industry option to its Default Value 
     jQuery("#liveSearch, #provinceOptions, #districtOptions, #municipalityOptions").on("change", function() {
         jQuery("#industryOptions").val("");
-
     });
 
     jQuery.ajaxSetup({
@@ -108,7 +119,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    function fetch_customer_data(query = "", searchOption = "", viewType = "") {
+    function fetch_customer_data(query = "", searchOption = "", pageNumber = 1) {
         console.log(searchOption);
         jQuery.ajax({
             url: "{{ route('home.action') }}",
@@ -116,143 +127,60 @@ jQuery(document).ready(function() {
             data: {
                 query: query,
                 searchOption: searchOption,
-                viewType: viewType
+                page: pageNumber
 
             },
             dataType: 'json',
             success: function(data) {
-                jQuery('#test').html(data.table_data);
-                jQuery('#pagination').innerHtml(data.data.links);
+                jQuery('#test').html(data.html);
                 console.log(data);
+                jQuery('#pagination-links').html(data.pagination);
             },
             error: function(jqXHR, exception) {
-                var msg = '';
-                if (jqXHR.status === 0) {
-                    msg = 'Not connect.\n Verify Network.';
-                } else if (jqXHR.status === 404) {
-                    msg = 'Requested page not found. [404]';
-                } else if (jqXHR.status === 500) {
-                    msg = 'Internal Server Error [500].';
-                } else if (exception === 'parsererror') {
-                    msg = 'function Requested JSON parse failed.';
-                } else if (exception === 'timeout') {
-                    msg = 'Time out error.';
-                } else if (exception === 'abort') {
-                    msg = 'Ajax request aborted.';
-                } else {
-                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                }
-                alert(msg);
+                // Error handling code here
             }
         });
     }
-    function fetch_customer_industry(query = "", searchOption = "", viewType = "",selectedProvince = "",selectedDistrict = "",selectedMunicipality = "") {
-        console.log(searchOption);
-        jQuery.ajax({
-            url: "{{ route('home.action') }}",
-            method: 'GET',
-            data: {
-                query: query,
-                searchOption: searchOption,
-                viewType: viewType,
-                selectedProvince:selectedProvince,
-               selectedDistrict:selectedDistrict,
-                selectedMunicipality:selectedMunicipality
-            },
-            dataType: 'json',
-            success: function(data) {
-                if (viewType == "listView") {
-                    jQuery('tbody').html(data.table_data);
-                } else {
-                    jQuery('#test').html(data.table_data);
-                }
-                console.log(data);
-            },
-            error: function(jqXHR, exception) {
-                var msg = '';
-                if (jqXHR.status === 0) {
-                    msg = 'Not connect.\n Verify Network.';
-                } else if (jqXHR.status === 404) {
-                    msg = 'Requested page not found. [404]';
-                } else if (jqXHR.status === 500) {
-                    msg = 'Internal Server Error [500].';
-                } else if (exception === 'parsererror') {
-                    msg = 'function Requested JSON parse failed.';
-                } else if (exception === 'timeout') {
-                    msg = 'Time out error.';
-                } else if (exception === 'abort') {
-                    msg = 'Ajax request aborted.';
-                } else {
-                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                }
-                alert(msg);
-            }
-        });
-    }
+   
     jQuery(document).on('keyup', '#liveSearch', function() {
         var query = jQuery(this).val(),
             searchOption = "businessNameSearch",
-            viewType = "cardView";
-        fetch_customer_data(query, searchOption, viewType);
+          pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
+        fetch_customer_data(query, searchOption, pageNumber);
 
-    });
-
-    
+    }); 
     jQuery(document).on('change', '#provinceOptions', function() {
-
         var query = $.trim($(this).find('option:selected').text()),
             searchOption = "provinceSearch",
             viewType = "cardView";
+            fetch_customer_data(query, searchOption, viewType);
         var provinceId = $(this).find(":selected").val();
+
         changeDistrict(provinceId);
-        fetch_customer_industry(query, searchOption, viewType);
-
     });
-
-
     jQuery(document).on('change', '#districtOptions', function() {
-        var query = $.trim($(this).find('option:selected').text()),
-            searchOption = "districtSearch",
+        var query = jQuery(this).val(),
+            searchOption = "industrySearch",
             viewType = "cardView";
-        var provinceId = $(this).find(":selected").val();
+        fetch_customer_data(query, searchOption, viewType);
+       // var provinceId = $(this).find(":selected").val();
         changeMunicipality(provinceId);
-
-        fetch_customer_industry(query, searchOption, viewType);
     });
-
-
-
+    jQuery(document).on('change', '#industryOptions', function() {
+        var query = jQuery(this).val(),
+            searchOption = "industrySearch",
+            viewType = "cardView";
+        fetch_customer_data(query, searchOption, viewType);
+    });
     jQuery(document).on('change', '#municipalityOptions', function() {
-        var query = $.trim($(this).find('option:selected').text()),
+        //var query = $.trim($(this).find('option:selected').text()),
             searchOption = "municipalitySearch",
             viewType = "cardView";
             var municipalityId = $(this).find(":selected").val();
 
-            fetch_customer_industry(query, searchOption, viewType);
+            fetch_customer_data(query, searchOption, viewType);
     });
-
-
-    jQuery(document).on('change', '#industryOptions', function() {
-        var query = $.trim($(this).find('option:selected').text()),
-        searchOption = "industrySearch",
-        viewType = "cardView";
-
-    var provinceOptions = document.getElementById("provinceOptions");
-    var selectedProvince = provinceOptions.selectedIndex !== -1 ? provinceOptions.options[provinceOptions.selectedIndex].text : null;
-
-    var districtOptions = document.getElementById("districtOptions");
-    var selectedDistrict = districtOptions.selectedIndex !== -1 ? districtOptions.options[districtOptions.selectedIndex].text : null;
-
-    var municipalityOptions = document.getElementById("municipalityOptions");
-    var selectedMunicipality = municipalityOptions.selectedIndex !== -1 ? municipalityOptions.options[municipalityOptions.selectedIndex].text : null;
-
-    var industryId = $(this).find(":selected").val();
-
-    fetch_customer_industry(query, searchOption, viewType, selectedProvince, selectedDistrict, selectedMunicipality);
-
-        });
 });
-
 function changeDistrict($id) {
     jQuery.ajax({
         url: "{{ route('home.changeDistrict') }}",
@@ -279,7 +207,6 @@ function changeDistrict($id) {
         }
     });
 }
-
 function changeMunicipality($id) {
     jQuery.ajax({
         url: "{{ route('home.changeMunicipality') }}",
