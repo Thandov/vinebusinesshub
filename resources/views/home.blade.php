@@ -30,78 +30,123 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <label for="business_name" class="block text-sm font-medium text-gray-700">Business Name
-                            </label>
-                            <input type="text" placeholder="Enter your Search" name="search"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                                id="liveSearch">
+                       <div class="accordion" id="myAccordion">
+                    <div class="col-12">
+                      <label for="business_name" class="block text-sm font-medium text-gray-700">Business Name
+                      </label>
+                      <input type="text" placeholder="Enter your Search" name="search" class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
+                  </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#provinces" aria-expanded="false" aria-controls="provinces">
+                          Provinces
+                        </button>
+                      </h2>
+                      <div id="provinces" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#myAccordion">
+                        <div class="accordion-body h-48 overflow-y-scroll overflow-x-hidden">
+                          @if($provinces ?? '')
+                          @foreach($provinces ?? '' as $province)
+                            <div class="province-item">
+                              <label class="inline-flex items-center">
+                                <input type="checkbox" name="province[]" value="{{ $province->id }}" data-name="{{ $province->province }}" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2">{{ $province->province }}</span>
+                              </label>
+                            </div>
+                          @endforeach
+                        @endif                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#districts" aria-expanded="false" aria-controls="districts">
+                          Districts
+                        </button>
+                      </h2>
+                      <div id="districts" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#myAccordion">
+                        <div class="accordion-body h-48 overflow-y-scroll overflow-x-hidden">
+                          @if($municipal_districts ?? '')
+                          @foreach($municipal_districts ?? '' as $district)
+                            <div class="district-item">
+                              <label class="inline-flex items-center">
+                                <input type="checkbox" name="district[]" value="{{ $district->id }}" data-name="{{ $district->municipal_district }}" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2">{{ $district->municipal_district }}</span>
+                              </label>
+                            </div>
+                          @endforeach
+                        @endif
                         </div>
-                        <div class="col-12">
-                            <label for="province" class="block text-sm font-medium text-gray-700">Province</label>
-                            <select id="provinceOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="" selected disabled>Select Province</option>
-                                {{ $provinces ?? '' }} @if($provinces ?? '' ) @foreach($provinces ?? '' as $province)
-                                <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                    {{ $province->province }}</option>
-                                @endforeach @endif
-                            </select>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#municipality" aria-expanded="false" aria-controls="municipality">
+                          Municipality
+                        </button>
+                      </h2>
+                      <div id="municipality" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#myAccordion">
+                        <div class="accordion-body h-48 overflow-y-scroll overflow-x-hidden">
+                          @if($municipalities ?? '')
+                          @foreach($municipalities ?? '' as $municipality)
+                            <div class="municipality-item">
+                              <label class="inline-flex items-center">
+                                <input type="checkbox" name="municipality[]" value="{{ $municipality->id }}" data-name="{{ $municipality->municipality }}" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2">{{ $municipality->municipality }}</span>
+                              </label>
+                            </div>
+                          @endforeach
+                        @endif
                         </div>
-                        <div class="col-12">
-                            <label for="district" class="block text-sm font-medium text-gray-700">District</label>
-                            <select id="districtOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-
-                            </select>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#industry" aria-expanded="false" aria-controls="industry">
+                          Industry
+                        </button>
+                      </h2>
+                      <div id="industry" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#myAccordion">
+                        <div class="accordion-body h-48 overflow-y-scroll overflow-x-hidden">
+                          @if($industry ?? '')
+                          @foreach($industry ?? '' as $indust)
+                            <div class="indust-item">
+                              <label class="inline-flex items-center">
+                                <input type="checkbox" name="industry[]" value="{{ $indust->industry }}" data-name="{{ $indust->industry }}" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2">{{ $indust->industry }}</span>
+                              </label>
+                            </div>
+                          @endforeach
+                        @endif
                         </div>
-                        <div class="col-12">
-                            <label for="municipality"
-                                class="block text-sm font-medium text-gray-700">Municipality</label>
-                            <select id="municipalityOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                                {{ $municipalities ?? '' }} @if($municipalities ?? '' ) @foreach($municipalities ?? ''
-                                as $municipality)
-                                <option>{{ $municipality->municipality }}</option>
-                                @endforeach @endif
-                            </select>
-                        </div>
-    
-                        <div class="col-12">
-                            <label for="Industry" class="block text-sm font-medium text-gray-700">Industry</label>
-                            <select id="industryOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="" selected disabled>Select industry</option>
-                                @if($industry ?? '' ) @foreach($industry as $indust)
-                                <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                @endforeach @endif
-                            </select>
-                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                    <div class="col-12">
+                        <button type="submit" class="w-full inline-flex justify-center mt-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Submit</button>
                     </div>
                 </div>
+            </div>
             </form>
             <div class="col-md-9">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5 mt-md-0" id="test">
-                    @include('home._businesses', ['businesses' => $business])
+                    @include('home._businesses', ['business' => $business])
             </div>
             <div id="pagination-links">{{$business->links()}}</div>
     </div>
                 </div>
 </x-app-layout>
-
 <script>
-
 jQuery(document).ready(function() {
 
-    $(document).on('click', '#pagination-links a', function(e) {
+    $(document).on('click', '.pagination-links a', function(e) {
         e.preventDefault();
         var url = $(this).attr('href');
         $.ajax({
             url: url,
             type: "get",
-            datatype: "html",
+            dataType: "html",
             success: function(response) {
-                $('#test').html(response.html);
+                $('#test').html(response);
                 history.pushState(null, null, url);
             }
         });
@@ -119,7 +164,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    function fetch_customer_data(query = "", searchOption = "", pageNumber = 1) {
+    function fetch_customer_data(query = "",searchOption = "",viewType = "",pageNumber = 1) {
         console.log(searchOption);
         jQuery.ajax({
             url: "{{ route('home.action') }}",
@@ -127,8 +172,8 @@ jQuery(document).ready(function() {
             data: {
                 query: query,
                 searchOption: searchOption,
+                viewType: viewType,
                 page: pageNumber
-
             },
             dataType: 'json',
             success: function(data) {
@@ -149,7 +194,7 @@ jQuery(document).ready(function() {
         fetch_customer_data(query, searchOption, pageNumber);
 
     }); 
-    jQuery(document).on('change', '#provinceOptions', function() {
+    jQuery(document).on('change', 'input[name="province[]"]', function() {
         var query = $.trim($(this).find('option:selected').text()),
             searchOption = "provinceSearch",
             viewType = "cardView";
@@ -158,7 +203,8 @@ jQuery(document).ready(function() {
 
         changeDistrict(provinceId);
     });
-    jQuery(document).on('change', '#districtOptions', function() {
+
+    jQuery(document).on('change', 'input[name="district[]"]', function() {
         var query = jQuery(this).val(),
             searchOption = "industrySearch",
             viewType = "cardView";
@@ -166,13 +212,15 @@ jQuery(document).ready(function() {
        // var provinceId = $(this).find(":selected").val();
         changeMunicipality(provinceId);
     });
-    jQuery(document).on('change', '#industryOptions', function() {
+
+    jQuery(document).on('change', 'input[name="industry[]"]', function() {
         var query = jQuery(this).val(),
             searchOption = "industrySearch",
-            viewType = "cardView";
-        fetch_customer_data(query, searchOption, viewType);
+            viewType = "cardView",
+            pageNumber = 1;
+        fetch_customer_data(query, searchOption, viewType,pageNumber);
     });
-    jQuery(document).on('change', '#municipalityOptions', function() {
+    jQuery(document).on('change', 'input[name="municipality[]"]', function() {
         //var query = $.trim($(this).find('option:selected').text()),
             searchOption = "municipalitySearch",
             viewType = "cardView";
