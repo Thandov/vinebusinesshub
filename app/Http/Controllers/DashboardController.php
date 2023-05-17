@@ -10,12 +10,12 @@ class DashboardController extends Controller
 {
     public function displayBusinesses()
     {
-        $businesses = DB::table('businesses')
+        $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
-            ->paginate(12);
+            ->paginate(10); // limit to 10 results per page
 
         $industry = DB::table('industries')
             ->select('industries.industry')
@@ -26,17 +26,33 @@ class DashboardController extends Controller
             ->get();
 
         $municipal_districts = DB::table('municipal_districts')
-            ->leftjoin('provinces', 'provinces.id', '=', 'municipal_districts.provinceId')
-            ->select('municipal_districts.municipal_district', 'provinces.province', 'provinces.id')
+            ->select('municipal_districts.id', 'municipal_districts.municipal_district')
             ->get();
 
-        $municipalities = DB::table('municipalities')
+        $grouped_municipal_districts = DB::table('municipal_districts')
+            ->leftJoin('provinces', 'provinces.id', '=', 'municipal_districts.provinceId')
+            ->select('municipal_districts.municipal_district', 'provinces.province', 'provinces.id')
+            ->orderBy('provinces.id') // Optional: Order the results by province ID
+            ->get()
+            ->groupBy('id');
+
+        $grouped_municipalities = DB::table('municipalities')
             ->leftjoin('municipal_districts', 'municipal_districts.id', '=', 'municipalities.districtId')
             ->select('municipalities.municipality', 'municipal_districts.municipal_district', 'municipal_districts.id')
-            ->get();
+            ->orderBy('municipal_districts.id')
+            ->get()
+            ->groupBy('id');
 
-        return view('home', compact(['businesses', 'industry', 'provinces', 'municipal_districts', 'municipalities']));
+        //dd($grouped_municipalities);
 
+        return view('home', [
+            'business' => $business,
+            'industry' => $industry,
+            'provinces' => $provinces,
+            'municipal_districts' => $municipal_districts,
+            'grouped_municipal_districts' => $grouped_municipal_districts,
+            'grouped_municipalities' => $grouped_municipalities,
+        ]);
     }
 
     public function displayBusinessPagination()
@@ -64,31 +80,82 @@ class DashboardController extends Controller
     {
         return view('businessprofileview');
     }
+
     public function action(Request $request)
     {
-        if ($request->ajax()) {
-            $output = '';
-            $query = $request->get('query');
-            $viewType = $request->get('viewType');
-            $searchOption = $request->get('searchOption');
-            $selectedDistrict = $request->get('selectedDistrict');
-            $numOfCols = 3;
-            $rowCount = 0;
-            $bootstrapColWidth = 12 / $numOfCols;
+        $query = $request->get('query');
+        $searchOption = $request->get('searchOption');
+        $viewType = $request->get('viewType');
+        $numOfCols = 3;
+        $bootstrapColWidth = 12 / $numOfCols;
 
-            if ($query != '') {
-                if ($searchOption === "businessNameSearch") {
-                    $data = DB::table('businesses')->join('industries', 'industries.id', '=', 'businesses.industryId')->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')->where('business_name', 'LIKE', $query . '%')->paginate();
-                    // $table_data = view('home')->with('businesses', $data)->render();
-                    $pagination = $data->links('vendor.pagination.simple-bootstrap-4')->render();
-                }
+        if ($query != '') {
+            if ($searchOption === "businessNameSearch") {
+                $business = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
+                    ->where('business_name', 'LIKE', $query . '%')
+                    ->paginate(10) // limit to 10 results per page
+                    ->withQueryString(); // add this line to include other query parameters in the pagination link
+
+            } elseif ($searchOption === "provinceSearch") {
+                $provinces = explode(',', $query);
+                $business = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province')
+                    ->whereIn('province', $provinces)
+                    ->paginate(10); // limit to 10 results per page
+
+            } elseif ($searchOption === "districtSearch") {
+                $municipal_districts = explode(',', $query);
+                $business = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                    ->join('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province', 'municipal_districts.municipal_district')
+                    ->whereIn('municipal_district', $municipal_districts)
+                    ->paginate(10);
+
+            } elseif ($searchOption === "municipalitySearch") {
+                $municipalities = explode(',', $query);
+                $business = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                    ->join('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
+                    ->join('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province', 'municipalities.municipality')
+                    ->whereIn('municipality', $municipalities)
+                    ->paginate(10);
+
+            } elseif ($searchOption === "industrySearch") {
+                $industries = explode(',', $query);
+                $provinces = explode(',', $query);
+                $business = DB::table('businesses')
+                    ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                    ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                    ->join('municipal_districts', 'municipal_districts.id', '=', 'businesses.districtId')
+                    ->join('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
+                    ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province', 'municipalities.municipality')
+                    ->whereIn('industry', $industries)
+                    ->whereIn('province', $provinces)
+                    ->paginate(10);
             }
-            return response()->json([
-                'data' => $data,
-                'pagination' => $pagination,
-            ]);
+
+        } else {
+            $business = DB::table('businesses')
+                ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+                ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+                ->select('businesses.*', 'businesses.business_name', 'industries.industry', 'provinces.province')
+                ->where('activation_status', '=', 1)
+                ->paginate(10); // limit to 10 results per page
         }
+
+        $html = view('home._businesses', ['business' => $business])->render();
+        $pagination = $business->links()->render();
+        return response()->json(['html' => $html, 'pagination' => $pagination]);
     }
+
     public function changeDistrict(Request $request)
     {
 
