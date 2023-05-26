@@ -107,9 +107,13 @@
 
                                                                 </div>
 
-                                                                <div class="col-span-12 sm:col-span-12">
-                                                                    <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
-                                                                    <input type="text" value="{{ $business[0]->website ?? '' }}" name="website" id="website" autocomplete="address-level2" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                <div class="col-span-12 sm:col-span-12 grid grid-cols-5">
+                                                                    <div><label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+                                                                        <input type="text" value="{{ $business[0]->website ?? '' }}" name="website" id="website" autocomplete="address-level2" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                    </div>
+                                                                    <div>
+                                                                        <button class="btn">Request Website Quotation</button>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="col-span-12 md:col-span-4 ">
                                                                     <label for="facebook" class="block text-sm font-medium text-gray-700">Facebook</label>
@@ -430,23 +434,6 @@
             </div>
         </form>
     </div>
-    <!-- Modal Trigger Button -->
-    <button id="modal-trigger" class="inline-block px-6 py-3 mt-4 font-medium text-white bg-blue-500 rounded hover:bg-blue-600">
-        Open Modal
-    </button>
-
-    <!-- Modal Overlay -->
-    <div id="modal-overlay" class="fixed top-0 left-0 z-50 w-full h-full bg-gray-900 bg-opacity-50 hidden"></div>
-
-    <!-- Modal Body -->
-    <div id="modal-body" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white rounded-lg p-8 hidden">
-        <h2 class="text-lg font-bold mb-4">Modal Title</h2>
-        <p class="mb-4">Modal content goes here.</p>
-        <button id="modal-close" class="inline-block px-4 py-2 font-medium text-white bg-gray-600 rounded hover:bg-gray-700">
-            Close
-        </button>
-    </div>
-
 </x-app-layout>
 <script>
     jQuery(document).ready(function() {
