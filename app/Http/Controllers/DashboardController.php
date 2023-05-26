@@ -84,9 +84,14 @@ class DashboardController extends Controller
     }
 
     $html = view('home._businesses', ['business' => $business])->render();
-    $pagination = $business->links()->render();
-    return response()->json(['html' => $html, 'pagination' => $pagination]);
-  }
+        $pagination = $business->links()->render();
+
+        if ($request->isXmlHttpRequest()) {
+            return response()->json(['html' => $html, 'pagination' => $pagination]);
+        }
+
+        return view('home', compact('business', 'bootstrapColWidth'));
+    }
 
   public function changeDistrict(Request $request)
   {
