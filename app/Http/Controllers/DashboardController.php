@@ -48,7 +48,7 @@ class DashboardController extends Controller
       return view('home', compact('business'));
     } elseif (Auth::user()->hasRole('admin')) {
 
-      return redirect('adminpanel');
+      return redirect('adminpanel'); 
     }
   }
   public function businessprofile(Request $request)
@@ -57,7 +57,7 @@ class DashboardController extends Controller
   }
   public function action(Request $request)
   {
-    dd('thapelo');
+    
     $query             = $request->get('query');
     $searchOption      = $request->get('searchOption');
     $numOfCols         = 3;
@@ -73,6 +73,14 @@ class DashboardController extends Controller
           ->withQueryString(); // add this line to include other query parameters in the pagination link
 
       }
+    } else {
+      $business = DB::table('businesses')
+      ->join('industries', 'industries.id', '=', 'businesses.industryId')
+      ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
+      ->paginate(10) // limit to 10 results per page
+        ->withQueryString(); // add this line to include other query parameters in the pagination link
+
+      
     }
 
     $html = view('home._businesses', ['business' => $business])->render();
