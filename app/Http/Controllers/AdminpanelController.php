@@ -27,9 +27,10 @@ class AdminpanelController extends Controller
     {
         $industries = DB::table('industries')
         ->select('industries.industry', 'industries.id')
-        ->get();
+        ->paginate(3) // limit to 10 results per page
+          ->withQueryString(); // add this line to include other query parameters in the pagination link
 
-        $services = DB::table('services')
+          $services = DB::table('services')
         ->select('*')
         ->get();
 
@@ -57,7 +58,7 @@ class AdminpanelController extends Controller
         ->get();
         
         return view('adminpanel', ['admintowns' => $towns , 'adminmunicipalities' => $municipalities , 'admindistricts' => $districts , 'adminprovinces' => $provinces ,'adminbusinesses' => $businesses ,'adminindustries' => $industries, 'adminservices' => $services]); 
-     }
+     } 
 
      public function deleteBusinessAdmin($id)
      {

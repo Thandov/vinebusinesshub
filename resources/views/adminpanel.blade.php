@@ -16,27 +16,28 @@
                 <div class="bg-white border-b border-gray-200">
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
+
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900 active" id="business-tab" data-bs-toggle="tab" data-bs-target="#business" type="button" role="tab" aria-controls="business" aria-selected="true">Businesses</button>
                         </li>
 
-                        <li class="nav-item" role="presentation">
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Industries</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false">Services</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="provinces-tab" data-bs-toggle="tab" data-bs-target="#provinces" type="button" role="tab" aria-controls="provinces" aria-selected="false">Provinces</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900 " id="municipalities-tab" data-bs-toggle="tab" data-bs-target="#municipalities" type="button" role="tab" aria-controls="municipalities" aria-selected="false">Municipalities</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="districts-tab" data-bs-toggle="tab" data-bs-target="#districts" type="button" role="tab" aria-controls="districts" aria-selected="false">Districts</button>
                         </li>
 
-                        <li class="nav-item" role="presentation">
+                        <li onclick="setActiveTab('business-tab')" class="nav-item" role="presentation">
                             <button class="nav-link text-sm font-medium text-gray-900" id="" data-bs-toggle="tab" data-bs-target="#approvals" type="button" role="tab" aria-controls="approvals" aria-selected="false">Pending Approvals</button>
                         </li>
 
@@ -153,7 +154,7 @@
                                                     </tbody>
                                                     <tfoot class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                                                         <tr>
-                                                            <td colspan="2"></td>
+                                                            <td colspan="2"><div id="-links">{{ $adminindustries->links() }}</div></td>
                                                             <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
                                                                 <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                                     Save
@@ -168,6 +169,7 @@
                                 </div>
                             </form>
                             @endif
+                            
                         </div>
                         <!-- Tab for services -->
                         <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
@@ -587,6 +589,43 @@
 </x-app-layout>
 
 <script>
+
+
+// Function to set the active tab and store it in the local storage
+function setActiveTab(tabId) {
+  // Set the active class to the selected tab
+  const tabElement = document.getElementById(tabId);
+  tabElement.classList.add('active');
+
+  // Store the active tab ID in the local storage
+  localStorage.setItem('activeTab', tabId);
+}
+
+// Function to retrieve the active tab from the local storage and set it as active
+function getActiveTab() {
+  // Get the active tab ID from the local storage
+  const activeTabId = localStorage.getItem('activeTab');
+
+  if (activeTabId) {
+    // Remove the active class from all tabs
+    const tabs = document.querySelectorAll('.nav-link');
+    tabs.forEach(tab => {
+      tab.classList.remove('active');
+    });
+
+    // Set the active class to the stored active tab
+    const activeTab = document.getElementById(activeTabId);
+    activeTab.classList.add('active');
+  }
+}
+
+// Call the getActiveTab function when the page is loaded to set the active tab
+window.addEventListener('DOMContentLoaded', getActiveTab);
+
+
+
+
+
     jQuery(document).ready(function() {
 
         var count = 1;
