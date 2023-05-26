@@ -75,28 +75,7 @@ class DashboardController extends Controller
      ->paginate(10) // limit to 10 results per page
      ->withQueryString(); // add this line to include other query parameters in the pagination link
 
-   } elseif ($searchOption === "provinceSearch") {
-    $business = DB::table('businesses')
-     ->join('industries', 'industries.id', '=', 'businesses.industryId')
-     ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
-     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province')
-     ->where('province', 'LIKE', $query . '%')
-     ->paginate(10); // limit to 10 results per page
-   } elseif ($searchOption === "industrySearch") {
-    $business = DB::table('businesses')
-     ->join('industries', 'industries.id', '=', 'businesses.industryId')
-     ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
-     ->select('businesses.id', 'businesses.business_name', 'industries.industry', 'provinces.province')
-     ->where('industry', 'LIKE', $query . '%')
-     ->paginate(10); // limit to 10 results per page
-   }
-  } else {
-   $business = DB::table('businesses')
-    ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
-    ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
-    ->select('businesses.*', 'businesses.business_name', 'industries.industry', 'provinces.province')
-    ->where('activation_status', '=', 1)
-    ->paginate(10); // limit to 10 results per page
+   } 
   }
 
 $html = view('home._businesses', ['business' => $business])->render();
