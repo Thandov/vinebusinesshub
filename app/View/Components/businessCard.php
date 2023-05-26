@@ -9,17 +9,19 @@ class businessCard extends Component
     public $id;
     public $name;
     public $logo;
+    public $industry;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $id, $logo)
+    public function __construct($name, $id, $logo, $industry)
     {
         $this->id = $id;
         $this->name = $name;
         $this->logo = $logo;
+        $this->industry = $industry;
     }
 
     /**
