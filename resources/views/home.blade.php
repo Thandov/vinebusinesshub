@@ -19,8 +19,8 @@
         {{ session('status') }}
     </div>
     @endif
-    <div class="md:grid md:grid-cols-6 gap-4">
-        <form id="searchForm" class="md:col-span-2 md:col-start-2">
+    <div class="md:grid md:grid-cols-6 gap-4 px-5">
+        <form id="searchForm" class="md:col-span-2 md:col-start-1">
             <div class="container bg-white shadow-sm py-12 rounded-md">
                 <div class="row">
                     <div class="col-12">
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </form>
-        <div class="md:col-span-2">
+        <div class="md:col-span-4">
             <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-5 mt-md-0" id="test">
                 @include('home._businesses', ['businesses' => $business])
             </div>

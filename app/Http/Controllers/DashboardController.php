@@ -40,7 +40,14 @@ class DashboardController extends Controller
 
   } elseif (Auth::user()->hasRole('user')) {
 
-   return view('home');
+    $business = DB::table('businesses')
+   ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+   ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+   ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+   ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
+   ->paginate(10); // limit to 10 results per page
+
+   return view('home', compact('business'));
 
   } elseif (Auth::user()->hasRole('admin')) {
 
