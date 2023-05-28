@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return redirect('/home');
@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth', 'role:business']], function () {
     Route::post('/business/businessdashboard/insertclientservice', [ServicesController::class, 'insertclientservice'])->name('business.businessdashboard.insertclientservice');
     Route::post('business/businessdashboard/insertIndustry', [IndustryController::class, 'insertIndustry'])->name('business.businessdashboard.insertIndustry');
     Route::get('business/businessdashboard/deleteBusinessandUser/{id}', [BusinessController::class, 'deleteBusinessandUser'])->name('business.businessdashboard.deleteBusinessandUser');
+    Route::post('business/businessdashboard/insertIndustry', [PendingApprovalsController::class, 'insertIndustry'])->name('business.businessdashboard.insertIndustry');
+
 });
 
 //For Admin
@@ -89,4 +91,4 @@ Route::get('/home/action', [DashboardController::class, 'action'])->name('home.a
 //View Business of single business no user logged in
 Route::get('/viewBusiness/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
