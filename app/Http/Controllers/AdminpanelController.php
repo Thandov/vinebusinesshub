@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Business;
-use App\Models\Industry;
-use App\Models\Province;
-use App\Models\Services;
-use Illuminate\Support\Facades\DB;
 use App\Models\pendingApproval;
-
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class AdminpanelController extends Controller
 {
@@ -38,8 +32,8 @@ class AdminpanelController extends Controller
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
-            ->paginate(10) 
-            ->withQueryString(); 
+            ->paginate(10)
+            ->withQueryString();
 
         $provinces = DB::table('provinces')
             ->select('*')
@@ -57,15 +51,17 @@ class AdminpanelController extends Controller
             ->select('*')
             ->get();
 
-            $pending_approvals = DB::table('pending_approvals')
+        $pending_approvals = DB::table('pending_approvals')
             ->join('businesses', 'pending_approvals.who_id', '=', 'businesses.id')
             ->leftjoin('users', 'pending_approvals.uid', '=', 'users.id')
             ->select('pending_approvals.*', 'businesses.business_name', 'users.name')
-            ->paginate(10) 
-            ->withQueryString(); 
+            ->paginate(10)
+            ->withQueryString();
 
-            return view('adminpanel', ['admintowns' => $towns, 'adminmunicipalities' => $municipalities, 'admindistricts' => $districts, 'adminprovinces' => $provinces, 'adminbusinesses' => $businesses, 'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals' => $pending_approvals]);
-        }
+        // dd($pending_approvals);
+
+        return view('adminpanel', ['admintowns' => $towns, 'adminmunicipalities' => $municipalities, 'admindistricts' => $districts, 'adminprovinces' => $provinces, 'adminbusinesses' => $businesses, 'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals' => $pending_approvals]);
+    }
 
     public function deleteBusinessAdmin($id)
     {
@@ -104,5 +100,33 @@ class AdminpanelController extends Controller
     {
         $item = Business::find($id);
         $item->view();
+    }
+
+    public function approveindustry($id)
+    {
+        $pendingApproval = PendingApproval::find($id);
+
+        if ($pendingApproval->approval_status == 0 || $pendingApproval->approval_status == 2) {
+            $industry = new Industry();
+            $industry->industry = $pendingApproval->the_content;
+            $industry->save();
+
+            $pendingApproval->approval_status = 1;
+            $pendingApproval->save();
+
+            $pendingApproval->uid = auth()->user()->id;
+
+            $pendingApproval->save();
+
+            $business = Business::find($pendingApproval->who_id);
+
+            return redirect()->back()->with('status', 'Industry APPROVED!');
+        }
+
+    }
+
+    public function declineindustry(Request $request, $id)
+    {
+        //
     }
 }

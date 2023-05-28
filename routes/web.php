@@ -7,6 +7,7 @@ use App\Http\Controllers\DistrictsController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MunicipalityController;
+use App\Http\Controllers\PendingApprovalsController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('adminpanel/deleteBusiness/{id}', [AdminpanelController::class, 'deleteBusinessAdmin'])->name('adminpanel.deleteBusiness');
     Route::get('adminpanel/activateBusiness/{id}', [AdminpanelController::class, 'activatebusiness'])->name('adminpanel.activateBusiness');
     Route::get('adminpanel/deactivateBusiness/{id}', [AdminpanelController::class, 'deactivatebusiness'])->name('adminpanel.deactivateBusiness');
+
+    //Route to Approve industry
+    Route::get('adminpanel/approveIndustry/{id}', [AdminpanelController::class, 'approveindustry'])->name('adminpanel.approveIndustry');
+    //Route to Decline industry
+    Route::get('adminpanel/declineIndustry/{id}', [AdminpanelController::class, 'declineindustry'])->name('adminpanel.declineIndustry');
 });
 
 //Change the district options
