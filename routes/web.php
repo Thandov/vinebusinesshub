@@ -10,6 +10,7 @@ use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\PendingApprovalsController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
