@@ -24,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="pendingApprovals">
-                            
+
                             @foreach ($adminpending_approvals as $adminpending_approval)
                             <tr id="adminpending_approval{{ $adminpending_approval->id }}">
                                 <td class="px-2 py-2 whitespace-nowrap">
@@ -54,10 +54,7 @@
                                 </td>
                                 <td class="px-2 py-2 whitespace-nowrap">
 
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                                                        @if ($adminpending_approval->approval_status == 0) bg-yellow-100 text-yellow-800 
-                                                                                        @elseif($adminpending_approval->approval_status == 1) bg-green-100 text-green-800 
-                                                                                        @elseif($adminpending_approval->approval_status == 2) bg-red-100 text-red-800 @endif">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full @if ($adminpending_approval->approval_status == 0) bg-yellow-100 text-yellow-800 @elseif($adminpending_approval->approval_status == 1) bg-green-100 text-green-800 @elseif($adminpending_approval->approval_status == 2) bg-red-100 text-red-800 @endif">
                                         @if ($adminpending_approval->approval_status == 0)
                                         Pending Approval
                                         @elseif($adminpending_approval->approval_status == 1)
@@ -70,7 +67,6 @@
                                 <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
                                     @if ($adminpending_approval->approval_status == 0)
                                     <a href="adminpanel/approveIndustry/{{ $adminpending_approval->id }}" class="approvalBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{ $adminpending_approval->id }}" on click="approveIndustry({{ $adminpending_approval->id }});">Approve</a>
-                                    <a href="adminpanel/declineIndustry/{{ $adminpending_approval->id }}" class="declineBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" id="{{ $adminpending_approval->id }}" on click="declineIndustry({{ $adminpending_approval->id }});">Decline</a>
                                     @elseif($adminpending_approval->approval_status == 1)
                                     <a href="adminpanel/declineIndustry/{{ $adminpending_approval->id }}" class="declineBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" id="{{ $adminpending_approval->id }}" on click="declineIndustry({{ $adminpending_approval->id }});">Decline</a>
                                     @elseif($adminpending_approval->approval_status == 2)

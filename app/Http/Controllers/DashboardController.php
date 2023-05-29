@@ -131,10 +131,10 @@ class DashboardController extends Controller
             }
         } else {
             $business = DB::table('businesses')
-                ->select('*')
-                ->paginate(10) // limit to 10 results per page
-                ->withQueryString(); // add this line to include other query parameters in the pagination link
-
+                        ->join('industries', 'industries.id', '=', 'businesses.industryId')
+                        ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
+                        ->paginate(10) // limit to 10 results per page
+                        ->withQueryString(); // add this line to include other query parameters in the pagination link
         }
 
         $html = view('home._businesses', ['business' => $business])->render();
