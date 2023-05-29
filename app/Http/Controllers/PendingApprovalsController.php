@@ -103,7 +103,7 @@ class PendingApprovalsController extends Controller
 
         $industry = $request->input("the_content");
 
-        Mail::to('ntokozoflex99@gmail.com')->send(new NewIndustryNotification($industry, $business_name));
+        Mail::to('info@kayiseit.com')->send(new NewIndustryNotification($industry, $business_name));
 
         return response()->json(['message' => 'Your industry has been submitted for review!']);
     }

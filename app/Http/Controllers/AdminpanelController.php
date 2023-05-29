@@ -52,8 +52,8 @@ class AdminpanelController extends Controller
             ->get();
 
         $pending_approvals = DB::table('pending_approvals')
-            ->join('businesses', 'pending_approvals.who_id', '=', 'businesses.id')
-            ->leftjoin('users', 'pending_approvals.uid', '=', 'users.id')
+            ->leftjoin('businesses', 'businesses.id', '=', 'pending_approvals.who_id')
+            ->leftjoin('users', 'users.id', '=', 'pending_approvals.uid')
             ->select('pending_approvals.*', 'businesses.business_name', 'users.name')
             ->paginate(10)
             ->withQueryString();
