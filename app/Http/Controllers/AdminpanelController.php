@@ -22,7 +22,7 @@ class AdminpanelController extends Controller
     {
         $industries = DB::table('industries')
             ->select('industries.industry', 'industries.id')
-            ->paginate(3) // limit to 10 results per page
+            ->paginate(3, ['*'],'industries') // limit to 10 results per page
             ->withQueryString(); // add this line to include other query parameters in the pagination link
 
         $services = DB::table('services')
@@ -34,7 +34,7 @@ class AdminpanelController extends Controller
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
-            ->paginate(10)
+            ->paginate(10, ['*'], 'businesses')
             ->withQueryString();
 
         $provinces = DB::table('provinces')
@@ -57,8 +57,7 @@ class AdminpanelController extends Controller
             ->leftjoin('businesses', 'businesses.company_rep', '=', 'pending_approvals.who_id')
             ->leftjoin('users', 'users.id', '=', 'pending_approvals.uid')
             ->select('pending_approvals.*', 'businesses.business_name', 'users.name')
-            
-            ->paginate(10)
+            ->paginate(10, ['*'], 'pending_approvals')
             ->withQueryString();
 
         return view('adminpanel', ['admintowns' => $towns, 'adminmunicipalities' => $municipalities, 'admindistricts' => $districts, 'adminprovinces' => $provinces, 'adminbusinesses' => $businesses, 'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals' => $pending_approvals]);

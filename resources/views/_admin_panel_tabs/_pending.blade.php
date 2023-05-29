@@ -77,7 +77,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div id="-links">{{ $adminpending_approvals->links() }}</div>
+                    <div class="px-4" id="-links">{{ $adminpending_approvals->links() }}</div>
                 </div>
             </div>
         </div>
