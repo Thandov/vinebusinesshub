@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\pendingApproval;
+use App\Models\Industry;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class AdminpanelController extends Controller
 {
@@ -52,13 +54,12 @@ class AdminpanelController extends Controller
             ->get();
 
         $pending_approvals = DB::table('pending_approvals')
-            ->leftjoin('businesses', 'businesses.id', '=', 'pending_approvals.who_id')
+            ->leftjoin('businesses', 'businesses.company_rep', '=', 'pending_approvals.who_id')
             ->leftjoin('users', 'users.id', '=', 'pending_approvals.uid')
             ->select('pending_approvals.*', 'businesses.business_name', 'users.name')
+            
             ->paginate(10)
             ->withQueryString();
-
-        // dd($pending_approvals);
 
         return view('adminpanel', ['admintowns' => $towns, 'adminmunicipalities' => $municipalities, 'admindistricts' => $districts, 'adminprovinces' => $provinces, 'adminbusinesses' => $businesses, 'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals' => $pending_approvals]);
     }
@@ -127,6 +128,20 @@ class AdminpanelController extends Controller
 
     public function declineindustry(Request $request, $id)
     {
-        //
+        $record = PendingApproval::where('id', $id)->whereIn('approval_status', [0, 1])->first();
+
+        if (!$record) {
+            return response()->json(['message' => 'Invalid request'], 400);
+        }
+
+        $industry = Industry::where('industry', $record->the_content)->first();
+        if ($industry) {
+            $industry->delete();
+        }
+
+        $record->approval_status = 2;
+        $record->save();
+
+        return redirect()->back()->with('status', 'Industry Declined!');
     }
 }
