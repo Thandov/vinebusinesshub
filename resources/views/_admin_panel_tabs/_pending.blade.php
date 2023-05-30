@@ -65,13 +65,14 @@
                                     </span>
                                 </td>
                                 <td class="px-2 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                    @if ($adminpending_approval->approval_status == 0)
-                                    <a href="adminpanel/approveIndustry/{{ $adminpending_approval->id }}" class="approvalBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{ $adminpending_approval->id }}" on click="approveIndustry({{ $adminpending_approval->id }});">Approve</a>
-                                    @elseif($adminpending_approval->approval_status == 1)
-                                    <a href="adminpanel/declineIndustry/{{ $adminpending_approval->id }}" class="declineBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" id="{{ $adminpending_approval->id }}" on click="declineIndustry({{ $adminpending_approval->id }});">Decline</a>
-                                    @elseif($adminpending_approval->approval_status == 2)
-                                    <a href="adminpanel/approveIndustry/{{ $adminpending_approval->id }}" class="approvalBtn inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="{{ $adminpending_approval->id }}" on click="approveIndustry({{ $adminpending_approval->id }});">Approve</a>
-                                    @endif
+                                <a href="adminpanel/approveIndustry/{{ $adminpending_approval->id }}" data-approvalstatus="{{$adminpending_approval->approval_status}}" class="btn-button inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 @if ($adminpending_approval->approval_status == 0) bg-green-700 text-white @elseif($adminpending_approval->approval_status == 1) bg-red-500 text-white @elseif($adminpending_approval->approval_status == 2) bg-green-700 text-white @endif" id="{{ $adminpending_approval->id }}">@if ($adminpending_approval->approval_status == 0)
+                                        Approve
+                                        @elseif($adminpending_approval->approval_status == 1)
+                                        Decline
+                                        @elseif($adminpending_approval->approval_status == 2)
+                                        Approve
+                                        @endif</a>
+
                                 </td>
                             </tr>
                             @endforeach

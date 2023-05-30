@@ -22,7 +22,7 @@ class AdminpanelController extends Controller
     {
         $industries = DB::table('industries')
             ->select('industries.industry', 'industries.id')
-            ->paginate(3, ['*'],'industries') // limit to 10 results per page
+            ->paginate(3, ['*'], 'industries') // limit to 10 results per page
             ->withQueryString(); // add this line to include other query parameters in the pagination link
 
         $services = DB::table('services')
@@ -102,28 +102,52 @@ class AdminpanelController extends Controller
         $item->view();
     }
 
-    public function approveindustry($id)
-    {
-        $pendingApproval = PendingApproval::find($id);
+    public function approveindustry(Request $request)
+{
+    if ($request->ajax()) {
+        $pendingApproval = PendingApproval::findOrFail($request->approvalId);
 
-        if ($pendingApproval->approval_status == 0 || $pendingApproval->approval_status == 2) {
+        if ((int)$pendingApproval->approval_status === 0 || (int)$pendingApproval->approval_status === 2) {
             $industry = new Industry();
             $industry->industry = $pendingApproval->the_content;
+
             $industry->save();
 
             $pendingApproval->approval_status = 1;
-            $pendingApproval->save();
-
             $pendingApproval->uid = auth()->user()->id;
-
             $pendingApproval->save();
 
-            $business = Business::find($pendingApproval->who_id);
+            return response()->json(['approval_status' => true]);
+        } else {
+            $pendingApproval->approval_status = 2;
+            $pendingApproval->uid = auth()->user()->id;
+            $pendingApproval->save();
 
-            return redirect()->back()->with('status', 'Industry APPROVED!');
+            return response()->json(['approval_status' => false]);
         }
-
     }
+
+    $pendingApproval = PendingApproval::findOrFail($request->approvalId);
+
+    if ($pendingApproval->approval_status === 0 || $pendingApproval->approval_status === 2) {
+        $industry = new Industry();
+        $industry->industry = $pendingApproval->the_content;
+        $industry->save();
+
+        $pendingApproval->approval_status = 1;
+        $pendingApproval->uid = auth()->user()->id;
+        $pendingApproval->save();
+
+        return redirect()->back()->with('status', 'Industry APPROVED!');
+    } else {
+        $pendingApproval->approval_status = 2;
+        $pendingApproval->uid = auth()->user()->id;
+        $pendingApproval->save();
+
+        return redirect()->back()->with('status', 'This is set to 1');
+    }
+}
+
 
     public function declineindustry(Request $request, $id)
     {

@@ -85,7 +85,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('adminpanel/deactivateBusiness/{id}', [AdminpanelController::class, 'deactivatebusiness'])->name('adminpanel.deactivateBusiness');
 
     //Route to Approve industry
-    Route::get('adminpanel/approveIndustry/{id}', [AdminpanelController::class, 'approveindustry'])->name('adminpanel.approveIndustry');
+    Route::post('adminpanel/approveIndustry/{id}', [AdminpanelController::class, 'approveindustry'])->name('adminpanel.approveIndustry');
     //Route to Decline industry
     Route::get('adminpanel/declineIndustry/{id}', [AdminpanelController::class, 'declineindustry'])->name('adminpanel.declineIndustry');
 });
