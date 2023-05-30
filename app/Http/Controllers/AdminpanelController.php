@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
-use App\Models\pendingApproval;
 use App\Models\Industry;
-use Illuminate\Support\Facades\DB;
+use App\Models\pendingApproval;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminpanelController extends Controller
 {
@@ -57,7 +57,7 @@ class AdminpanelController extends Controller
             ->leftjoin('businesses', 'businesses.company_rep', '=', 'pending_approvals.who_id')
             ->leftjoin('users', 'users.id', '=', 'pending_approvals.uid')
             ->select('pending_approvals.*', 'businesses.business_name', 'users.name')
-            ->paginate(10, ['*'], 'pending_approvals')
+            ->paginate(3, ['*'], 'pending_approvals')
             ->withQueryString();
 
         return view('adminpanel', ['admintowns' => $towns, 'adminmunicipalities' => $municipalities, 'admindistricts' => $districts, 'adminprovinces' => $provinces, 'adminbusinesses' => $businesses, 'adminindustries' => $industries, 'adminservices' => $services, 'adminpending_approvals' => $pending_approvals]);
@@ -103,51 +103,50 @@ class AdminpanelController extends Controller
     }
 
     public function approveindustry(Request $request)
-{
-    if ($request->ajax()) {
+    {
+        if ($request->ajax()) {
+            $pendingApproval = PendingApproval::findOrFail($request->approvalId);
+
+            if ((int) $pendingApproval->approval_status === 0 || (int) $pendingApproval->approval_status === 2) {
+                $industry = new Industry();
+                $industry->industry = $pendingApproval->the_content;
+
+                $industry->save();
+
+                $pendingApproval->approval_status = 1;
+                $pendingApproval->uid = auth()->user()->id;
+                $pendingApproval->save();
+
+                return response()->json(['approval_status' => true]);
+            } else {
+                $pendingApproval->approval_status = 2;
+                $pendingApproval->uid = auth()->user()->id;
+                $pendingApproval->save();
+
+                return response()->json(['approval_status' => false]);
+            }
+        }
+
         $pendingApproval = PendingApproval::findOrFail($request->approvalId);
 
-        if ((int)$pendingApproval->approval_status === 0 || (int)$pendingApproval->approval_status === 2) {
+        if ($pendingApproval->approval_status === 0 || $pendingApproval->approval_status === 2) {
             $industry = new Industry();
             $industry->industry = $pendingApproval->the_content;
-
             $industry->save();
 
             $pendingApproval->approval_status = 1;
             $pendingApproval->uid = auth()->user()->id;
             $pendingApproval->save();
 
-            return response()->json(['approval_status' => true]);
+            return redirect()->back()->with('status', 'Industry APPROVED!');
         } else {
             $pendingApproval->approval_status = 2;
             $pendingApproval->uid = auth()->user()->id;
             $pendingApproval->save();
 
-            return response()->json(['approval_status' => false]);
+            return redirect()->back()->with('status', 'This is set to 1');
         }
     }
-
-    $pendingApproval = PendingApproval::findOrFail($request->approvalId);
-
-    if ($pendingApproval->approval_status === 0 || $pendingApproval->approval_status === 2) {
-        $industry = new Industry();
-        $industry->industry = $pendingApproval->the_content;
-        $industry->save();
-
-        $pendingApproval->approval_status = 1;
-        $pendingApproval->uid = auth()->user()->id;
-        $pendingApproval->save();
-
-        return redirect()->back()->with('status', 'Industry APPROVED!');
-    } else {
-        $pendingApproval->approval_status = 2;
-        $pendingApproval->uid = auth()->user()->id;
-        $pendingApproval->save();
-
-        return redirect()->back()->with('status', 'This is set to 1');
-    }
-}
-
 
     public function declineindustry(Request $request, $id)
     {
