@@ -63,10 +63,27 @@ $(document).on('click', '.btn-button', function (e) {
       approvalStatus: approvalStatus
     },
     success: function (response) {
+      var btnTarget = $('#' + approvalId);
+      var spanTarget = $('#span' + approvalId);
 
       if (response.approval_status) {
-        $(this).classList.remove("bg-green-700", "bg-red-500", "text-white");
+        // Update button to declined state
+        btnTarget.removeClass('focus:ring-green-500 bg-green-700').addClass('focus:ring-red-500 bg-red-700');
+        btnTarget.text('Decline');
 
+        // Update span to approved state
+        spanTarget.removeClass('bg-yellow-100 text-yellow-800');
+        spanTarget.addClass('bg-green-100 text-green-800');
+        spanTarget.text('Approved');
+      } else {
+        // Update button to approved state
+        btnTarget.removeClass('focus:ring-red-500 bg-red-700').addClass('bg-green-700');
+        btnTarget.text('Approve');
+
+        // Update span to declined state
+        spanTarget.removeClass('bg-green-100 text-green-800');
+        spanTarget.addClass('bg-red-100 text-red-800');
+         spanTarget.text('Declined');
       }
     },
     error: function (jqXHR, exception) {
@@ -89,5 +106,4 @@ $(document).on('click', '.btn-button', function (e) {
       alert(msg);
     }
   });
-
 });

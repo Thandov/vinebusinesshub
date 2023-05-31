@@ -62,7 +62,7 @@
                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                         @if ($adminpending_approval->approval_status == 0) bg-yellow-100 text-yellow-800
                                         @elseif($adminpending_approval->approval_status == 1) bg-green-100 text-green-800
-                                        @elseif($adminpending_approval->approval_status == 2) bg-red-100 text-red-800 @endif">
+                                        @elseif($adminpending_approval->approval_status == 2) bg-red-100 text-red-800 @endif" id="span{{ $adminpending_approval->id }}">
                                             @if ($adminpending_approval->approval_status == 0)
                                                 Pending Approval
                                             @elseif($adminpending_approval->approval_status == 1)

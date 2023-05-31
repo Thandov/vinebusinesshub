@@ -106,11 +106,10 @@ class AdminpanelController extends Controller
     {
         if ($request->ajax()) {
             $pendingApproval = PendingApproval::findOrFail($request->approvalId);
-
+                    
             if ((int) $pendingApproval->approval_status === 0 || (int) $pendingApproval->approval_status === 2) {
                 $industry = new Industry();
                 $industry->industry = $pendingApproval->the_content;
-
                 $industry->save();
 
                 $pendingApproval->approval_status = 1;
