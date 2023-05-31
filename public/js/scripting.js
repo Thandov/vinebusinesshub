@@ -63,12 +63,17 @@ $(document).on('click', '.btn-button', function (e) {
       approvalStatus: approvalStatus
     },
     success: function (response) {
-      var btnTarget = $('#' + approvalId);
+      approvalId = approvalId.replace(/\D/g, "");
+      var btnTarget = $('#approval_button' + approvalId);
       var spanTarget = $('#span' + approvalId);
+      var green = 'focus:ring-green-500 bg-green-700';
+      var red = 'focus:ring-red-500 bg-red-500';
 
+      console.log(response.approval_status);
+      
       if (response.approval_status) {
         // Update button to declined state
-        btnTarget.removeClass('focus:ring-green-500 bg-green-700').addClass('focus:ring-red-500 bg-red-700');
+        btnTarget.removeClass(green).addClass(red);
         btnTarget.text('Decline');
 
         // Update span to approved state
@@ -77,14 +82,15 @@ $(document).on('click', '.btn-button', function (e) {
         spanTarget.text('Approved');
       } else {
         // Update button to approved state
-        btnTarget.removeClass('focus:ring-red-500 bg-red-700').addClass('bg-green-700');
+        btnTarget.removeClass(red).addClass(green);
         btnTarget.text('Approve');
 
         // Update span to declined state
         spanTarget.removeClass('bg-green-100 text-green-800');
         spanTarget.addClass('bg-red-100 text-red-800');
-         spanTarget.text('Declined');
+        spanTarget.text('Declined');
       }
+    
     },
     error: function (jqXHR, exception) {
       var msg = '';
@@ -107,3 +113,4 @@ $(document).on('click', '.btn-button', function (e) {
     }
   });
 });
+

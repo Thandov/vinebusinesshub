@@ -97,7 +97,7 @@ class PendingApprovalsController extends Controller
             'uid' => 0,
             'the_content' => $request->input("the_content"),
             'approval_type' => $request->input("approval_type"),
-            'approval_status' => 0,
+            'approval_status' => 'pending',
         ];
         DB::table('pending_approvals')->insert($datasave);
 

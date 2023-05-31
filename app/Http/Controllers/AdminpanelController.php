@@ -104,24 +104,29 @@ class AdminpanelController extends Controller
 
     public function approveindustry(Request $request)
     {
+        $string_with_numbers_and_characters = $request->approvalId;
+        $numbers_only = (int)preg_replace("/[^0-9]/", "", $string_with_numbers_and_characters);
+        
         if ($request->ajax()) {
-            $pendingApproval = PendingApproval::findOrFail($request->approvalId);
-                    
-            if ((int) $pendingApproval->approval_status === 0 || (int) $pendingApproval->approval_status === 2) {
+            $pendingApproval = PendingApproval::findOrFail($numbers_only);
+
+            if ($pendingApproval->approval_status === 'Declined' || $pendingApproval->approval_status === 'pending' || $pendingApproval->approval_status === '2')
+{
                 $industry = new Industry();
                 $industry->industry = $pendingApproval->the_content;
                 $industry->save();
 
-                $pendingApproval->approval_status = 1;
+                $pendingApproval->approval_status = 'Approved';
                 $pendingApproval->uid = auth()->user()->id;
                 $pendingApproval->save();
-
                 return response()->json(['approval_status' => true]);
-            } else {
-                $pendingApproval->approval_status = 2;
+            }
+            
+            elseif ($pendingApproval->approval_status === 'Approved' || $pendingApproval->approval_status === '1')
+            {
+                $pendingApproval->approval_status = "Declined";
                 $pendingApproval->uid = auth()->user()->id;
                 $pendingApproval->save();
-
                 return response()->json(['approval_status' => false]);
             }
         }
@@ -146,6 +151,7 @@ class AdminpanelController extends Controller
             return redirect()->back()->with('status', 'This is set to 1');
         }
     }
+
 
     public function declineindustry(Request $request, $id)
     {
