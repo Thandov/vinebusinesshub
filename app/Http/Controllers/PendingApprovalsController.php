@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NewIndustryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class PendingApprovalsController extends Controller
 {
@@ -91,19 +89,23 @@ class PendingApprovalsController extends Controller
     {
         $business_id = $request->input("who_id");
         $business_name = DB::table('businesses')->where('id', $business_id)->value('business_name');
+        $industry = $request->input("the_content");
 
+        $existingIndustry = DB::table('pending_approvals')->where('the_content', $industry)->first();
+    if ($existingIndustry) {
+        return response()->json(['message' => 'This industry already exists.'], 422);
+    }
         $datasave = [
             'who_id' => $request->input("who_id"),
             'uid' => 0,
-            'the_content' => $request->input("the_content"),
+            'the_content' => ucfirst($request->input("the_content")),
             'approval_type' => $request->input("approval_type"),
             'approval_status' => 'pending',
         ];
         DB::table('pending_approvals')->insert($datasave);
 
-        $industry = $request->input("the_content");
 
-        Mail::to('info@kayiseit.com')->send(new NewIndustryNotification($industry, $business_name));
+        //  Mail::to('info@kayiseit.com')->send(new NewIndustryNotification($industry, $business_name));
 
         return response()->json(['message' => 'Your industry has been submitted for review!']);
     }

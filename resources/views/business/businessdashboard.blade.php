@@ -614,8 +614,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-success d-none" id="success-message"></div>
-                        <input type="text" name="the_content" required pattern="^[A-Z][a-zA-Z\s]*$"
-                            title="Please enter a word starting with a capital letter"
+                        <div class="alert alert-danger d-none" id="error-message"></div>
+                        <input type="text" name="the_content"
                             class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
                     <div class="modal-footer">
@@ -671,73 +671,40 @@
         $(function() {
             $('#insertIndustry').submit(function(e) {
                 e.preventDefault();
-                var formData = new FormData(
-                    this); // Use FormData to serialize the form data including files
+                var formData = new FormData(this);
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
-                    contentType: false, // Set contentType and processData to false when using FormData
+                    contentType: false,
                     processData: false,
                     success: function(response) {
                         $('#success-message').html(response.message).removeClass(
                             'd-none');
                         setTimeout(function() {
                             $('#newIndustry').modal('hide');
-                        }, 2000); // 2 second delay before closing modal
+                        }, 2000);
+                    },
+                    error: function(xhr, status, error) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.message) {
+                            $('#error-message').html(response.message).removeClass(
+                                'd-none');
+                            setTimeout(function() {
+                                $('#error-message').addClass('d-none').html(
+                                    '');
+                            }, 5000);
+                        }
                     }
                 });
             });
+            $('#newIndustry').on('hidden.bs.modal', function() {
+                $('#success-message').addClass('d-none').html('');
+                $('#error-message').addClass('d-none').html('');
+            });
         });
 
-        /*
-                jQuery(document).on('click', '#newbtn', function(e) {
-                    e.preventDefault();
-                    var serviceArray = new Array(),
-                        id, target, refreshTarget;
-
-
-                    jQuery.map($("input[name='service_name[]']"), function(obj, index) {
-                        if ($(obj).val()) {
-                            serviceArray.push($(obj).val());
-                        }
-                    });
-                    id = $(this).find('.serviceId').val();
-
-                    jQuery.ajax({
-                        url: "/business/businessdashboard/insertIndustry",
-                        type: 'post',
-                        data: {
-                            'service_name': serviceArray,
-                            'id': id
-                        },
-                        dataType: 'JSON',
-                        success: function(response) {
-                            console.log(response);
-
-                        },
-                        error: function(jqXHR, exception) {
-                            var msg = '';
-                            if (jqXHR.status === 0) {
-                                msg = 'Not connect.\n Verify Network.';
-                            } else if (jqXHR.status === 404) {
-                                msg = 'Requested page not found. [404]';
-                            } else if (jqXHR.status === 500) {
-                                msg = 'Internal Server Error [500].';
-                            } else if (exception === 'parsererror') {
-                                msg = 'function Requested JSON parse failed.';
-                            } else if (exception === 'timeout') {
-                                msg = 'Time out error.';
-                            } else if (exception === 'abort') {
-                                msg = 'Ajax request aborted.';
-                            } else {
-                                msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                            }
-                        }
-                    });
-                });
-        */
         jQuery(document).on('click', '.changeLogoBtn', function(e) {
             e.preventDefault();
             $("#logouploader").css("display", "block");
