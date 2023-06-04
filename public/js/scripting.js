@@ -1,5 +1,10 @@
 // Function to set the active tab
 function setActiveTab(tab) {
+  // Check if the clicked tab is already active
+  if (tab.classList.contains('active')) {
+    return; // No need to perform any further actions
+  }
+
   // Remove the active class from all nav-links
   const navLinks = document.querySelectorAll('.nav-link');
   navLinks.forEach(link => link.classList.remove('active'));
@@ -24,7 +29,6 @@ function setActiveTab(tab) {
 
   // Store the active tab ID in localStorage
   localStorage.setItem('activeTab', tab.textContent);
-
 }
 
 // Function to handle nav-link click
@@ -47,7 +51,6 @@ if (activeTab) {
     setActiveTab(tabToActivate);
   }
 }
-
 $(document).on('click', '.btn-button', function (e) {
   e.preventDefault();
   var approvalId = $(this).attr('id');
