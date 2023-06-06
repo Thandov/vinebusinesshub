@@ -167,7 +167,7 @@
                                                                                 </option>
                                                                             @endforeach
                                                                         @endif
-                                                                        <option id="otherOption" value="other">Other
+                                                                        <option id="otherOption" value="Other">Other
                                                                         </option>
                                                                     </select>
 
@@ -661,7 +661,6 @@
         });
         jQuery(document).on('change', '#industryId', function(e) {
             e.preventDefault();
-
             var otherOption = $(this).find(":selected").val();
             if (otherOption === "other") {
                 $('#newIndustry').modal('show');

@@ -68,7 +68,6 @@ class BusinessController extends Controller
             ->where('businesses.company_rep', $id)
             ->get();
 
-        
         $provinces = DB::table('provinces')
             ->select('*')
             ->get();
@@ -99,7 +98,7 @@ class BusinessController extends Controller
             ->select('*')
             ->get();
 
-        return view('business/businessdashboard', ['rep' => $rep, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services,  'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
+        return view('business/businessdashboard', ['rep' => $rep, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
     }
 
     /**
@@ -152,12 +151,11 @@ class BusinessController extends Controller
     public function updateBusiness(Request $req)
     {
         $validated = $req->validate([
-            'business_bio' => 'required|unique:businesses|max:1000',
         ]);
-    
 
         $data = Business::find($req->id);
 
+        dd($req->input());
         if ($req->business_name != $data->business_name) {
             //update the record for business_name
             $data->business_name = $req->business_name;
@@ -190,9 +188,11 @@ class BusinessController extends Controller
             //update the record for website
             $data->website = $req->website;
         }
-        if ($req->industryId != $data->industryId) {
-            //update the record for website
-            $data->industryId = $req->industryId;
+        if ($industryId === "Other") {
+            if ($req->industryId != $data->industryId) {
+                //update the record for website
+                $data->industryId = $req->industryId;
+            }
         }
         if ($req->districtId != $data->districtId) {
             //update the record for district
@@ -216,21 +216,20 @@ class BusinessController extends Controller
         }
 
         $data->activation_status = 1;
-        
+
         if (!empty($req->file('file-upload'))) {
             $filename = $data->logo;
 
             //If first time uploading logo
-            if (is_null($data->logo) || $data->logo !==  $req->file('file-upload')) {
+            if (is_null($data->logo) || $data->logo !== $req->file('file-upload')) {
                 //update the record for business_name
                 $name = str_replace(' ', '_', strtolower($req->business_name));
                 $image = $req->file('file-upload');
-                $newImageName = time().'-'.$name.'.'.$req->file('file-upload')->extension();
+                $newImageName = time() . '-' . $name . '.' . $req->file('file-upload')->extension();
                 $req->file('file-upload')->move(public_path('img'), $newImageName);
                 $data->logo = $newImageName;
-            } 
-           
-           
+            }
+
         }
         if ($req->marketingpic != $data->marketingpic) {
             //update the record for business_name
@@ -258,7 +257,6 @@ class BusinessController extends Controller
             ->where('businesses.id', $id)
             ->get();
 
-
         $provinces = DB::table('provinces')
             ->select('*')
             ->get();
@@ -282,7 +280,7 @@ class BusinessController extends Controller
             ->where('users.id', $business[0]->id)
             ->get();
 
-        return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services,  'industries' => $industries,  'clientsservices' => $clientsservices]);
+        return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);
     }
 
     public function uploadLogo(Request $request)

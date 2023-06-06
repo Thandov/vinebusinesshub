@@ -1,56 +1,3 @@
-// Function to set the active tab
-function setActiveTab(tab) {
-  // Check if the clicked tab is already active
-  if (tab.classList.contains('active')) {
-    return; // No need to perform any further actions
-  }
-
-  // Remove the active class from all nav-links
-  const navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(link => link.classList.remove('active'));
-
-  // Remove the active and show classes from all tab-panes
-  const tabPanes = document.querySelectorAll('.tab-pane');
-  tabPanes.forEach(pane => {
-    pane.classList.remove('active');
-    pane.classList.remove('show');
-  });
-
-  // Set the clicked tab as active
-  tab.classList.add('active');
-
-  // Get the target tab-pane
-  const targetId = tab.getAttribute('data-bs-target').substring(1); // Remove the leading '#'
-  const targetPane = document.getElementById(targetId);
-  if (targetPane) {
-    targetPane.classList.add('active');
-    targetPane.classList.add('show');
-  }
-
-  // Store the active tab ID in localStorage
-  localStorage.setItem('activeTab', tab.textContent);
-}
-
-// Function to handle nav-link click
-function handleNavLinkClick(event) {
-  event.preventDefault();
-
-  const clickedTab = event.target;
-  setActiveTab(clickedTab);
-}
-
-// Attach click event listener to nav-links
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
-
-// Get the active tab on page load
-const activeTab = localStorage.getItem('activeTab');
-if (activeTab) {
-  const tabToActivate = Array.from(navLinks).find(link => link.textContent === activeTab);
-  if (tabToActivate) {
-    setActiveTab(tabToActivate);
-  }
-}
 $(document).on('click', '.btn-button', function (e) {
   e.preventDefault();
   var approvalId = $(this).attr('id');
@@ -73,7 +20,7 @@ $(document).on('click', '.btn-button', function (e) {
       var red = 'focus:ring-red-500 bg-red-500';
 
       console.log(response.approval_status);
-      
+
       if (response.approval_status) {
         // Update button to declined state
         btnTarget.removeClass(green).addClass(red);
@@ -93,7 +40,7 @@ $(document).on('click', '.btn-button', function (e) {
         spanTarget.addClass('bg-red-100 text-red-800');
         spanTarget.text('Declined');
       }
-    
+
     },
     error: function (jqXHR, exception) {
       var msg = '';
@@ -116,4 +63,3 @@ $(document).on('click', '.btn-button', function (e) {
     }
   });
 });
-
