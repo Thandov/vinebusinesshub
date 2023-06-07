@@ -162,15 +162,13 @@
                                                                             @foreach ($industries as $industry)
                                                                                 <option
                                                                                     value="{{ $industry->id ?? '' }}"
-                                                                                    @if ($industry->id === $business[0]->industryId) selected @endif>
+                                                                                    {{ $industry->id === $business[0]->industryId ? 'selected' : '' }}>
                                                                                     {{ $industry->industry }}
                                                                                 </option>
                                                                             @endforeach
                                                                         @endif
-                                                                        <option id="otherOption" value="Other">Other
-                                                                        </option>
+                                                                        <option value="9">Other</option>
                                                                     </select>
-
                                                                 </div>
 
                                                                 <div class="col-span-12 sm:col-span-12">
@@ -659,13 +657,16 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        jQuery(document).on('change', '#industryId', function(e) {
+        $(document).on('change', '#industryId', function(e) {
             e.preventDefault();
+
             var otherOption = $(this).find(":selected").val();
-            if (otherOption === "other") {
+            if (otherOption === "9") {
+                console.log("Other option selected");
                 $('#newIndustry').modal('show');
             }
         });
+
 
         $(function() {
             $('#insertIndustry').submit(function(e) {
@@ -679,8 +680,9 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        $('#success-message').html(response.message).removeClass(
-                            'd-none');
+                        $('#success-message').html(response.message)
+                            .removeClass(
+                                'd-none');
                         setTimeout(function() {
                             $('#newIndustry').modal('hide');
                         }, 2000);
@@ -688,10 +690,12 @@
                     error: function(xhr, status, error) {
                         var response = JSON.parse(xhr.responseText);
                         if (response.message) {
-                            $('#error-message').html(response.message).removeClass(
-                                'd-none');
+                            $('#error-message').html(response.message)
+                                .removeClass(
+                                    'd-none');
                             setTimeout(function() {
-                                $('#error-message').addClass('d-none').html(
+                                $('#error-message').addClass(
+                                    'd-none').html(
                                     '');
                             }, 5000);
                         }
@@ -703,6 +707,7 @@
                 $('#error-message').addClass('d-none').html('');
             });
         });
+
 
         jQuery(document).on('click', '.changeLogoBtn', function(e) {
             e.preventDefault();

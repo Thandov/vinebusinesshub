@@ -24,6 +24,7 @@ class BusinessController extends Controller
 
         $industry = DB::table('industries')
             ->select('industries.industry')
+            ->orderByRaw("CASE WHEN industries.industry = 'Other' THEN 1 ELSE 0 END, industries.industry")
             ->get();
 
         $provinces = DB::table('provinces')
@@ -154,8 +155,8 @@ class BusinessController extends Controller
         ]);
 
         $data = Business::find($req->id);
+        //dd($req->input());
 
-        dd($req->input());
         if ($req->business_name != $data->business_name) {
             //update the record for business_name
             $data->business_name = $req->business_name;
@@ -188,12 +189,19 @@ class BusinessController extends Controller
             //update the record for website
             $data->website = $req->website;
         }
-        if ($industryId === "Other") {
-            if ($req->industryId != $data->industryId) {
-                //update the record for website
-                $data->industryId = $req->industryId;
-            }
+        if ($req->industryId != $data->industryId) {
+            //update the record for website
+            $data->industryId = $req->industryId;
         }
+
+        // $industryId = $req->industryId; // Assuming `$industryId` is available in the `$req` object.
+        // if ($industryId === "Other") {
+        //     if ($req->industryId != $data->industryId) {
+        //         //update the record for website
+        //         $data->industryId = $req->industryId;
+        //     }
+        // }
+
         if ($req->districtId != $data->districtId) {
             //update the record for district
             $data->districtId = $req->districtId;
