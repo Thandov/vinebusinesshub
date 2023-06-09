@@ -15,6 +15,7 @@ class IndustriesSeeder extends Seeder
     public function run()
     {
         $industries = [
+            ['Other'],
             ['Finance'],
             ['Wholesale and Retail'],
             ['Tourism'],
