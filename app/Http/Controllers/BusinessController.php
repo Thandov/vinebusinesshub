@@ -152,8 +152,13 @@ class BusinessController extends Controller
     public function updateBusiness(Request $req)
     {
         $validated = $req->validate([
+            'business_name' => 'required',
+            'business_number' => 'required|numeric|max:9999999999999',
+            'email' => 'required|email',
+            'business_bio' => 'required',
+        ], [
+            'business_number.max' => 'Invalid business number. The number must not exceed 13 digits.',
         ]);
-
         $data = Business::find($req->id);
         //dd($req->input());
 
@@ -193,15 +198,6 @@ class BusinessController extends Controller
             //update the record for website
             $data->industryId = $req->industryId;
         }
-
-        // $industryId = $req->industryId; // Assuming `$industryId` is available in the `$req` object.
-        // if ($industryId === "Other") {
-        //     if ($req->industryId != $data->industryId) {
-        //         //update the record for website
-        //         $data->industryId = $req->industryId;
-        //     }
-        // }
-
         if ($req->districtId != $data->districtId) {
             //update the record for district
             $data->districtId = $req->districtId;

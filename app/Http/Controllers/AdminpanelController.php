@@ -130,6 +130,10 @@ class AdminpanelController extends Controller
                 $pendingApproval->approval_status = 'Approved';
                 $pendingApproval->uid = auth()->user()->id;
                 $pendingApproval->save();
+
+                // Send approval notification email to the business
+                Mail::to($business->email)->send(new IndustryApprovalNotification($industry, 'approved'));
+
                 return response()->json(['approval_status' => true]);
             } elseif ($pendingApproval->approval_status === 'Approved' || $pendingApproval->approval_status === '1') {
                 $pendingApproval->approval_status = "Declined";
@@ -143,6 +147,9 @@ class AdminpanelController extends Controller
                 } else {
                     return response()->json(['message' => 'Business record not found'], 404);
                 }
+
+                // Send decline notification email to the business
+                Mail::to($business->email)->send(new DeclineMail($industry));
 
                 return response()->json(['approval_status' => false]);
             }
@@ -163,11 +170,23 @@ class AdminpanelController extends Controller
             $pendingApproval->uid = auth()->user()->id;
             $pendingApproval->save();
 
+            // Send approval notification email to the business
+            $business = Business::where('company_rep', $pendingApproval->who_id)->first();
+            if ($business) {
+                Mail::to($business->email)->send(new IndustryApprovalNotification($industry, 'approved'));
+            }
+
             return redirect()->back()->with('status', 'Industry APPROVED!');
         } else {
             $pendingApproval->approval_status = 2;
             $pendingApproval->uid = auth()->user()->id;
             $pendingApproval->save();
+
+            // Send decline notification email to the business
+            $business = Business::where('company_rep', $pendingApproval->who_id)->first();
+            if ($business) {
+                Mail::to($business->email)->send(new DeclineMail($industry));
+            }
 
             return redirect()->back()->with('status', 'This is set to 1');
         }
