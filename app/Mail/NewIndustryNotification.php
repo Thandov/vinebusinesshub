@@ -33,13 +33,13 @@ class NewIndustryNotification extends Mailable
     public function build()
     {
         $business_name = $this->business_name;
-        $industry_name = $this->industry;
+        $industry = $this->industry;
 
         return $this->subject('New Industry Added')
             ->to('ntokozoflex99@gmail.com')
             ->view('emails.newIndustry', [
                 'business_name' => $business_name,
-                'industry_name' => $industry_name,
+                'industry' => $industry,
             ]);
 
     }

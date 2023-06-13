@@ -12,15 +12,17 @@ class DeclineMail extends Mailable
     use Queueable, SerializesModels;
 
     public $industry;
+    public $status;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Industry $industry)
+    public function __construct(Industry $industry, $status)
     {
         $this->industry = $industry;
+        $this->status = $status;
     }
 
     /**

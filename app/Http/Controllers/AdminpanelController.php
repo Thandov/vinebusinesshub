@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DeclineMail;
+use App\Mail\IndustryApprovalNotification;
 use App\Models\Business;
 use App\Models\Industry;
-use App\Models\PendingApproval; // Add this line at the top of your file
+use App\Models\PendingApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminpanelController extends Controller
 {
@@ -147,9 +150,15 @@ class AdminpanelController extends Controller
                 } else {
                     return response()->json(['message' => 'Business record not found'], 404);
                 }
+                $industry = Industry::where('industry', $pendingApproval->the_content)->first();
+                if (!$industry) {
+                    $industry = new Industry();
+                    $industry->industry = $pendingApproval->the_content;
+                    $industry->save();
+                }
 
                 // Send decline notification email to the business
-                Mail::to($business->email)->send(new DeclineMail($industry));
+                Mail::to($business->email)->send(new DeclineMail($industry, 'declined'));
 
                 return response()->json(['approval_status' => false]);
             }
@@ -157,7 +166,7 @@ class AdminpanelController extends Controller
 
         $pendingApproval = PendingApproval::findOrFail($request->approvalId);
 
-        if ($pendingApproval->approval_status === 0 || $pendingApproval->approval_status === 2) {
+        if ($pendingApproval->approval_status === 'Approved' || $pendingApproval->approval_status === '1') {
             $industry = Industry::where('industry', $pendingApproval->the_content)->first();
 
             if (!$industry) {
@@ -166,29 +175,43 @@ class AdminpanelController extends Controller
                 $industry->save();
             }
 
-            $pendingApproval->approval_status = 1;
-            $pendingApproval->uid = auth()->user()->id;
-            $pendingApproval->save();
+            // Remove the industry from the industry table
+            $industry->delete();
 
-            // Send approval notification email to the business
-            $business = Business::where('company_rep', $pendingApproval->who_id)->first();
-            if ($business) {
-                Mail::to($business->email)->send(new IndustryApprovalNotification($industry, 'approved'));
-            }
-
-            return redirect()->back()->with('status', 'Industry APPROVED!');
-        } else {
-            $pendingApproval->approval_status = 2;
+            $pendingApproval->approval_status = 'Declined';
             $pendingApproval->uid = auth()->user()->id;
             $pendingApproval->save();
 
             // Send decline notification email to the business
             $business = Business::where('company_rep', $pendingApproval->who_id)->first();
             if ($business) {
-                Mail::to($business->email)->send(new DeclineMail($industry));
+                Mail::to($business->email)->send(new DeclineMail($industry, 'declined'));
             }
 
-            return redirect()->back()->with('status', 'This is set to 1');
+            return redirect()->back()->with('status', 'Industry DECLINED!');
+        } else {
+            $pendingApproval->approval_status = 'Approved';
+            $pendingApproval->uid = auth()->user()->id;
+            $pendingApproval->save();
+
+            // Send approval notification email to the business
+            $business = Business::where('company_rep', $pendingApproval->who_id)->first();
+            if ($business) {
+                $industry = Industry::where('industry', $pendingApproval->the_content)->first();
+                if (!$industry) {
+                    $industry = new Industry();
+                    $industry->industry = $pendingApproval->the_content;
+                    $industry->save();
+                }
+
+                // Update the related business form with the new industry ID
+                $business->industryId = $industry->id;
+                $business->save();
+
+                Mail::to($business->email)->send(new IndustryApprovalNotification($industry, 'approved'));
+            }
+
+            return redirect()->back()->with('status', 'Industry APPROVED!');
         }
     }
 
