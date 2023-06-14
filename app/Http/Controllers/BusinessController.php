@@ -153,11 +153,11 @@ class BusinessController extends Controller
     {
         $validated = $req->validate([
             'business_name' => 'required',
-            'business_number' => 'required|numeric|max:9999999999999',
+            'business_number' => 'required|numeric|max:999999999999999',
             'email' => 'required|email',
             'business_bio' => 'required',
         ], [
-            'business_number.max' => 'Invalid business number. The number must not exceed 13 digits.',
+            'business_number.max' => 'Invalid business number. The number must not exceed 15 digits.',
         ]);
         $data = Business::find($req->id);
         //dd($req->input());

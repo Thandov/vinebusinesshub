@@ -10,7 +10,6 @@ use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\PendingApprovalsController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,9 +41,9 @@ Route::get('/send-email/{email}', [MailController::class, 'sendEmail']);
 
 Route::get('/home', [DashboardController::class, 'displayBusinesses'])->name('home');
 
-Route::get('/dashboard', function () {
+Route::get('/userboard', function () {
     return view('asas');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth'])->name('userboard');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 //For Businesses
@@ -97,5 +96,8 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
 Route::get('/viewBusiness/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+
+Route::put('/profile', 'ProfileController@update')->name('profile.update');
+Route::delete('/profile', 'ProfileController@destroy')->name('profile.destroy');
 
 require __DIR__ . '/auth.php';

@@ -25,7 +25,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="pendingApprovals">
                             @foreach ($adminpending_approvals as $adminpending_approval)
-                                @if ($adminpending_approval->approval_status == 1)
+                                @if ($adminpending_approval->approval_status == 'Approved')
                                     <tr id="adminpending_approval{{ $adminpending_approval->id }}">
                                         <td class="px-2 py-2 whitespace-nowrap">
                                             <div class="flex items-center">

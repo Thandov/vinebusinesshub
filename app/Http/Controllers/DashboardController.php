@@ -44,8 +44,7 @@ class DashboardController extends Controller
 
             return redirect('business/businessdashboard/' . Auth::user()->id);
         } elseif (Auth::user()->hasRole('user')) {
-
-            return view('home');
+            return view('profile/userboard');
         } elseif (Auth::user()->hasRole('admin')) {
 
             return redirect('adminpanel');

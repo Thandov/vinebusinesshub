@@ -158,7 +158,11 @@ class AdminpanelController extends Controller
                 }
 
                 // Send decline notification email to the business
-                Mail::to($business->email)->send(new DeclineMail($industry, 'declined'));
+                $url = 'https://www.kayiseit.co.za/';
+                Mail::to($business->email)->send(new DeclineMail($industry, 'declined', $url));
+
+                // Remove the industry from the industry table
+                $industry->delete();
 
                 return response()->json(['approval_status' => false]);
             }
@@ -208,7 +212,7 @@ class AdminpanelController extends Controller
                 $business->industryId = $industry->id;
                 $business->save();
 
-                Mail::to($business->email)->send(new IndustryApprovalNotification($industry, 'approved'));
+                Mail::to($business->email)->send(new IndustryApprovalNotification($industry, 'approved', $url));
             }
 
             return redirect()->back()->with('status', 'Industry APPROVED!');

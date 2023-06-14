@@ -13,16 +13,19 @@ class DeclineMail extends Mailable
 
     public $industry;
     public $status;
+    public $url;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Industry $industry, $status)
+    public function __construct(Industry $industry, $status, $url)
     {
         $this->industry = $industry;
         $this->status = $status;
+        $this->url = $url;
+
     }
 
     /**
@@ -32,7 +35,10 @@ class DeclineMail extends Mailable
      */
     public function build()
     {
+        $url = 'https://www.kayiseit.co.za/';
+
         return $this->subject('Industry Declined')
-            ->view('emails.decline_notification');
+            ->view('emails.decline_notification', ['url' => $url]);
+
     }
 }

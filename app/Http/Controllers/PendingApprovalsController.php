@@ -8,6 +8,7 @@ use App\Models\PendingApprovals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class PendingApprovalsController extends Controller
 {
@@ -90,6 +91,14 @@ class PendingApprovalsController extends Controller
 
     public function insertIndustry(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'the_content' => 'required|alpha',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Invalid input, Please Review Your Industry'], 422);
+        }
+
         $company_rep = $request->input("who_id");
         $business_name = DB::table('businesses')->where('company_rep', $company_rep)->value('business_name');
         $industry = $request->input("the_content");

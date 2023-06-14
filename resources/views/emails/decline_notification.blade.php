@@ -1,10 +1,26 @@
-<p>Dear Business,</p>
+<!DOCTYPE html>
+<html lang="en">
 
-<p>We regret to inform you that your requested industry has been declined, Please review the inserted Industry.</p>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industry Declined</title>
+</head>
 
-<p>The declined industry is: {{ $industry->industry }}</p>
+<body>
+    <p>Dear Business,</p>
 
-<p>Thank you for your request.</p>
+    <p>We regret to inform you that your requested industry has been declined. Please review the inserted industry.</p>
 
-<p>Best regards,</p>
-<p>The VineSA</p>
+    <p>The declined industry is: {{ $industry->industry }}</p>
+
+    <p>Thank you for your request.</p>
+
+    <p>Best regards,</p>
+    <p>The VineSA</p>
+
+    <p><a href="{{ $url }}">Click here</a> to visit our website.</p>
+</body>
+
+</html>
