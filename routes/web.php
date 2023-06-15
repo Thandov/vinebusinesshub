@@ -8,6 +8,7 @@ use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\PendingApprovalsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
@@ -97,7 +98,7 @@ Route::get('/home/action', [DashboardController::class, 'action'])->name('home.a
 //View Business of single business no user logged in
 Route::get('/viewBusiness/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
-Route::put('/profile', 'ProfileController@update')->name('profile.update');
-Route::delete('/profile', 'ProfileController@destroy')->name('profile.destroy');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 require __DIR__ . '/auth.php';
