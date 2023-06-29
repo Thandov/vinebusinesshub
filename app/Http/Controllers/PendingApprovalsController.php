@@ -92,11 +92,13 @@ class PendingApprovalsController extends Controller
     public function insertIndustry(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'the_content' => 'required|alpha',
+            'the_content' => 'required|alpha_spaces',
+        ], [
+            'alpha_spaces' => 'The :attribute may only contain letters and spaces.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'Invalid input, Please Review Your Industry'], 422);
+            return response()->json(['message' => $validator->errors()->first()], 422);
         }
 
         $company_rep = $request->input("who_id");

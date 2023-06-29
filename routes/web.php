@@ -108,6 +108,8 @@ Route::put('/profile', [ProfileController::class, 'update'])->name('profile.upda
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 Route::post('contact/contact', [ContactFormController::class, 'contact'])->name('contact.contact');
+Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('updateProfile');
+
 //Route::post('/resend-verification-email/{id}', [BusinessController::class, 'resendVerificationEmail'])->name('resend-verification-email');
 
 require __DIR__ . '/auth.php';

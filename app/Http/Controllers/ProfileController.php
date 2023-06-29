@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -63,5 +64,18 @@ class ProfileController extends Controller
         $user->delete();
 
         return redirect()->route('home')->with('success', 'Account deleted successfully.');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+
+        $user->name = $request->input('company_rep');
+        $user->email = $request->input('company_email');
+
+        $user->save();
+
+        // Redirect the user to a relevant page after the update
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 }
