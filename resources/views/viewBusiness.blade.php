@@ -53,7 +53,7 @@
                                         <div class="col-md-3">
                                             <span class="font-black">Website:</span>
                                             <br>
-                                            <a href="{{ $business[0]->website }}" target="_blank"
+                                            <a href="http://{{ $business[0]->website }}" target="_blank"
                                                 class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->website }}</a>
                                         </div>
                                     </div>

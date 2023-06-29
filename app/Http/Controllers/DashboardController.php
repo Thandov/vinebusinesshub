@@ -15,7 +15,7 @@ class DashboardController extends Controller
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry')
-            ->paginate(10); // limit to 10 results per page
+            ->paginate(9); // limit to 10 results per page
 
         $industry = DB::table('industries')
             ->select('industries.industry')
@@ -70,7 +70,7 @@ class DashboardController extends Controller
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
                     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
                     ->where('business_name', 'LIKE', $query . '%')
-                    ->paginate(10) // limit to 10 results per page
+                    ->paginate(9) // limit to 10 results per page
                     ->withQueryString(); // add this line to include other query parameters in the pagination link
 
             } elseif ($searchOption === "provinceSearch") {
@@ -79,7 +79,7 @@ class DashboardController extends Controller
                     ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
                     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province')
                     ->where('province', 'LIKE', $query . '%')
-                    ->paginate(10) // limit to 10 results per page
+                    ->paginate(9) // limit to 10 results per page
                     ->withQueryString(); // add this line to include other query parameters in the pagination link
 
             } elseif ($searchOption === "districtSearch") {
@@ -89,7 +89,7 @@ class DashboardController extends Controller
                     ->join('provinces', 'provinces.id', '=', 'businesses.provinceId')
                     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province', 'municipal_districts.municipal_district')
                     ->where('municipal_district', 'LIKE', $query . '%')
-                    ->paginate(10)
+                    ->paginate(9)
                     ->withQueryString();
             } elseif ($searchOption === "municipalitySearch") {
                 $business = DB::table('businesses')
@@ -99,7 +99,7 @@ class DashboardController extends Controller
                     ->join('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
                     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry', 'provinces.province', 'municipalities.municipality')
                     ->where('municipality', 'LIKE', $query . '%')
-                    ->paginate(10)
+                    ->paginate(9)
                     ->withQueryString();
             } elseif ($searchOption === "industrySearch") {
                 if (!empty($selectedDistrict)) {
@@ -117,14 +117,14 @@ class DashboardController extends Controller
                         ->where('provinces.province', '=', $request->selectedProvince)
                         ->where('municipal_districts.municipal_district', '=', $request->selectedDistrict)
                         ->where('municipalities.municipality', '=', $request->selectedMunicipality)
-                        ->paginate(10) // limit to 10 results per page
+                        ->paginate(9) // limit to 10 results per page
                         ->withQueryString();
                 } else {
                     $business = DB::table('businesses')
                         ->join('industries', 'industries.id', '=', 'businesses.industryId')
                         ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
                         ->where('industry', 'LIKE', $query . '%')
-                        ->paginate(10) // limit to 10 results per page
+                        ->paginate(9) // limit to 10 results per page
                         ->withQueryString(); // add this line to include other query parameters in the pagination link
 
                 }
@@ -133,7 +133,7 @@ class DashboardController extends Controller
             $business = DB::table('businesses')
                 ->join('industries', 'industries.id', '=', 'businesses.industryId')
                 ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
-                ->paginate(10) // limit to 10 results per page
+                ->paginate(9) // limit to 10 results per page
                 ->withQueryString(); // add this line to include other query parameters in the pagination link
         }
 
@@ -164,7 +164,7 @@ class DashboardController extends Controller
         $municipalities = DB::table('municipalities')
             ->leftjoin('municipal_districts', 'municipal_districts.id', '=', 'municipalities.districtId')
             ->where('municipalities.districtId', $request->id)
-            ->select('municipalities.municipality', 'municipal_districts.municipal_district', 'municipal_districts.id')
+            ->select('municipalities.municipality', 'municipal_districts.municipal_district', 'municipalities.id')
             ->get();
 
         return $municipalities;

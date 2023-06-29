@@ -5,7 +5,7 @@
             <p>Connecting you to your local businesses</p>
         </div>
     </div>
-    <div class="container-fluid mb-5 bg-white">
+    <div class="container py-3 px-4 md:px-8 max-w-screen-xl mx-auto bg-white">
         <div class="row">
             <div class="col py-12 text-center">
                 <h1 class="text-xl md:text-xl font-bold">Welcome to the Vine SA</h1>
@@ -19,7 +19,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="container-fluid">
+    <div class="container py-3 px-4 md:px-8 max-w-screen-xl mx-auto ">
         <div class="row">
             <form id="searchForm" class="col-md-4">
                 <div class="container bg-white shadow-sm py-12 rounded-md">
@@ -93,12 +93,12 @@
                 </div>
             </form>
             <div class="col-md-8">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-5 mt-md-0" id="test">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-5 mt-md-0 mb-4" id="test">
                     @include('home._businesses', ['businesses' => $business])
                 </div>
-                <div id="pagination-links">{{ $business->links() }}</div>
             </div>
         </div>
+        <div id="pagination-links">{{ $business->links() }}</div>
     </div>
 </x-app-layout>
 

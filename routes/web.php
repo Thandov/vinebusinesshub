@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminpanelController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictsController;
 use App\Http\Controllers\IndustryController;
@@ -27,6 +28,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/home');
 });
+
+Route::get('/marketplace', function () {
+    return view('marketplace');
+})->name('marketplace');
+
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
@@ -100,5 +106,8 @@ Route::get('/viewBusiness/{id}', [BusinessController::class, 'showBusiness'])->n
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+Route::post('contact/contact', [ContactFormController::class, 'contact'])->name('contact.contact');
+//Route::post('/resend-verification-email/{id}', [BusinessController::class, 'resendVerificationEmail'])->name('resend-verification-email');
 
 require __DIR__ . '/auth.php';
