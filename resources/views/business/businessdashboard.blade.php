@@ -465,26 +465,7 @@
                                                                             class="font-bold">Created:</span>{{ $rep[0]->created_at ?? '' }}
                                                                     </p>
                                                                 </div>
-                                                                <div class="md:col-span-1 sm:col-span-2">
-                                                                    <label for="company-website"
-                                                                        class="font-bold block text-sm font-medium text-gray-700">
-                                                                        Verification Status
-                                                                    </label>
-                                                                    <div id="verificationwrap"
-                                                                        class="mt-2 d-flex align-items-center justify-content-start">
-                                                                        @if ($business[0]->email_verified_at == 0)
-                                                                            <a href=""
-                                                                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 bg-yellow-600 hover:bg-yellow-700">
-                                                                                Resend verification Email
-                                                                            </a>
-                                                                        @else
-                                                                            <div
-                                                                                class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                                                                Activated
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -495,8 +476,32 @@
                                                         </button>
                                                     </div>
                                                 </form>
-                                            </div>
 
+                                                <div class="md:col-span-1 sm:col-span-2">
+                                                    <label for="company-website"
+                                                        class="font-bold block text-sm font-medium text-gray-700">
+                                                        Verification Status
+                                                    </label>
+                                                    <div id="verificationwrap"
+                                                        class="mt-2 d-flex align-items-center justify-content-start">
+                                                        @if ($business[0]->email_verified_at == 0)
+                                                            <form method="POST"
+                                                                action="{{ route('verification.send') }}">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 bg-yellow-600 hover:bg-yellow-700">
+                                                                    Resend verification Email
+                                                                </button>
+                                                            </form>
+                                                        @else
+                                                            <div
+                                                                class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                Activated
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

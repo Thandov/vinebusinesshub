@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminpanelController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\DashboardController;
@@ -109,6 +110,8 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 
 Route::post('contact/contact', [ContactFormController::class, 'contact'])->name('contact.contact');
 Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('updateProfile');
+
+Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'resend'])->middleware(['auth', 'throttle:3,1'])->name('verification.resend');
 
 //Route::post('/resend-verification-email/{id}', [BusinessController::class, 'resendVerificationEmail'])->name('resend-verification-email');
 
