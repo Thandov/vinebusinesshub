@@ -5,7 +5,7 @@
             <p>Connecting you to your local businesses</p>
         </div>
     </div>
-    <div class="container py-3 px-4 md:px-8 max-w-screen-xl mx-auto bg-white">
+    <div class="py-3  bg-white">
         <div class="row">
             <div class="col py-12 text-center">
                 <h1 class="text-xl md:text-xl font-bold">Welcome to the Vine SA</h1>
@@ -15,87 +15,52 @@
         </div>
     </div>
     @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
     @endif
-    <div class="container py-3 px-4 md:px-8 max-w-screen-xl mx-auto ">
-        <div class="row">
-            <form id="searchForm" class="col-md-4">
-                <div class="container bg-white shadow-sm py-12 rounded-md">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4 class="pb-2 font-bold">Search criteria:</h4>
-                        </div>
+    <div class="container py-3 md:px-10">
+
+        <div class="bg-white p-2 my-3 shadow-md rounded-lg">
+            <form id="searchForm">
+                <div class="grid grid-cols-5 gap-0">
+                    <div class="col-span-2 flex items-center justify-center">
+                        <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="liveSearch" class="block text-sm font-medium text-gray-700">Business Name
-                            </label>
-                            <input type="text" placeholder="Enter your Search" name="search"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                                id="liveSearch">
-                        </div>
-                        <div class="col-12">
-                            <label for="provinceOptions"
-                                class="block text-sm font-medium text-gray-700">Province</label>
-                            <select id="provinceOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="" selected disabled>Select Province</option>
-                                {{ $provinces ?? '' }} @if ($provinces ?? '')
-                                    @foreach ($provinces ?? '' as $province)
-                                        <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                            {{ $province->province }}
-                                        </option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="districtOptions"
-                                class="block text-sm font-medium text-gray-700">District</label>
-                            <select id="districtOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="municipalityOptions"
-                                class="block text-sm font-medium text-gray-700">Municipality</label>
-                            <select id="municipalityOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                                {{ $municipalities ?? '' }} @if ($municipalities ?? '')
-                                    @foreach ($municipalities ?? '' as $municipality)
-                                        <option>{{ $municipality->municipality }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="industryOptions"
-                                class="block text-sm font-medium text-gray-700">Industry</label>
-                            <select id="industryOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="" selected disabled>Select industry</option>
-                                @if ($industry ?? '')
-                                    @foreach ($industry as $indust)
-                                        <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit"
-                                class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Submit</button>
-                        </div>
+                    <div class="col-span-1">
+                        <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" selected disabled>Province</option>
+                            {{ $provinces ?? '' }} @if ($provinces ?? '')
+                            @foreach ($provinces ?? '' as $province)
+                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+                                {{ $province->province }}
+                            </option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-span-1">
+                        <select id="districtOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" selected disabled>District</option>
+                        </select>
+                    </div>
+                    <div class="col-span-1">
+                        <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" selected disabled>Industry</option>
+                            @if ($industry ?? '')
+                            @foreach ($industry as $indust)
+                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+                            @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
             </form>
-            <div class="col-md-8">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-5 mt-md-0 mb-4" id="test">
-                    @include('home._businesses', ['businesses' => $business])
-                </div>
+        </div>
+
+        <div class="row">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-5 mt-md-0 mb-4" id="test">
+                @include('home._businesses', ['businesses' => $business])
             </div>
         </div>
         <div id="pagination-links">{{ $business->links() }}</div>
