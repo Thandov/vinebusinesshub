@@ -5,14 +5,56 @@
             <p>Connecting you to your local businesses</p>
         </div>
     </div>
-    <div class="py-3  bg-white">
+    <div class="bg-white">
         <div class="row">
-            <div class="col py-12 text-center">
+            <div class="col py-10 text-center">
                 <h1 class="text-xl md:text-xl font-bold">Welcome to the Vine SA</h1>
                 <p class="block text-sm font-medium text-gray-700">The digital Business Directory helping you find
                     businesses around you</p>
             </div>
         </div>
+        <div class="container py-3 md:px-10">
+            <div class="row">
+                <div class="bg-white my-3  rounded-lg">
+                    <form id="searchForm">
+                        <div class="grid grid-cols-5 gap-0">
+                            <div class="col-span-2 flex items-center justify-center">
+                                <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
+                            </div>
+                            <div class="col-span-1">
+                                <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="" selected disabled>Province</option>
+                                    {{ $provinces ?? '' }} @if ($provinces ?? '')
+                                    @foreach ($provinces ?? '' as $province)
+                                    <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+                                        {{ $province->province }}
+                                    </option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-span-1">
+                                <select id="districtOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="" selected disabled>District</option>
+                                </select>
+                            </div>
+                            <div class="col-span-1">
+                                <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="" selected disabled>Industry</option>
+                                    @if ($industry ?? '')
+                                    @foreach ($industry as $indust)
+                                    <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     @if (session('status'))
     <div class="alert alert-success">
@@ -20,46 +62,8 @@
     </div>
     @endif
     <div class="container py-3 md:px-10">
-
-        <div class="bg-white p-2 my-3 shadow-md rounded-lg">
-            <form id="searchForm">
-                <div class="grid grid-cols-5 gap-0">
-                    <div class="col-span-2 flex items-center justify-center">
-                        <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
-                    </div>
-                    <div class="col-span-1">
-                        <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="" selected disabled>Province</option>
-                            {{ $provinces ?? '' }} @if ($provinces ?? '')
-                            @foreach ($provinces ?? '' as $province)
-                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                {{ $province->province }}
-                            </option>
-                            @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-span-1">
-                        <select id="districtOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="" selected disabled>District</option>
-                        </select>
-                    </div>
-                    <div class="col-span-1">
-                        <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="" selected disabled>Industry</option>
-                            @if ($industry ?? '')
-                            @foreach ($industry as $indust)
-                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                            @endforeach
-                            @endif
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <div class="row">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-5 mt-md-0 mb-4" id="test">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 mt-md-0 mb-4" id="test">
                 @include('home._businesses', ['businesses' => $business])
             </div>
         </div>
@@ -131,15 +135,9 @@
             var selectedDistrict = districtOptions.selectedIndex !== -1 ? districtOptions.options[
                 districtOptions.selectedIndex].text : null;
 
-            var municipalityOptions = document.getElementById("municipalityOptions");
-            var selectedMunicipality = municipalityOptions.selectedIndex !== -1 ? municipalityOptions
-                .options[municipalityOptions.selectedIndex].text : null;
-
             var industryId = $(this).find(":selected").val();
             var pageNumber = jQuery('#pagination-links .active a').text();
-            fetch_customer_data(query, searchOption, pageNumber, selectedProvince, selectedDistrict,
-                selectedMunicipality);
-
+            fetch_customer_data(query, searchOption, pageNumber, selectedProvince, selectedDistrict);
         });
     });
 
