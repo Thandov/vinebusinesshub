@@ -1,7 +1,14 @@
 <x-app-layout>
+<<<<<<< Updated upstream
     <div class="container">
         <div class="row">
             <div class="col-md-6 mt-3 d-flex align-items-center justify-content-center contact-widget-section2 wow animated fadeInLeft"
+=======
+    <div class="container md:flex justify-center py-5 px-4 md:px-8 max-w-screen-xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4 lg:gap-5">
+            <!-- Section Titile -->
+            <div class="d-flex align-items-center justify-content-center contact-widget-section2 wow animated fadeInLeft"
+>>>>>>> Stashed changes
                 data-wow-delay=".2s">
                 <div>
                     <div class="row">
@@ -9,7 +16,7 @@
                             <h1 class="text-4xl text-green-700 font-black">Love to Hear From You</h1>
                         </div>
                     </div>
-                    <p class="py-3">You can get in touch with us.</p>
+                    <p class="font-bold py-3">You can get in touch with us.</p>
 
                     <div class="find-widget">
                         <span class="text-green-700 font-black">Company:</span>
@@ -25,11 +32,16 @@
                         <span class="text-green-700 font-black">Email:</span>
                         <a href="mailto:thapelo@kayiseit.com">info@thevinesa.co.za</a><br>
                     </div>
-                    <img src="../img/logo.png" alt="the vine sa" srcset="" id="contactLogo">
+                    <img src="../img/logo.png" alt="the vine sa" srcset="" id="contactLogo" class="my-4">
                 </div>
             </div>
+<<<<<<< Updated upstream
 
             <div class="col-md-6 wow animated fadeInRight pt-5" data-wow-delay=".2s">
+=======
+            <!-- contact form -->
+            <div class="wow animated fadeInRight" data-wow-delay=".2s">
+>>>>>>> Stashed changes
                 <form class="bg-white rounded-lg shadow p-12" role="form" method="post" id="contactForm"
                     name="contact-form" data-toggle="validator" action="{{ route('contact.contact') }}">
                     @csrf
@@ -85,7 +97,7 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-6 position-relative mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-6 position-relative">
         <div class="col-span-2 grid place-items-center stockimgs">
             <h4 class="hover:text-green-700 text-3xl text-bold">Relevant</h4><img src="../img/about/p1.jpeg" />
         </div>
