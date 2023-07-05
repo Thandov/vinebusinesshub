@@ -21,11 +21,12 @@
 
     <div id="confirmation-dialog" class="hidden">
         <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-        <button type="button" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
-            onclick="deleteAccount()">Confirm</button>
         <button type="button"
             class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
             onclick="cancelDeletion()">Cancel</button>
+        <button type="button" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md shadow-sm"
+            onclick="deleteAccount()">Confirm</button>
+
     </div>
 
     <script>

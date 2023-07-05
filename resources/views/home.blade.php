@@ -5,6 +5,19 @@
             <p>Connecting you to your local businesses</p>
         </div>
     </div>
+    @if ($message = session('success'))
+        <div id="success-message" class="alert alert-success">
+            {{ $message }}
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('#success-message').fadeOut('slow');
+                }, 1000);
+            });
+        </script>
+    @endif
     <div class="bg-white">
         <div class="row">
             <div class="col py-10 text-center">
@@ -19,32 +32,37 @@
                     <form id="searchForm">
                         <div class="grid grid-cols-5 gap-0">
                             <div class="col-span-2 flex items-center justify-center">
-                                <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
+                                <input type="text" placeholder="Search Business" name="search"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="liveSearch">
                             </div>
                             <div class="col-span-1">
-                                <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="provinceOptions"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Province</option>
                                     {{ $provinces ?? '' }} @if ($provinces ?? '')
-                                    @foreach ($provinces ?? '' as $province)
-                                    <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                        {{ $province->province }}
-                                    </option>
-                                    @endforeach
+                                        @foreach ($provinces ?? '' as $province)
+                                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+                                                {{ $province->province }}
+                                            </option>
+                                        @endforeach
                                     @endif
                                 </select>
                             </div>
                             <div class="col-span-1">
-                                <select id="districtOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="districtOptions"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>District</option>
                                 </select>
                             </div>
                             <div class="col-span-1">
-                                <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="industryOptions"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Industry</option>
                                     @if ($industry ?? '')
-                                    @foreach ($industry as $indust)
-                                    <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                    @endforeach
+                                        @foreach ($industry as $indust)
+                                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+                                        @endforeach
                                     @endif
                                 </select>
                             </div>
@@ -57,9 +75,9 @@
 
     </div>
     @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
     @endif
     <div class="container py-3 md:px-10">
         <div class="row">

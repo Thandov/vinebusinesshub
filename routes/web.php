@@ -47,7 +47,7 @@ Route::get('/sendtestemail', function () {
 
 Route::get('/send-email/{email}', [MailController::class, 'sendEmail']);
 
-Route::get('/home', [DashboardController::class, 'displayBusinesses'])->name('home');
+Route::get('/', [DashboardController::class, 'displayBusinesses'])->name('home');
 
 Route::get('/userboard', function () {
     return view('asas');
@@ -112,7 +112,5 @@ Route::post('contact/contact', [ContactFormController::class, 'contact'])->name(
 Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('updateProfile');
 
 Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'resend'])->middleware(['auth', 'throttle:3,1'])->name('verification.resend');
-
-//Route::post('/resend-verification-email/{id}', [BusinessController::class, 'resendVerificationEmail'])->name('resend-verification-email');
 
 require __DIR__ . '/auth.php';

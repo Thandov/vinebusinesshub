@@ -146,7 +146,8 @@ class BusinessController extends Controller
 
         $data->delete();
 
-        return redirect('/home');
+        return redirect('/')->with('success', ' Profile Successfully deleted');
+
     }
 
     public function updateBusiness(Request $req)
@@ -246,7 +247,8 @@ class BusinessController extends Controller
 
         $data->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', ' Profile Successfully updated');
+
     }
 
     public function showBusiness($id)
