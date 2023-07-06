@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->attachRole('admin');
+        $user->attachRole($request->role_id);
 
         if ($request->role_id === 'business') {
             Business::create([
