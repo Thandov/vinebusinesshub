@@ -31,7 +31,7 @@ class BusinessController extends Controller
             ->select('provinces.province')
             ->get();
 
-        return view('home', ['business' => $business, 'provinces' => $provinces, 'industry' => $industry]);
+        return view('/', ['business' => $business, 'provinces' => $provinces, 'industry' => $industry]);
     }
 
     /**
@@ -222,20 +222,20 @@ class BusinessController extends Controller
 
         $data->activation_status = 1;
 
-        if (!empty($req->xxx)) {
-            // $filename = $data->logo;
+        if (!empty($req->file('file-upload'))) {
+            $filename = $data->logo;
 
-            $folderPath = public_path('img/');
-            $image_parts = explode(';base64,', $request->xxx);
-            $image_type_aux = explode('image/', $image_parts[0]);
-            $image_type = $image_type_aux[1];
-            $image_base64 = base64_decode($image_parts[1]);
-            $newImageName = $name . '_' . uniqid() . '.png';
-            $file = $folderPath . $newImageName;
-            file_put_contents($file, $image_base64);
-            $cleaner->profile = $newImageName;
+            //If first time uploading logo
+            if (is_null($data->logo) || $data->logo !== $req->file('file-upload')) {
+                //update the record for business_name
+                $name = str_replace(' ', '_', strtolower($req->business_name));
+                $image = $req->file('file-upload');
+                $newImageName = time() . '-' . $name . '.' . $req->file('file-upload')->extension();
+                $req->file('file-upload')->move(public_path('img'), $newImageName);
+                $data->logo = $newImageName;
+            }
+
         }
-
         if ($req->marketingpic != $data->marketingpic) {
             //update the record for business_name
             $data->marketingpic = $req->marketingpic;
@@ -287,20 +287,6 @@ class BusinessController extends Controller
             ->get();
 
         return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);
-    }
-
-    public function cropimageupload(Request $request)
-    {
-        $folderPath = public_path('img/');
-        $image_parts = explode(';base64,', $request->image);
-        $image_type_aux = explode('image/', $image_parts[0]);
-        $image_type = $image_type_aux[1];
-        $image_base64 = base64_decode($image_parts[1]);
-        $imageName = uniqid() . '.png';
-        $imageFullPath = $folderPath . $imageName;
-        file_put_contents($imageFullPath, $image_base64);
-
-        return response()->json(['success' => $imageFullPath]);
     }
 
     public function uploadLogo(Request $request)

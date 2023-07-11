@@ -13,9 +13,9 @@
             </ol>
         </nav>
     </div>
-    <div class="pb-12">
-        <div class="grid md:grid-cols-5 max-w-7xl mx-auto sm:px-6 lg:px-8 gap-4">
-            <div class="md:col-span-3">
+    <div class="container md:flex justify-center py-5 px-4 md:px-8 max-w-screen-xl mx-auto">
+        <div class="md:flex justify-center mx-auto gap-3">
+            <div class="">
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <div class="container">
@@ -33,25 +33,10 @@
                                             <h1 class="font-black text-3xl">{{ $business[0]->business_name }}</h1>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <span class="font-black">Email:</span>
-                                            <br>
-                                            <a href="mailto:{{ $business[0]->email }}"
-                                                class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->email }}</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="font-black">Contact:</span>
-                                            <br>
-                                            <a href="tel:+{{ $business[0]->business_number }}"
-                                                class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->business_number }}</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="font-black">Website:</span>
-                                            <br>
-                                            <a href="http://{{ $business[0]->website }}" target="_blank"
-                                                class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->website }}</a>
-                                        </div>
+                                    <div class="">
+                                        <p class="text-sm font-medium leading-5 text-gray-500">
+                                            {{ $business[0]->business_bio }} </p>
+
                                     </div>
                                 </div>
                             </div>
@@ -60,19 +45,32 @@
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="container">
-                        <div class="">
-                            <p class="text-sm font-medium leading-5 text-gray-500">
-                                {{ $business[0]->business_bio }} </p>
 
+                        <div class="row py-2">
+                            <div class="col-md-4 align-items-center justify-content-center">
+                                <span class="font-black">Email:</span>
+                                <br>
+                                <a href="mailto:{{ $business[0]->email }}"
+                                    class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->email }}</a>
+                            </div>
+                            <div class="col-md-4 align-items-center justify-content-center">
+                                <span class="font-black">Contact:</span>
+                                <br>
+                                <a href="tel:+{{ $business[0]->business_number }}"
+                                    class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->business_number }}</a>
+                            </div>
+                            <div class="col-md-4 align-items-center justify-content-center">
+                                <span class="font-black">Website:</span>
+                                <br>
+                                <a href="http://{{ $business[0]->website }}" target="_blank"
+                                    class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->website }}</a>
+                            </div>
                         </div>
+
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col">
-                                        <p class="text-sm font-medium leading-5 text-gray-500 font-semibold mb-3">
-                                            You can find us on our Social Media Pages
-                                        </p>
-                                    </div>
+
                                 </div>
                                 <div class="row py-2">
                                     @if ($business[0]->facebook)
@@ -115,59 +113,56 @@
                 </div>
             </div>
             <div class="md:col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="md:col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
-                        <h1 class="font-black text-3xl">Our Services</h1>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="md:grid md:grid-cols-12 py-3">
-                                    <h3 class="md:col-span-3 text-medium leading-5 text-gray-500 font-bold">Industry
-                                        Type: </h3>
-                                    <p class="md:col-span-6">
-                                        <span
-                                            class="bg-yellow-600 text-yellow-100 rounded-md px-3 text-sm font-medium leading-5">{{ $business[0]->industry }}</span>
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h1 class="font-black text-3xl">Our Services</h1>
+                    <div class="grid md:grid-cols-3">
+                        <div class="md:col-span-3 py-3">
+                            <h3 class="text-medium leading-5 text-gray-500 font-bold">Industry Type:</h3>
+                            <p>
+                                <span
+                                    class="bg-yellow-600 text-yellow-100 rounded-md px-3 text-sm font-medium leading-5">{{ $business[0]->industry }}</span>
+                            </p>
+                        </div>
+                        <div class="md:col-span-3">
+                            <p class="text-sm font-medium leading-5 text-gray-500">We offer the following services
+                                to our clients</p>
+                            <hr>
+                            <ol class="py-3 ml-5" style="list-style: block">
+                                @if ($clientsservices ?? '')
+                                    @for ($i = 0; $i < count($clientsservices); $i++)
+                                        @if ($clientsservices[$i]->service_name)
+                                            <li>
+                                                <p class="">{{ $clientsservices[$i]->service_name }}</p>
+                                            </li>
+                                        @endif
+                                    @endfor
+                                @endif
+                            </ol>
+                        </div>
+                        <div class="md:col-span-3">
+                            <p class="text-sm font-medium leading-5 text-gray-500">Our Location</p>
+                            <hr>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
+                                <div class="col-span-1 sm:col-span-1 lg:col-span-1">
+                                    <p class="text-sm font-medium leading-5 text-gray-500">
+                                        <span class="font-bold">Province:</span> {{ $business[0]->province ?? '' }}
                                     </p>
                                 </div>
-                                <p class="text-sm font-medium leading-5 text-gray-500">We offer the following
-                                    services to our clients</p>
-                                <hr>
-                                <ol class="py-3 ml-5" style="list-style: block">
-                                    @if ($clientsservices ?? '')
-                                        @for ($i = 0; $i < count($clientsservices); $i++)
-                                            @if ($clientsservices[$i]->service_name)
-                                                <li>
-                                                    <p class="">{{ $clientsservices[$i]->service_name }}</p>
-                                                </li>
-                                            @endif
-                                        @endfor
-                                    @endif
-                                </ol>
-                                <a href="tel:{{ $business[0]->business_number }}"
-                                    class="inline-flex justify-center py-2 py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Contact</a>
-                            </div>
-                            <div class="col-md-6 py-3">
-                                <div class="col-span-6 sm:col-span-12 lg:col-span-12">
-
+                                <div class="col-span-1 sm:col-span-1 lg:col-span-1">
                                     <p class="text-sm font-medium leading-5 text-gray-500">
-                                        <span class="font-bold">Province:
-                                        </span>{{ $business[0]->province ?? '' }}
+                                        <span class="font-bold">District:</span>
+                                        {{ $business[0]->municipal_district ?? '' }}
                                     </p>
                                 </div>
-                                <div class="col-span-6 sm:col-span-12 lg:col-span-12">
+                                <div class="col-span-1 sm:col-span-1 lg:col-span-1">
                                     <p class="text-sm font-medium leading-5 text-gray-500">
-                                        <span class="font-bold">District:
-                                        </span>{{ $business[0]->municipal_district ?? '' }}
+                                        <span class="font-bold">Municipality:</span>
+                                        {{ $business[0]->municipality ?? '' }}
                                     </p>
                                 </div>
-                                <div class="col-span-6 sm:col-span-12 lg:col-span-12">
+                                <div class="col-span-1 sm:col-span-1 lg:col-span-1">
                                     <p class="text-sm font-medium leading-5 text-gray-500">
-                                        <span class="font-bold">Municipality:
-                                        </span>{{ $business[0]->municipality ?? '' }}
-                                    </p>
-                                </div>
-                                <div class="col-span-6 sm:col-span-12 lg:col-span-12">
-                                    <p class="text-sm font-medium leading-5 text-gray-500">
-                                        <span class="font-bold">Town: </span>{{ $business[0]->town ?? '' }}
+                                        <span class="font-bold">Town:</span> {{ $business[0]->town ?? '' }}
                                     </p>
                                 </div>
                             </div>
@@ -175,7 +170,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
-    font-black text-3xl pb-3
 </x-app-layout>

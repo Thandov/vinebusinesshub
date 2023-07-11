@@ -80,8 +80,8 @@
         </div>
     @endif
     <div class="container py-3 md:px-10">
-        <div class="row">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 mt-md-0 mb-4" id="test">
+        <div class="row flex justify-center">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
                 @include('home._businesses', ['businesses' => $business])
             </div>
         </div>
