@@ -241,25 +241,67 @@
                                                                         autocomplete="address-level2"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                 </div>
-                                                                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                <label for="profile" class="block text-sm font-medium text-gray-700">Profile</label>
-                                <input type="file" name="profile" class="image" id="file-upload">
-
-                            </div>
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                <input type="text" name="xxx" id="xxx" hidden>
-                                <div id="profilepic"></div>
-
-                                <div class="img-container">
-                                    <div class="row">
-                                        <div class="col-md-12" id="thepic">
-                                            <button type="button" class="btn btn-primary" id="crop">Crop</button>
-                                            <img id="image" src="">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                                <div class="col-span-12">
+                                                                    <label for="logo"
+                                                                        class="block text-sm font-medium text-gray-700">
+                                                                        Logo
+                                                                        @error('logo')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ str_replace('logo field', 'logo', $message) }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <div
+                                                                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                                        <img id="logo-preview" src="#"
+                                                                            style="display: none; width: 250px"
+                                                                            alt="">
+                                                                        <div class="space-y-1 text-center"
+                                                                            id="logouploader"
+                                                                            @if (!is_null($business[0]->logo)) style="display: none" @endif>
+                                                                            <div>
+                                                                                <svg class="mx-auto h-12 w-12 text-gray-400"
+                                                                                    stroke="currentColor"
+                                                                                    fill="none" viewBox="0 0 48 48"
+                                                                                    aria-hidden="true">
+                                                                                    <path
+                                                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round" />
+                                                                                </svg>
+                                                                                <div class="text-sm text-gray-600">
+                                                                                    <label for="file-upload"
+                                                                                        class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
+                                                                                        <span>Upload a file</span>
+                                                                                        <input id="file-upload"
+                                                                                            value="{{ $business[0]->logo }}"
+                                                                                            name="file-upload"
+                                                                                            type="file"
+                                                                                            class="sr-only">
+                                                                                    </label>
+                                                                                    <p class="pl-1">or drag and drop
+                                                                                    </p>
+                                                                                </div>
+                                                                                <p class="text-xs text-gray-500">
+                                                                                    PNG, JPG, GIF up to 10MB
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        @if (!empty($business[0]->logo))
+                                                                            <img style="width: 250px"
+                                                                                src="/img/{{ $business[0]->logo }}"
+                                                                                alt="{{ $business[0]->logo }}"
+                                                                                srcset="">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="mt-1 flex items-center">
+                                                                        <button id="change-logo-btn" type="button"
+                                                                            class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                            Change
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -598,83 +640,27 @@
     </div>
 </x-app-layout>
 <script>
-    function tip(ans) {
-        console.log(ans);
-    }
-    var image = document.getElementById('image');
-    var cropper;
-
-    $(document).on("change", ".image", function(e) {
-        var files = e.target.files;
-        var done = function(url) {
-            image.src = url;
-            tip(image.src);
-        };
-        var reader;
-        var file;
-        var url;
-
-
-        /*         $('#profilepic').css({
-                    "height": "100px",
-                    "width": "100px"
-                }); */
-
-        if (files && files.length > 0) {
-            file = files[0];
-            if (URL) {
-                done(URL.createObjectURL(file));
-
-            } else if (FileReader) {
-                reader = new FileReader();
-                reader.onload = function(e) {
-                    done(reader.result);
-                };
-                reader.readAsDataURL(file);
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#logo-preview').attr('src', '').attr('src', e.target.result)
             }
-
+            reader.readAsDataURL(input.files[0]);
+            $('#logo-preview').show();
         }
 
-
-        cropper = new Cropper(image, {
-            aspectRatio: 1,
-            viewMode: 3,
-            preview: '.preview'
-        });
-    });
-
-    $("#crop").click(function() {
-        var canvas = document.createElement("canvas");
-        canvas = cropper.getCroppedCanvas({
-            width: 500,
-            height: 500,
+    }
+    $(document).ready(function() {
+        $("#change-logo-btn").click(function() {
+            $('#logo-preview').attr('src', '').show();
+            $("#file-upload").trigger("click");
         });
 
-
-        canvas.toBlob(function(blob) {
-
-            url = URL.createObjectURL(blob);
-            var reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = function() {
-                var base64data = reader.result;
-                $('#xxx').val(base64data);
-                $('#profilepic').html("").promise().then(function() {
-                    jQuery(this).append('<img src="' + base64data + '"/>');
-                });
-                $('.img-container').removeClass('showdiv').promise().then(function() {
-                    var testContainer = document.querySelector(
-                        '.img-container');
-                    var fourChildNode = testContainer.querySelector('.four');
-                    $('#thepic > img.image').removeClass("cropper-hidden");
-                });
-            }
+        $("input[type='file']").change(function() {
+            readURL(this);
         });
-    });
 
-    jQuery(document).on('click', '.image', function() {
-        $('#profilepic').html("");
-        $('.img-container').addClass('showdiv');
     });
 
     jQuery(document).ready(function() {
