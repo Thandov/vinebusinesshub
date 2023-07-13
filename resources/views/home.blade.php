@@ -79,14 +79,20 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="container py-3 md:px-10">
-        <div class="row flex justify-center">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
-                @include('home._businesses', ['businesses' => $business])
+
+
+    @if ($business->isEmpty())
+        <p>No results found.</p>
+    @else
+        <div class="container py-3 md:px-10">
+            <div class="row flex justify-center">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
+                    @include('home._businesses', ['businesses' => $business])
+                </div>
             </div>
+            <div id="pagination-links">{{ $business->links() }}</div>
         </div>
-        <div id="pagination-links">{{ $business->links() }}</div>
-    </div>
+    @endif
 </x-app-layout>
 
 <script>
@@ -175,32 +181,26 @@
             },
             dataType: 'json',
             success: function(data) {
-                jQuery('#test').html(data.html);
+                if (data.message) {
+                    // Display the "No results found" message
+                    jQuery('#test').html(data.message);
+                    jQuery('#pagination-links').html("");
+                } else {
+                    // Display the business data and pagination links
+                    jQuery('#test').html(data.html);
+                    jQuery('#pagination-links').html(data.pagination);
+                }
                 console.log(data);
-                // Update pagination
-                jQuery('#pagination-links').html(data.pagination);
             },
             error: function(jqXHR, exception) {
+                // Handle the error
                 var msg = '';
-                if (jqXHR.status === 0) {
-                    msg = 'Not connect.\n Verify Network.';
-                } else if (jqXHR.status === 404) {
-                    msg = 'Requested page not found. [404]';
-                } else if (jqXHR.status === 500) {
-                    msg = 'Internal Server Error [500].';
-                } else if (exception === 'parsererror') {
-                    msg = 'Requested JSON parse failed.';
-                } else if (exception === 'timeout') {
-                    msg = 'Time out error.';
-                } else if (exception === 'abort') {
-                    msg = 'Ajax request aborted.';
-                } else {
-                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                }
+                // ...
                 alert(msg);
             }
         });
     }
+
 
 
 
