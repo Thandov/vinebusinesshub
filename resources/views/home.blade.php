@@ -1,22 +1,21 @@
 <x-app-layout title="Home">
-    <div class="jumbotron homehead p-5 bg-primary d-flex align-items-center justify-content-center" style="height: 230px">
-        <div class="text-center">
-            <h1 class="text-4xl md:text-6xl">The Vine SA</h1>
-            <p>Connecting you to your local businesses</p>
-        </div>
-    </div>
+
+    <section id="carousel">
+        @include('_carousel')
+    </section>
+
     @if ($message = session('success'))
-        <div id="success-message" class="alert alert-success">
-            {{ $message }}
-        </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                setTimeout(function() {
-                    $('#success-message').fadeOut('slow');
-                }, 1000);
-            });
-        </script>
+    <div id="success-message" class="alert alert-success">
+        {{ $message }}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('#success-message').fadeOut('slow');
+            }, 1000);
+        });
+    </script>
     @endif
     <div class="bg-white">
         <div class="row">
@@ -32,37 +31,32 @@
                     <form id="searchForm">
                         <div class="grid grid-cols-5 gap-0">
                             <div class="col-span-2 flex items-center justify-center">
-                                <input type="text" placeholder="Search Business" name="search"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="liveSearch">
+                                <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
                             </div>
                             <div class="col-span-1">
-                                <select id="provinceOptions"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Province</option>
                                     {{ $provinces ?? '' }} @if ($provinces ?? '')
-                                        @foreach ($provinces ?? '' as $province)
-                                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                                {{ $province->province }}
-                                            </option>
-                                        @endforeach
+                                    @foreach ($provinces ?? '' as $province)
+                                    <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+                                        {{ $province->province }}
+                                    </option>
+                                    @endforeach
                                     @endif
                                 </select>
                             </div>
                             <div class="col-span-1">
-                                <select id="districtOptions"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="districtOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>District</option>
                                 </select>
                             </div>
                             <div class="col-span-1">
-                                <select id="industryOptions"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Industry</option>
                                     @if ($industry ?? '')
-                                        @foreach ($industry as $indust)
-                                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                        @endforeach
+                                    @foreach ($industry as $indust)
+                                    <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+                                    @endforeach
                                     @endif
                                 </select>
                             </div>
@@ -75,23 +69,23 @@
 
     </div>
     @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
     @endif
 
 
     @if ($business->isEmpty())
-        <p>No results found.</p>
+    <p>No results found.</p>
     @else
-        <div class="container py-3 md:px-10">
-            <div class="row flex justify-center">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
-                    @include('home._businesses', ['businesses' => $business])
-                </div>
+    <div class="container py-3 md:px-10">
+        <div class="row flex justify-center">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
+                @include('home._businesses', ['businesses' => $business])
             </div>
-            <div id="pagination-links">{{ $business->links() }}</div>
         </div>
+        <div id="pagination-links">{{ $business->links() }}</div>
+    </div>
     @endif
 </x-app-layout>
 
@@ -163,6 +157,23 @@
             var pageNumber = jQuery('#pagination-links .active a').text();
             fetch_customer_data(query, searchOption, pageNumber, selectedProvince, selectedDistrict);
         });
+
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            dots: false,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false
+                }
+            },
+            autoplay: true,
+            autoplayTimeout: 12000,
+            autoplayHoverPause: false,
+        })
+
     });
 
     function fetch_customer_data(query = "", searchOption = "", pageNumber = 1, selectedProvince = "",

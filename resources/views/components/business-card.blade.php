@@ -1,4 +1,4 @@
-{{-- <div class="card rounded-md shadow-md overflow-hidden hover:shadow-lg" style="width: 100%;">
+<div class="card rounded-md shadow-md overflow-hidden hover:shadow-lg" style="width: 100%;">
     <div class="img-wrap overflow-hidden"
         style="background-size: cover; background-repeat: no-repeat; background-position: center; background-size: cover">
         @if ($logo)
@@ -15,8 +15,8 @@
         <a href="/viewBusiness/{{ $id }}"
             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
     </div>
-</div> --}}
-<div class="flex justify-center">
+</div>
+<!-- <div class="flex justify-center">
     <div class="bg-white rounded-lg shadow-md flex items-center justify-center w-72 h-72">
         <div>
             <div>
@@ -34,4 +34,4 @@
                 class="inline-flex justify-center mb-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
         </div>
     </div>
-</div>
+</div> -->
