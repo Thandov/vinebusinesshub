@@ -5,17 +5,17 @@
     </section>
 
     @if ($message = session('success'))
-    <div id="success-message" class="alert alert-success">
-        {{ $message }}
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $('#success-message').fadeOut('slow');
-            }, 1000);
-        });
-    </script>
+        <div id="success-message" class="alert alert-success">
+            {{ $message }}
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('#success-message').fadeOut('slow');
+                }, 1000);
+            });
+        </script>
     @endif
     <div class="bg-white">
         <div class="row">
@@ -31,32 +31,44 @@
                     <form id="searchForm">
                         <div class="grid grid-cols-5 gap-0">
                             <div class="col-span-2 flex items-center justify-center">
-                                <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
+                                <input type="text" placeholder="Search Business" name="search"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="liveSearch">
                             </div>
                             <div class="col-span-1">
-                                <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="provinceOptions"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Province</option>
                                     {{ $provinces ?? '' }} @if ($provinces ?? '')
-                                    @foreach ($provinces ?? '' as $province)
-                                    <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                        {{ $province->province }}
-                                    </option>
-                                    @endforeach
+                                        @foreach ($provinces ?? '' as $province)
+                                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+                                                {{ $province->province }}
+                                            </option>
+                                        @endforeach
                                     @endif
                                 </select>
                             </div>
+                            <select id="districtOptions"
+                                class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="" selected disabled>District</option>
+                                @if ($districts ?? '')
+                                    @foreach ($districts ?? '' as $district)
+                                        <option value="{{ $district->id }}"
+                                            data-name="{{ $district->municipal_district }}">
+                                            {{ $district->municipal_district }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+
                             <div class="col-span-1">
-                                <select id="districtOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="" selected disabled>District</option>
-                                </select>
-                            </div>
-                            <div class="col-span-1">
-                                <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="industryOptions"
+                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Industry</option>
                                     @if ($industry ?? '')
-                                    @foreach ($industry as $indust)
-                                    <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                    @endforeach
+                                        @foreach ($industry as $indust)
+                                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+                                        @endforeach
                                     @endif
                                 </select>
                             </div>
@@ -69,23 +81,23 @@
 
     </div>
     @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
     @endif
 
 
     @if ($business->isEmpty())
-    <p>No results found.</p>
+        <p>No results found.</p>
     @else
-    <div class="container py-3 md:px-10">
-        <div class="row flex justify-center">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
-                @include('home._businesses', ['businesses' => $business])
+        <div class="container py-3 md:px-10">
+            <div class="row flex justify-center">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 mt-md-0 w-auto" id="test">
+                    @include('home._businesses', ['businesses' => $business])
+                </div>
             </div>
+            <div id="pagination-links">{{ $business->links() }}</div>
         </div>
-        <div id="pagination-links">{{ $business->links() }}</div>
-    </div>
     @endif
 </x-app-layout>
 
@@ -234,29 +246,34 @@
     function changeDistrict($id) {
         jQuery.ajax({
             url: "{{ route('home.changeDistrict') }}",
-            menthod: 'GET',
+            method: 'GET',
             data: {
                 id: $id
             },
             dataType: 'json',
             success: function(data) {
-                jQuery('#districtOptions')
-                    .find('option')
-                    .remove()
-                    .end();
+                var districtOptions = jQuery(
+                    '#districtOptions'); // Declare the districtOptions variable here
+
+                districtOptions.find('option').remove().end();
+                districtOptions.append('<option value="" selected disabled>District</option>');
+
                 data.forEach(district => {
-                    jQuery('#districtOptions')
-                        .append('<option onclick=" changeMunicipality(' + district.id +
-                            ');" value="' +
-                            district.id + '">' + district.municipal_district +
-                            '</option>');
+                    districtOptions.append('<option onclick="changeMunicipality(' + district.id +
+                        ');" value="' +
+                        district.id + '">' + district.municipal_district +
+                        '</option>');
                 });
-                $("#districtOptions").val($("#districtOptions option:first").val());
-                var selectedDistrict = $("#districtOptions").find(":selected").val();
+
+                districtOptions.val(districtOptions.find('option:first').val());
+
+                var selectedDistrict = districtOptions.find(":selected").val();
                 changeMunicipality(selectedDistrict);
             }
         });
     }
+
+
 
     function changeMunicipality($id) {
         jQuery.ajax({
