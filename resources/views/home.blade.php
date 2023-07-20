@@ -1,74 +1,97 @@
 <x-app-layout title="Home">
 
-    <section id="carousel">
-        @include('_carousel')
-    </section>
+    <div class="jumbotron homehead p-5 bg-primary d-flex align-items-center justify-content-center" style="height: 230px">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl">The Vine SA</h1>
+            <p>Connecting you to your local businesses</p>
+        </div>
+    </div>
 
     @if ($message = session('success'))
-        <div id="success-message" class="alert alert-success">
-            {{ $message }}
-        </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                setTimeout(function() {
-                    $('#success-message').fadeOut('slow');
-                }, 1000);
-            });
-        </script>
+    <div id="success-message" class="alert alert-success">
+        {{ $message }}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('#success-message').fadeOut('slow');
+            }, 1000);
+        });
+    </script>
     @endif
-    <div class="bg-white">
-        <div class="row">
+    <div class="bg-white py-4">
+        <div class="flex justify-center">
+            <div class="row w-9/12 my-3">
+
+                <div class="owl-carousel">
+                    @foreach( $industry as $indust)
+                    <div class="flex justify-center">
+                        <div class="bg-white grid justify-center items-center border-2 overflow-hidden rounded-full w-44 h-20">
+                            <div class="">
+
+                                <!-- <div class="grid justify-center">
+                                    <div class="h-16 w-16 rounded-full border-2 flex items-center justify-center">
+                                        <img class="w-12" src="">
+                                    </div>
+                                </div> -->
+
+                                <div class="">
+                                    <p class="text-center">{{ $indust->industry }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
             <div class="col py-10 text-center">
                 <h1 class="text-xl md:text-xl font-bold">Welcome to the Vine SA</h1>
                 <p class="block text-sm font-medium text-gray-700">The digital Business Directory helping you find
                     businesses around you</p>
             </div>
-        </div>
+        </div> -->
         <div class="container py-3 md:px-10">
             <div class="row">
                 <div class="bg-white my-3  rounded-lg">
                     <form id="searchForm">
-                        <div class="grid grid-cols-5 gap-0">
+                        <div class="grid grid-cols-5 mx-0">
                             <div class="col-span-2 flex items-center justify-center">
-                                <input type="text" placeholder="Search Business" name="search"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="liveSearch">
+                                <input type="text" placeholder="Search Business" name="search" class="shadow-sm appearance-none border border-red-500 rounded-l-full w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline" id="liveSearch">
                             </div>
                             <div class="col-span-1">
-                                <select id="provinceOptions"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="provinceOptions" class="shadow-sm appearance-none border border-red-500  w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Province</option>
                                     {{ $provinces ?? '' }} @if ($provinces ?? '')
-                                        @foreach ($provinces ?? '' as $province)
-                                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                                {{ $province->province }}
-                                            </option>
-                                        @endforeach
+                                    @foreach ($provinces ?? '' as $province)
+                                    <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+                                        {{ $province->province }}
+                                    </option>
+                                    @endforeach
                                     @endif
                                 </select>
                             </div>
-                            <select id="districtOptions"
-                                class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                            <select id="districtOptions" class="shadow-sm appearance-none border border-red-500  w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="" selected disabled>District</option>
                                 @if ($districts ?? '')
-                                    @foreach ($districts ?? '' as $district)
-                                        <option value="{{ $district->id }}"
-                                            data-name="{{ $district->municipal_district }}">
-                                            {{ $district->municipal_district }}
-                                        </option>
-                                    @endforeach
+                                @foreach ($districts ?? '' as $district)
+                                <option value="{{ $district->id }}" data-name="{{ $district->municipal_district }}">
+                                    {{ $district->municipal_district }}
+                                </option>
+                                @endforeach
                                 @endif
                             </select>
 
                             <div class="col-span-1">
-                                <select id="industryOptions"
-                                    class="shadow-sm appearance-none border border-red-500 rounded-lg w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
+                                <select id="industryOptions" class="shadow-sm appearance-none border border-red-500 rounded-r-full w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Industry</option>
                                     @if ($industry ?? '')
-                                        @foreach ($industry as $indust)
-                                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                        @endforeach
+                                    @foreach ($industry as $indust)
+                                    <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+                                    @endforeach
                                     @endif
                                 </select>
                             </div>
@@ -81,19 +104,19 @@
 
     </div>
     @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
     @endif
 
 
     @if ($business->isEmpty())
-        <p>No results found.</p>
+    <p>No results found.</p>
     @else
     <div class="container py-3 md:px-10">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2 mt-md-0 w-auto" id="test">
-                @include('home._businesses', ['businesses' => $business])
-            </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2 mt-md-0 w-auto" id="test">
+            @include('home._businesses', ['businesses' => $business])
+        </div>
         <div id="pagination-links">{{ $business->links() }}</div>
     </div>
     @endif
@@ -175,7 +198,7 @@
             responsiveClass: true,
             responsive: {
                 0: {
-                    items: 1,
+                    items: 5,
                     nav: false
                 }
             },
