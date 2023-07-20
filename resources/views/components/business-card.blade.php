@@ -18,8 +18,8 @@
 </div>
  -->
 
-<div class="max-w-sm lg:max-w-sm rounded-md overflow-hidden shadow-md hover:shadow-lg border p-4">
-    <div class="max-w-sm lg:max-w-sm rounded overflow-hidden">
+<div class="max-w-sm lg:max-w-sm rounded-md overflow-hidden bg-white shadow-md hover:shadow-lg border p-4">
+    <div class="max-w-sm lg:max-w-sm rounded bg-white overflow-hidden">
         <div class="card-content">
             <div class="relative">
                 @if ($logo)
