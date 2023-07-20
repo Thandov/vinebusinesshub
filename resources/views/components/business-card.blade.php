@@ -1,4 +1,4 @@
-<div class="card rounded-md shadow-md overflow-hidden hover:shadow-lg" style="width: 100%;">
+<!-- <div class="card rounded-md shadow-md overflow-hidden hover:shadow-lg" style="width: 100%;">
     <div class="img-wrap overflow-hidden"
         style="background-size: cover; background-repeat: no-repeat; background-position: center; background-size: cover">
         @if ($logo)
@@ -16,22 +16,27 @@
             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
     </div>
 </div>
-<!-- <div class="flex justify-center">
-    <div class="bg-white rounded-lg shadow-md flex items-center justify-center w-72 h-72">
-        <div>
-            <div>
+ -->
+
+<div class="max-w-sm lg:max-w-sm rounded-md overflow-hidden shadow-md hover:shadow-lg border p-4">
+    <div class="max-w-sm lg:max-w-sm rounded overflow-hidden">
+        <div class="card-content">
+            <div class="relative">
                 @if ($logo)
-                    <img src="../img/{{ $logo }}" class="w-40 h-40 rounded-md" />
+                <img src="../img/{{ $logo }}" class="bizlogo w-full object-cover" />
                 @else
-                    <div>
-                        <img src="../img/placeholder/placeholder.jpeg" class="h-28 rounded-md" />
-                    </div>
+                <div class="placeholder-logo p-4">
+                    <img src="../img/placeholder/placeholder.jpeg" class="h-28 rounded-md mx-auto" />
+                </div>
                 @endif
             </div>
-            <h5 class="font-bold text-center card-title text-green-600 mt-1">{{ $name }}</h5>
-            <p class="card-text text-center text-xs mb-1 mt-1">{{ $industry }}</p>
-            <a href="/viewBusiness/{{ $id }}"
-                class="inline-flex justify-center mb-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
+            <div class="card-body text-center">
+                <div class="font-bold card-title text-xl text-green-600">{{ $name }}</div>
+                <p class="card-text text-xs">{{ $industry }}</p>
+            </div>
+            <div class="">
+                <a href="/viewBusiness/{{ $id }}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-md font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
+            </div>
         </div>
     </div>
-</div> -->
+</div>
