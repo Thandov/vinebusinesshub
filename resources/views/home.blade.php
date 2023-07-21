@@ -27,40 +27,14 @@
         </script>
     @endif
     <div class="bg-white py-4">
-        <div class="flex justify-center">
-            <div class="row w-9/12 my-3">
 
-                <div class="owl-carousel">
-                    @foreach ($industry as $indust)
-                        <div class="flex justify-center">
-                            <div
-                                class="bg-white grid justify-center items-center border-2 overflow-hidden rounded-full w-44 h-20">
-                                <div class="">
-
-                                    <!-- <div class="grid justify-center">
-                                    <div class="h-16 w-16 rounded-full border-2 flex items-center justify-center">
-                                        <img class="w-12" src="">
-                                    </div>
-                                </div> -->
-
-                                    <div class="">
-                                        <p class="text-center">{{ $indust->industry }}</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-        <!-- <div class="row">
+        <div class="row">
             <div class="col py-10 text-center">
                 <h1 class="text-xl md:text-xl font-bold">Welcome to the Vine SA</h1>
                 <p class="block text-sm font-medium text-gray-700">The digital Business Directory helping you find
                     businesses around you</p>
             </div>
-        </div> -->
+        </div>
         <div class="container py-3 md:px-10">
             <div class="row">
                 <div class="bg-white my-3  rounded-lg">
