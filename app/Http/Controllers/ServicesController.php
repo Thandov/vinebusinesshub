@@ -20,8 +20,6 @@ class ServicesController extends Controller
      */
     public function index()
     {
-
-
     }
 
     /**
@@ -88,7 +86,7 @@ class ServicesController extends Controller
     public function destroy(Services $services)
     {
         //
-        
+
     }
 
     public function deleteService($id)
@@ -97,41 +95,47 @@ class ServicesController extends Controller
         $data = Services::find($id);
         $data->delete();
         return redirect('adminpanel');
-        
     }
 
     public function insert(Request $request)
     {
+        $rules = array(
+            'id.*' => 'required',
+            'service_name.*' => 'required'
+        );
 
-        if($request->ajax())
-        {
-            
-            $rules = array(
-                'id.*'  => 'required',
-                'service_name.*'  => 'required'
-              );
-              $error = Validator::make($request->all(), $rules);
-              if($error->fails())
-              {
-                  return response()->json(['error'  => $error->errors()->all()]);
-                }
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            if ($request->ajax()) {
+                return response()->json(['error' => $validator->errors()->all()]);
+            } else {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+        }
 
         $service_name = $request->service_name;
 
-        for($i=0; $i<count($service_name); $i++)
-        {
-            
-            $datasave = [
-                'service_name' => $request->service_name[$i],
-                'industryId' => $request->id
-            ];
-            DB::table('services')->insert($datasave);
+        $dataToInsert = [];
+
+        for ($i = 0; $i < count($service_name); $i++) {
+            // Check if both $service_name and $request->id have the required index
+            if (isset($service_name[$i], $request->id)) {
+
+                $service = new Services();
+                $service->service_name = $service_name[$i];
+                $service->industryId = $request->id;
+                $service->save();
+            }
         }
+        if ($request->ajax()) {
+            return response()->json(['success' => 'Data inserted successfully']);
         }
 
-       return redirect('adminpanel')->with('status', 'Profile updated!');
-
+        return redirect('adminpanel')->with('status', 'Profile updated!');
     }
+
+
 
     public function insertclientservice(Request $request)
     {
@@ -143,8 +147,7 @@ class ServicesController extends Controller
             ->where('clientsservices.bid', $request->bid)
             ->delete();
 
-        for($i=0; $i<count($service_name); $i++)
-        {
+        for ($i = 0; $i < count($service_name); $i++) {
 
             $datasave = [
                 'serviceId' => $request->serviceId[$i],
@@ -153,6 +156,6 @@ class ServicesController extends Controller
             ];
             DB::table('clientsservices')->insert($datasave);
         }
-       return redirect()->back();
+        return redirect()->back();
     }
 }
