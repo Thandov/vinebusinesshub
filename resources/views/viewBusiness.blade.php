@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="md:col-span-4 col-span-12 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                @include('business/viewBusiness/_services')
+                @include('business/viewbusiness/_services')
             </div>
 
 
