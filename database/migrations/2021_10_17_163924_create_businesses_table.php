@@ -18,7 +18,7 @@ class CreateBusinessesTable extends Migration
             $table->integer('company_rep')->nullable()->unsigned();
             $table->string('business_name')->nullable();
             $table->string('business_number')->nullable();
-            $table->string('business_bio')->nullable();
+            $table->string('business_bio', 1000)->nullable();
             $table->string('email', 150)->unique()->nullable();
             $table->integer('provinceId')->nullable()->unsigned();
             $table->integer('districtId')->nullable()->unsigned();
@@ -33,7 +33,7 @@ class CreateBusinessesTable extends Migration
             $table->string('instagram')->nullable();
             $table->string('logo')->nullable();
             $table->string('marketingpic')->nullable();
-             $table->string('activation_status')->nullable();
+            $table->string('activation_status')->nullable();
             $table->timestamps();
         });
         Schema::table('businesses', function (Blueprint $table) {

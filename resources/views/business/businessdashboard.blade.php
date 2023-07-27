@@ -156,13 +156,14 @@
                                                                         @enderror
                                                                     </label>
                                                                     <div class="mt-1">
-                                                                        <textarea style="height: 200px" id="business_bio" name="business_bio" onkeyup="charcountupdate(this.value);"
-                                                                            rows="3"
+                                                                        <textarea style="height: 200px" id="business_bio" name="business_bio" rows="3" maxlength="1000"
                                                                             class="shadow-sm focus:ring-green-500 focus:border-green-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                                                            placeholder="Aboout Your Business">{{ $business[0]->business_bio ?? ('' ?? '') }}</textarea>
+                                                                            placeholder="About Your Business" onkeyup="charcountupdate(this.value);">
+                                                                            {{ $business[0]->business_bio ?? '' }}
+                                                                        </textarea>
                                                                         <span
                                                                             class="block text-sm font-medium text-gray-700 mt-3"
-                                                                            id=charcount></span>
+                                                                            id="charcount"></span>
                                                                     </div>
                                                                 </div>
 
@@ -763,6 +764,20 @@
         }
     }
 
+    //bio script
+    function charcountupdate(value) {
+        const maxLength = 1000;
+        const charCount = value.length;
+        const charCountElement = document.getElementById('charcount');
+        charCountElement.textContent = `${charCount} / ${maxLength}`;
+
+        // Disable further typing if the limit is reached
+        if (charCount >= maxLength) {
+            document.getElementById('business_bio').setAttribute('readonly', 'readonly');
+        } else {
+            document.getElementById('business_bio').removeAttribute('readonly');
+        }
+    }
 
 
     function changeDistrict($id) {
