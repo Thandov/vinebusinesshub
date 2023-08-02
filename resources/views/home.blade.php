@@ -88,6 +88,97 @@
             </div>
         </div>
 
+        <div class="p-5">
+            <div class="flex items-center border border-gray">
+                <div class="relative">
+                    <form
+                        class="flex"
+                        action="/search"
+                        id="header_find_form"
+                        role="search"
+                        method="get"
+                        wtx-context="0F597C7B-F589-4E02-8330-57B884DD41B2"
+                    >
+                        <div class="flex items-center">
+                            <div class="relative">
+                                <label class="text-gray-600 font-semibold" for="search_description">
+                            <div class="inline-block w-6 h-6 absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 stroke-2">
+                                        <svg width="18" height="18" class="icon_svg" viewBox="0 0 24 24">
+                                            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.51 6.51 0 1 0-.7.7l.27.28v.79l4.25 4.24a1 1 0 0 0 1.42-1.42L15.5 14zm-4.6 0a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+                                        </svg>
+                                    </div>
+                                    <input
+                                        aria-label="Find"
+                                        autocomplete="off"
+                                        role="textbox"
+                                        aria-autocomplete="list"
+                                        tabindex="0"
+                                        name="find_desc"
+                                        data-testid="suggest-desc-input"
+                                        id="search_description"
+                                        class="py-2 pl-10 pr-3 bg-gray-100 rounded-md border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        type="text"
+                                        placeholder="What's on your mind??"
+                                        value=""
+                                        wtx-context="3A6C263E-3349-4427-BC18-53E01C7A4833"
+                                    />
+                                </label>
+                                <div id="dropdown" class="hidden absolute bg-white border border-gray-300 mt-2 w-full z-10">
+                                    <div class="dropdown-item px-3 py-2 cursor-pointer hover:bg-gray-100">Plumbing</div>
+                                    <div class="dropdown-item px-3 py-2 cursor-pointer hover:bg-gray-100">Auto Repairs</div>
+                                    <div class="dropdown-item px-3 py-2 cursor-pointer hover:bg-gray-100">Hair and beauty</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Rest of your form and button code -->
+                    </form>
+                </div>
+            
+                    <div class="relative">
+                        <label class="text-gray-600 font-semibold" for="search_location">
+                            <span class="inline-block w-6 h-6">
+                                <svg width="16" height="16" class="icon_svg" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-.5-7.5a1.5 1.5 0 0 1-3 0v-5a1.5 1.5 0 0 1 3 0v5z" />
+                                </svg>
+                            </span>
+                            <select
+                                aria-label="Near"
+                                autocomplete="off"
+                                role="textbox"
+                                aria-autocomplete="list"
+                                tabindex="0"
+                                data-testid="suggest-location-input"
+                                id="search_location"
+                                class="py-2 px-6 bg-gray-100 rounded-md border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <option value="" disabled selected>Location, Address, City</option>
+                                @if ($provinces ?? '')
+                                    @foreach ($provinces ?? '' as $province)
+                                        <option value="{{ $province->id }}"
+                                             data-name="{{ $province->province }}"  >
+                                            {{ $province->province }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </label>
+                    </div>
+                  <button
+                    aria-label="Search"
+                    type="submit"
+                    class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+                    data-activated="false"
+                    data-testid="suggest-submit"
+                    value="submit"
+                    data-button="true"
+                  >
+                    Search
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
 
     </div>
     @if (session('status'))
@@ -330,3 +421,42 @@
         });
     }
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("search_description");
+        const dropdown = document.getElementById("dropdown");
+
+        // Show the dropdown when the input is clicked
+        searchInput.addEventListener("click", function () {
+            dropdown.classList.remove("hidden");
+        });
+
+        // Hide the dropdown when an item is selected
+        dropdown.addEventListener("click", function (event) {
+            if (event.target.classList.contains("dropdown-item")) {
+                dropdown.classList.add("hidden");
+                searchInput.value = event.target.textContent;
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dropdown = document.getElementById("dropdown");
+        const inputField = document.getElementById("search_description");
+        const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+
+        dropdownItems.forEach(item => {
+            item.addEventListener("click", function() {
+                const selectedItemText = item.textContent.trim();
+                inputField.value = selectedItemText === "mpumalanga" ? selectedItemText : "";
+            });
+        });
+    });
+</script>
+
+
+
+
+
