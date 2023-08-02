@@ -317,7 +317,7 @@
                                                     enctype="multipart/form-data">
                                                     @csrf
                                                     <input type="hidden" name="id"
-                                                        value="{{ $business[0]->id ?? '' }}">
+                                                        value="{{ $business->id ?? '' }}">
                                                     <div class="shadow overflow-hidden sm:rounded-md mb-5">
                                                         <div class="px-4 py-5 bg-white sm:p-6">
                                                             <div class="grid grid-cols-12 gap-6">
@@ -332,7 +332,7 @@
                                                                         @enderror
                                                                     </label>
                                                                     <input type="text" name="business_name"
-                                                                        value="{{ $business[0]->business_name ?? '' }}"
+                                                                        value="{{ $business->business_name ?? '' }}"
                                                                         id="business_name" autocomplete="given-name"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
@@ -349,7 +349,7 @@
                                                                         @enderror
                                                                     </label>
                                                                     <input type="text" name="business_number"
-                                                                        value="{{ $business[0]->business_number ?? '' }}"
+                                                                        value="{{ $business->business_number ?? '' }}"
                                                                         id="business_number" autocomplete="given-name"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                 </div>
@@ -364,7 +364,7 @@
                                                                         @enderror
                                                                     </label>
                                                                     <input type="text"
-                                                                        value="{{ $business[0]->email ?? '' }}"
+                                                                        value="{{ $business->email ?? '' }}"
                                                                         name="email" id="email"
                                                                         autocomplete="email"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -383,7 +383,7 @@
                                                                         <textarea style="height: 200px" id="business_bio" name="business_bio" rows="3" maxlength="1000"
                                                                             class="shadow-sm focus:ring-green-500 focus:border-green-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                                                                             placeholder="About Your Business" onkeyup="charcountupdate(this.value);">
-                                                                            {{ $business[0]->business_bio ?? '' }}
+                                                                            {{ $business->business_bio ?? '' }}
                                                                         </textarea>
                                                                         <span
                                                                             class="block text-sm font-medium text-gray-700 mt-3"
@@ -402,7 +402,7 @@
                                                                         @enderror
                                                                     </label>
                                                                     <input type="text"
-                                                                        value="{{ $business[0]->company_reg ?? '' }}"
+                                                                        value="{{ $business->company_reg ?? '' }}"
                                                                         name="company_reg" id="company_reg"
                                                                         autocomplete="address"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -422,7 +422,7 @@
                                                                             @foreach ($sortedIndustries as $industry)
                                                                                 <option
                                                                                     value="{{ $industry->id ?? '' }}"
-                                                                                    {{ $industry->id === $business[0]->industryId ? 'selected' : '' }}>
+                                                                                    {{ $industry->id === $business->industryId ? 'selected' : '' }}>
                                                                                     {{ $industry->industry }}
                                                                                 </option>
                                                                             @endforeach
@@ -434,7 +434,7 @@
                                                                     <label for="website"
                                                                         class="block text-sm font-medium text-gray-700">Website</label>
                                                                     <input type="text"
-                                                                        value="{{ $business[0]->website ?? '' }}"
+                                                                        value="{{ $business->website ?? '' }}"
                                                                         name="website" id="website"
                                                                         autocomplete="address-level2"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -443,7 +443,7 @@
                                                                     <label for="facebook"
                                                                         class="block text-sm font-medium text-gray-700">Facebook</label>
                                                                     <input type="text"
-                                                                        value="{{ $business[0]->facebook ?? '' }}"
+                                                                        value="{{ $business->facebook ?? '' }}"
                                                                         name="facebook" id="facebook"
                                                                         autocomplete="address-level2"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -452,7 +452,7 @@
                                                                     <label for="twitter"
                                                                         class="block text-sm font-medium text-gray-700">Twitter</label>
                                                                     <input type="text"
-                                                                        value="{{ $business[0]->twitter ?? '' }}"
+                                                                        value="{{ $business->twitter ?? '' }}"
                                                                         name="twitter" id="twitter"
                                                                         autocomplete="address-level2"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -461,7 +461,7 @@
                                                                     <label for="instagram"
                                                                         class="block text-sm font-medium text-gray-700">Instagram</label>
                                                                     <input type="text"
-                                                                        value="{{ $business[0]->instagram ?? '' }}"
+                                                                        value="{{ $business->instagram ?? '' }}"
                                                                         name="instagram" id="instagram"
                                                                         autocomplete="address-level2"
                                                                         class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -483,7 +483,7 @@
                                                                             alt="">
                                                                         <div class="space-y-1 text-center"
                                                                             id="logouploader"
-                                                                            @if (!is_null($business[0]->logo)) style="display: none" @endif>
+                                                                            @if (!is_null($business->logo)) style="display: none" @endif>
                                                                             <div>
                                                                                 <svg class="mx-auto h-12 w-12 text-gray-400"
                                                                                     stroke="currentColor"
@@ -500,7 +500,7 @@
                                                                                         class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
                                                                                         <span>Upload a file</span>
                                                                                         <input id="file-upload"
-                                                                                            value="{{ $business[0]->logo }}"
+                                                                                            value="{{ $business->logo }}"
                                                                                             name="file-upload"
                                                                                             type="file"
                                                                                             class="sr-only">
@@ -513,10 +513,10 @@
                                                                                 </p>
                                                                             </div>
                                                                         </div>
-                                                                        @if (!empty($business[0]->logo))
+                                                                        @if (!empty($business->logo))
                                                                             <img style="width: 250px"
-                                                                                src="/img/{{ $business[0]->logo }}"
-                                                                                alt="{{ $business[0]->logo }}"
+                                                                                src="/img/{{ $business->logo }}"
+                                                                                alt="{{ $business->logo }}"
                                                                                 srcset="">
                                                                         @endif
                                                                     </div>

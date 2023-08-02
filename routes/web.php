@@ -58,14 +58,15 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 //For Businesses
 Route::group(['middleware' => ['auth', 'role:business']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
-    Route::get('/bdashboard/website/{id}', function($id){
-        return view('business.viewbusiness.powerups._website', ['id' => $id]);
+    Route::get('/bdashboard/website/', function(){
+        $id = auth()->user()->id;
+        return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
     Route::get('/bdashboard/accounting/{id}', function($id){
         return view('business.viewbusiness.powerups._accounting', ['id' => $id]);
     })->name('bdashboard.accounting');
     //View Business of single business no user logged in
-    Route::get('/bdashboard/{id}', [BusinessController::class, 'show'])->name('bdashboard');
+    Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
     //Edit the business admin data
     Route::post('business/update', [BusinessController::class, 'updateBusiness'])->name('business.update');
     //Edit the business admin data insertclientservice
