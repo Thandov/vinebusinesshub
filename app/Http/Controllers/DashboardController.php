@@ -135,10 +135,10 @@ class DashboardController extends Controller
         }
     
         if ($business->isEmpty()) {
-            $output = '<p>No results found.</p>'; // Customize the message as needed
+            $output = '<p>No results found.</p>'; 
         } else {
             foreach ($business as $row) {
-                // Existing code...
+            
             }
         }
     

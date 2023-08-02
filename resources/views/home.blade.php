@@ -171,7 +171,7 @@
 
             var districtOptions = document.getElementById("districtOptions");
             var selectedDistrict = districtOptions.selectedIndex !== -1 ? districtOptions.options[
-                districtOptions.selectedIndex].text : null;
+                districtOptions.selectedIndex].value : null;
 
             var industryId = $(this).find(":selected").val();
             var pageNumber = jQuery('#pagination-links .active a').text();
@@ -233,9 +233,22 @@
                 console.log(data);
             },
             error: function(jqXHR, exception) {
-                // Handle the error
                 var msg = '';
-                // ...
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status === 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status === 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
                 alert(msg);
             }
         });

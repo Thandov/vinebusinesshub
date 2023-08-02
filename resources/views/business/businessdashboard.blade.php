@@ -309,16 +309,224 @@
                                                     <div class="px-4 py-5 bg-white sm:p-6">
                                                         <div class="grid grid-cols-12 gap-6">
 
-                                                            <div class="col-span-12 md:col-span-12">
-                                                                <label for="address" class="block text-sm font-medium text-gray-700">Street
-                                                                    address
-                                                                    @error('address')
-                                                                    <p class="text-red-500 text-medium">
-                                                                        {{ $message }}
-                                                                    </p>
-                                                                    @enderror
-                                                                </label>
-                                                                <input type="text" value="{{ $business->address ?? '' }}" name="address" id="address" autocomplete="address" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            </div>
+
+                                            <div class="md:mt-0 md:col-span-2">
+                                                <form class="form-group" method="POST"
+                                                    action="{{ route('business.update') }}"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" name="id"
+                                                        value="{{ $business[0]->id ?? '' }}">
+                                                    <div class="shadow overflow-hidden sm:rounded-md mb-5">
+                                                        <div class="px-4 py-5 bg-white sm:p-6">
+                                                            <div class="grid grid-cols-12 gap-6">
+                                                                <div class="col-span-12 md:col-span-6">
+                                                                    <label for="business_name"
+                                                                        class="block text-sm font-medium text-gray-700">Business
+                                                                        Name
+                                                                        @error('business_name')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <input type="text" name="business_name"
+                                                                        value="{{ $business[0]->business_name ?? '' }}"
+                                                                        id="business_name" autocomplete="given-name"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                                                                </div>
+                                                                <div class="col-span-12 md:col-span-6">
+                                                                    <label for="business_number"
+                                                                        class="block text-sm font-medium text-gray-700">Business
+                                                                        Number
+
+                                                                        @error('business_number')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <input type="text" name="business_number"
+                                                                        value="{{ $business[0]->business_number ?? '' }}"
+                                                                        id="business_number" autocomplete="given-name"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+                                                                <div class="col-span-12 sm:col-span-12">
+                                                                    <label for="email"
+                                                                        class="block text-sm font-medium text-gray-700">Email
+                                                                        address
+                                                                        @error('email')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <input type="text"
+                                                                        value="{{ $business[0]->email ?? '' }}"
+                                                                        name="email" id="email"
+                                                                        autocomplete="email"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+                                                                <div class="col-span-12 sm:col-span-12">
+                                                                    <label for="about"
+                                                                        class="block text-sm font-medium text-gray-700">
+                                                                        Tell us more about your business.
+                                                                        @error('business_bio')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <div class="mt-1">
+                                                                        <textarea style="height: 200px" id="business_bio" name="business_bio" rows="3" maxlength="1000"
+                                                                            class="shadow-sm focus:ring-green-500 focus:border-green-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                                                            placeholder="About Your Business" onkeyup="charcountupdate(this.value);">
+                                                                            {{ $business[0]->business_bio ?? '' }}
+                                                                        </textarea>
+                                                                        <span
+                                                                            class="block text-sm font-medium text-gray-700 mt-3"
+                                                                            id="charcount"></span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-span-12 md:col-span-12 ">
+                                                                    <label for="company_reg"
+                                                                        class="block text-sm font-medium text-gray-700">Company
+                                                                        Registration Number
+                                                                        @error('company_reg')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ $message }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <input type="text"
+                                                                        value="{{ $business[0]->company_reg ?? '' }}"
+                                                                        name="company_reg" id="company_reg"
+                                                                        autocomplete="address"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+
+
+                                                                <div class="col-span-12 sm:col-span-12">
+                                                                    <label for="industry"
+                                                                        class="block text-sm font-medium text-gray-700">Industry</label>
+                                                                    <select id="industryId" name="industryId"
+                                                                        autocomplete="industry"
+                                                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                                                                        @if ($industries ?? '')
+                                                                            @php
+                                                                                $sortedIndustries = $industries->sortByDesc('id');
+                                                                            @endphp
+                                                                            @foreach ($sortedIndustries as $industry)
+                                                                                <option
+                                                                                    value="{{ $industry->id ?? '' }}"
+                                                                                    {{ $industry->id === $business[0]->industryId ? 'selected' : '' }}>
+                                                                                    {{ $industry->industry }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-span-12 sm:col-span-12">
+                                                                    <label for="website"
+                                                                        class="block text-sm font-medium text-gray-700">Website</label>
+                                                                    <input type="text"
+                                                                        value="{{ $business[0]->website ?? '' }}"
+                                                                        name="website" id="website"
+                                                                        autocomplete="address-level2"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+                                                                <div class="col-span-12 md:col-span-4 ">
+                                                                    <label for="facebook"
+                                                                        class="block text-sm font-medium text-gray-700">Facebook</label>
+                                                                    <input type="text"
+                                                                        value="{{ $business[0]->facebook ?? '' }}"
+                                                                        name="facebook" id="facebook"
+                                                                        autocomplete="address-level2"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+                                                                <div class="col-span-12 md:col-span-4 ">
+                                                                    <label for="twitter"
+                                                                        class="block text-sm font-medium text-gray-700">Twitter</label>
+                                                                    <input type="text"
+                                                                        value="{{ $business[0]->twitter ?? '' }}"
+                                                                        name="twitter" id="twitter"
+                                                                        autocomplete="address-level2"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+                                                                <div class="col-span-12 md:col-span-4 ">
+                                                                    <label for="instagram"
+                                                                        class="block text-sm font-medium text-gray-700">Instagram</label>
+                                                                    <input type="text"
+                                                                        value="{{ $business[0]->instagram ?? '' }}"
+                                                                        name="instagram" id="instagram"
+                                                                        autocomplete="address-level2"
+                                                                        class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                </div>
+                                                                <div class="col-span-12">
+                                                                    <label for="logo"
+                                                                        class="block text-sm font-medium text-gray-700">
+                                                                        Logo
+                                                                        @error('logo')
+                                                                            <p class="text-red-500 text-medium">
+                                                                                {{ str_replace('logo field', 'logo', $message) }}
+                                                                            </p>
+                                                                        @enderror
+                                                                    </label>
+                                                                    <div
+                                                                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                                                        <img id="logo-preview" src="#"
+                                                                            style="display: none; width: 250px"
+                                                                            alt="">
+                                                                        <div class="space-y-1 text-center"
+                                                                            id="logouploader"
+                                                                            @if (!is_null($business[0]->logo)) style="display: none" @endif>
+                                                                            <div>
+                                                                                <svg class="mx-auto h-12 w-12 text-gray-400"
+                                                                                    stroke="currentColor"
+                                                                                    fill="none" viewBox="0 0 48 48"
+                                                                                    aria-hidden="true">
+                                                                                    <path
+                                                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round" />
+                                                                                </svg>
+                                                                                <div class="text-sm text-gray-600">
+                                                                                    <label for="file-upload"
+                                                                                        class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
+                                                                                        <span>Upload a file</span>
+                                                                                        <input id="file-upload"
+                                                                                            value="{{ $business[0]->logo }}"
+                                                                                            name="file-upload"
+                                                                                            type="file"
+                                                                                            class="sr-only">
+                                                                                    </label>
+                                                                                    <p class="pl-1">or drag and drop
+                                                                                    </p>
+                                                                                </div>
+                                                                                <p class="text-xs text-gray-500">
+                                                                                    PNG, JPG, GIF up to 10MB
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        @if (!empty($business[0]->logo))
+                                                                            <img style="width: 250px"
+                                                                                src="/img/{{ $business[0]->logo }}"
+                                                                                alt="{{ $business[0]->logo }}"
+                                                                                srcset="">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="mt-1 flex items-center">
+                                                                        <button id="change-logo-btn" type="button"
+                                                                            class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                                            Change
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="col-span-12 sm:col-span-12">
                                                                 <label for="province" class="block text-sm font-medium text-gray-700">Province
@@ -717,6 +925,20 @@
         }
     }
 
+    //bio script
+    function charcountupdate(value) {
+        const maxLength = 1000;
+        const charCount = value.length;
+        const charCountElement = document.getElementById('charcount');
+        charCountElement.textContent = `${charCount} / ${maxLength}`;
+
+        // Disable further typing if the limit is reached
+        if (charCount >= maxLength) {
+            document.getElementById('business_bio').setAttribute('readonly', 'readonly');
+        } else {
+            document.getElementById('business_bio').removeAttribute('readonly');
+        }
+    }
 
 
     function changeDistrict($id) {
