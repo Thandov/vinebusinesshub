@@ -58,8 +58,15 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 //For Businesses
 Route::group(['middleware' => ['auth', 'role:business']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
+    Route::get('/bdashboard/website/', function(){
+        $id = auth()->user()->id;
+        return view('business.viewbusiness.powerups._website');
+    })->name('bdashboard.website');
+    Route::get('/bdashboard/accounting/{id}', function($id){
+        return view('business.viewbusiness.powerups._accounting', ['id' => $id]);
+    })->name('bdashboard.accounting');
     //View Business of single business no user logged in
-    Route::get('/business/businessdashboard/{id}', [BusinessController::class, 'show'])->name('business.businessdashboard');
+    Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
     //Edit the business admin data
     Route::post('business/update', [BusinessController::class, 'updateBusiness'])->name('business.update');
     //Edit the business admin data insertclientservice
@@ -72,7 +79,26 @@ Route::group(['middleware' => ['auth', 'role:business']], function () {
     Route::post('business/businessdashboard/insertIndustry', [IndustryController::class, 'insertIndustry'])->name('business.businessdashboard.insertIndustry');
     Route::get('business/businessdashboard/deleteBusinessandUser/{id}', [BusinessController::class, 'deleteBusinessandUser'])->name('business.businessdashboard.deleteBusinessandUser');
     Route::post('business/businessdashboard/insertIndustry', [PendingApprovalsController::class, 'insertIndustry'])->name('business.businessdashboard.insertIndustry');
+    Route::get('/multistep-form', function () {
+        session(['current_step' => 1]);
+        return view('multistep-form');
+    });
 
+    Route::post('/submit', function () {
+        // Handle form submission here
+
+        // Increment the step in session
+        session(['current_step' => session('current_step') + 1]);
+
+        // Redirect to the next step or thank you page
+        if (session('current_step') <= 4) {
+            return redirect('/multistep-form');
+        } else {
+            // Reset the current_step session after completing all steps
+            session()->forget('current_step');
+            return redirect('/thank-you')->with('success', 'Form submitted successfully!');
+        }
+    })->name('submit');
 });
 
 //For Admin
@@ -106,7 +132,8 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/viewBusiness/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+Route::get('/
+/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

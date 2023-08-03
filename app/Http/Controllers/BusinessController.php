@@ -59,16 +59,16 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
+        $id = auth()->user()->id;
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
             ->where('businesses.company_rep', $id)
-            ->get();
-
+            ->first();
         $provinces = DB::table('provinces')
             ->select('*')
             ->get();
@@ -83,13 +83,13 @@ class BusinessController extends Controller
 
         $clientsservices = DB::table('clientsservices')
             ->select('*')
-            ->where('clientsservices.bid', $business[0]->id)
+            ->where('clientsservices.bid', $business->id)
             ->get();
 
         $rep = DB::table('users')
-            ->select('*')
-            ->where('users.id', $business[0]->company_rep)
-            ->get();
+            ->select('name', 'email')
+            ->where('users.id', $business->company_rep)
+            ->first();
 
         $municipalities = DB::table('municipalities')
             ->select('*')
@@ -253,6 +253,7 @@ class BusinessController extends Controller
 
     public function showBusiness($id)
     {
+        dd($id);
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
