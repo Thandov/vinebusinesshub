@@ -161,7 +161,6 @@ class BusinessController extends Controller
             'business_number.max' => 'Invalid business number. The number must not exceed 15 digits.',
         ]);
         $data = Business::find($req->id);
-        //dd($req->input());
 
         if ($req->business_name != $data->business_name) {
             //update the record for business_name
@@ -253,7 +252,7 @@ class BusinessController extends Controller
 
     public function showBusiness($id)
     {
-        dd($id);
+
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
@@ -279,12 +278,12 @@ class BusinessController extends Controller
         $clientsservices = DB::table('clientsservices')
             ->select('*')
             ->leftjoin('services', 'services.id', '=', 'clientsservices.serviceId')
-            ->where('clientsservices.bid', $business[0]->id)
+            ->where('clientsservices.bid', $business->id)
             ->get();
 
         $rep = DB::table('users')
             ->select('*')
-            ->where('users.id', $business[0]->id)
+            ->where('users.id', $business->id)
             ->get();
 
         return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);

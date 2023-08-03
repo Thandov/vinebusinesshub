@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     Route::post('admin/adminpanel/deleteIndustry/{id}', [IndustryController::class, 'deleteIndustry'])->name('admin.adminpanel.deleteIndustry');
     Route::post('admin/adminpanel/deleteProvince/{id}', [ProvinceController::class, 'destroy'])->name('admin.adminpanel.deleteProvince');
-
+ ;
     Route::get('adminpanel/deleteBusiness/{id}', [AdminpanelController::class, 'deleteBusinessAdmin'])->name('adminpanel.deleteBusiness');
     Route::get('adminpanel/activateBusiness/{id}', [AdminpanelController::class, 'activatebusiness'])->name('adminpanel.activateBusiness');
     Route::get('adminpanel/deactivateBusiness/{id}', [AdminpanelController::class, 'deactivatebusiness'])->name('adminpanel.deactivateBusiness');
@@ -132,8 +132,7 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/
-/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+Route::get('/home/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
