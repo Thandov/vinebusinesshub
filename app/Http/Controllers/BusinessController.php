@@ -253,7 +253,7 @@ class BusinessController extends Controller
 
     public function showBusiness($id)
     {
-        dd($id);
+       
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
