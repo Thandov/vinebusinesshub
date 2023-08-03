@@ -56,14 +56,14 @@ Route::get('/userboard', function () {
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 //For Businesses
-Route::group(['middleware' => ['auth', 'role:business']], function () {
+Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
     Route::get('/bdashboard/website/', function(){
-        $id = auth()->user()->id;
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
-    Route::get('/bdashboard/accounting/{id}', function($id){
-        return view('business.viewbusiness.powerups._accounting', ['id' => $id]);
+    Route::get('/bdashboard/accounting/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
     })->name('bdashboard.accounting');
     //View Business of single business no user logged in
     Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
