@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/bdashboard/website/', function(){
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
-    //powerups
+    //Acounting Powerup
     Route::get('/bdashboard/accounting/', function(){
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
@@ -115,7 +115,6 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
         session(['current_step' => 1]);
         return view('multistep-form');
     });
-
     Route::post('/submit', function () {
         // Handle form submission here
 
