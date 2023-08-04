@@ -61,10 +61,42 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/bdashboard/website/', function(){
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
+    //powerups
     Route::get('/bdashboard/accounting/', function(){
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
     })->name('bdashboard.accounting');
+
+    Route::get('/bdashboard/Businessplan/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._businessplan', compact('urlSegments'));
+    })->name('bdashboard.businessplan');
+
+    Route::get('/bdashboard/Companyregistration/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._companyregistration', compact('urlSegments'));
+    })->name('bdashboard.companyregistration');
+
+    Route::get('/bdashboard/Marketplace/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._marketplace', compact('urlSegments'));
+    })->name('bdashboard.marketplace');
+
+    Route::get('/bdashboard/Invoices/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._invoices', compact('urlSegments'));
+    })->name('bdashboard.invoices');
+
+    Route::get('/bdashboard/Quotations/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._quotations', compact('urlSegments'));
+    })->name('bdashboard.quotations');
+
+    Route::get('/bdashboard/Transactions/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._transactions', compact('urlSegments'));
+    })->name('bdashboard.transactions');
+
     //View Business of single business no user logged in
     Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
     //Edit the business admin data
@@ -132,8 +164,7 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/
-/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+Route::get('/home/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

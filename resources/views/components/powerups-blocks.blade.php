@@ -33,7 +33,7 @@ $business = json_decode($tt);
         </div>
             </a>
         <!-- Business Plan -->
-            <a href="{{ route('bdashboard.accounting') }}">
+            <a href="{{ route('bdashboard.businessplan') }}">
 
         <div class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
@@ -43,7 +43,7 @@ $business = json_decode($tt);
         </div>
             </a>
         <!-- Company Registration -->
-            <a href="{{ route('bdashboard.accounting') }}">
+            <a href="{{ route('bdashboard.companyregistration') }}">
 
         <div class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@ $business = json_decode($tt);
         </div>
             </a>
         <!-- Marketplace -->
-            <a href="{{ route('bdashboard.accounting') }}">
+            <a href="{{ route('bdashboard.marketplace') }}">
 
         <div class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -64,7 +64,7 @@ $business = json_decode($tt);
         </div>
             </a>
         <!-- Quotes -->
-            <a href="{{ route('bdashboard.accounting') }}">
+            <a href="{{ route('bdashboard.quotations') }}">
 
         <div class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 18">
@@ -74,7 +74,7 @@ $business = json_decode($tt);
         </div>
             </a>
         <!-- Invoices -->
-            <a href="{{ route('bdashboard.accounting') }}">
+            <a href="{{ route('bdashboard.invoices') }}">
 
         <div class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -84,7 +84,7 @@ $business = json_decode($tt);
         </div>
             </a>
         <!-- Transaction History -->
-            <a href="{{ route('bdashboard.accounting') }}">
+            <a href="{{ route('bdashboard.transactions') }}">
 
         <div class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
