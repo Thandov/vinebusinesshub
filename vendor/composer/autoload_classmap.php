@@ -71,6 +71,7 @@ return array(
     'App\\View\\Components\\GuestLayout' => $baseDir . '/app/View/Components/GuestLayout.php',
     'App\\View\\Components\\businessCard' => $baseDir . '/app/View/Components/businessCard.php',
     'App\\View\\Components\\imgUpload' => $baseDir . '/app/View/Components/imgUpload.php',
+    'App\\View\\Components\\multistepForm' => $baseDir . '/app/View/Components/multistepForm.php',
     'App\\View\\Components\\powerupsBlocks' => $baseDir . '/app/View/Components/powerupsBlocks.php',
     'App\\View\\Components\\powerupslist' => $baseDir . '/app/View/Components/powerupslist.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Cors.php',

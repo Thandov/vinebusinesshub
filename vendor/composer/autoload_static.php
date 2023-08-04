@@ -587,6 +587,7 @@ class ComposerStaticInit039be5820dc31e829e0a994266d2a0e3
         'App\\View\\Components\\GuestLayout' => __DIR__ . '/../..' . '/app/View/Components/GuestLayout.php',
         'App\\View\\Components\\businessCard' => __DIR__ . '/../..' . '/app/View/Components/businessCard.php',
         'App\\View\\Components\\imgUpload' => __DIR__ . '/../..' . '/app/View/Components/imgUpload.php',
+        'App\\View\\Components\\multistepForm' => __DIR__ . '/../..' . '/app/View/Components/multistepForm.php',
         'App\\View\\Components\\powerupsBlocks' => __DIR__ . '/../..' . '/app/View/Components/powerupsBlocks.php',
         'App\\View\\Components\\powerupslist' => __DIR__ . '/../..' . '/app/View/Components/powerupslist.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
