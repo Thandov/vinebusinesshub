@@ -61,10 +61,26 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/bdashboard/website/', function(){
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
+    //Acounting Powerup
     Route::get('/bdashboard/accounting/', function(){
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
     })->name('bdashboard.accounting');
+    //Tax Powerup
+    Route::get('/bdashboard/tax/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._tax', compact('urlSegments'));
+    })->name('bdashboard.tax');
+    //Business Plan Powerup
+    Route::get('/bdashboard/businessplan/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._businessplan', compact('urlSegments'));
+    })->name('bdashboard.businessplan');
+    //Company Registration Powerup
+    Route::get('/bdashboard/companyregistration/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._companyregistration', compact('urlSegments'));
+    })->name('bdashboard.companyregistration');
     //View Business of single business no user logged in
     Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
     //Edit the business admin data
@@ -83,7 +99,6 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
         session(['current_step' => 1]);
         return view('multistep-form');
     });
-
     Route::post('/submit', function () {
         // Handle form submission here
 
@@ -132,8 +147,6 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/
-/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

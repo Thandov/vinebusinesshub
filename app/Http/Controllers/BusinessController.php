@@ -98,7 +98,7 @@ class BusinessController extends Controller
         $districts = DB::table('municipal_districts')
             ->select('*')
             ->get();
-
+ 
         return view('business/businessdashboard', ['rep' => $rep, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
     }
 
@@ -288,6 +288,7 @@ class BusinessController extends Controller
             ->get();
 
         return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);
+    
     }
 
     public function uploadLogo(Request $request)
