@@ -46,9 +46,11 @@
                 @php
                 // Array of slide names without the '.blade.php' extension
                 $slides = [
-                'business.viewbusiness.multistep.slide1',
-                'business.viewbusiness.multistep.slide2',
-                'business.viewbusiness.multistep.slide3',
+                'business.viewbusiness.multistep.accounting.slide1',
+                'business.viewbusiness.multistep.accounting.slide2',
+                'business.viewbusiness.multistep.accounting.slide3',
+                'business.viewbusiness.multistep.accounting.slide4',
+                'business.viewbusiness.multistep.accounting.slide5',
                 ];
                 @endphp
                 <x-multistep-form :slides="$slides" />

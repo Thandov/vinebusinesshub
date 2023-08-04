@@ -97,6 +97,11 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
         return view('business.viewbusiness.powerups._transactions', compact('urlSegments'));
     })->name('bdashboard.transactions');
 
+    Route::get('/bdashboard/tax/', function(){
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._tax', compact('urlSegments'));
+    })->name('bdashboard.tax');
+
     //View Business of single business no user logged in
     Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
     //Edit the business admin data

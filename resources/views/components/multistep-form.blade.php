@@ -3,7 +3,16 @@
 @props(['slides'])
 
 <div class="flex items-start justify-center">
+
     <div class="w-full bg-white p-8 shadow-sm sm:rounded-lg overflow-hidden">
+        <!-- Progress Bar -->
+        <div class="relative progresswrapper w-full bg-gray-300 rounded-lg h-4 mt-4">
+            <div id="progress" class="absolute top-0 left-0 h-full bg-blue-500 rounded-lg" style="width: 0%; transition: width 0.3s;"></div>
+            <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-white font-bold">
+                <span id="progressPercentage">0%</span>
+            </div>
+        </div>
+
         <form action="{{ route('submit') }}" method="POST" class="flex flex-col" id="multi-step-form">
             @csrf
 
@@ -22,7 +31,6 @@
         </form>
     </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('multi-step-form');
@@ -42,6 +50,7 @@
                 currentStep++;
             }
             updateButtonVisibility();
+            updateProgressBar();
         }
 
         window.prevStep = function() {
@@ -50,6 +59,7 @@
                 currentStep--;
             }
             updateButtonVisibility();
+            updateProgressBar();
         }
 
         function updateButtonVisibility() {
@@ -72,8 +82,25 @@
             }
         }
 
+        // JavaScript code to update the progress bar
+        const progressBar = document.getElementById('progress');
+        const progressPercentage = document.getElementById('progressPercentage');
+        const totalSteps = steps.length;
+
+        function updateProgress(currentStep) {
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${Math.round(progress)}%`; // Show percentage
+        }
+
+        // Call this function whenever you navigate to the next or previous step
+        function updateProgressBar() {
+            updateProgress(currentStep);
+        }
+
         // Initial setup
         showStep(currentStep);
         updateButtonVisibility();
+        updateProgressBar();
     });
 </script>
