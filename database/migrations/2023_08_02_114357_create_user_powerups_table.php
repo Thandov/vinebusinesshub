@@ -21,7 +21,6 @@ class CreateUserPowerupsTable extends Migration
             $table->timestamp('activation_date')->nullable();
             $table->timestamp('deactivation_date')->nullable();
             $table->timestamps();
-
         });
         Schema::table('user_powerups', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

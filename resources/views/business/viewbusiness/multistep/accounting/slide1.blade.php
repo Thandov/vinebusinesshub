@@ -1,19 +1,24 @@
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="full_name">Full Name:</label>
-    <input type="text" id="full_name" class="form-input w-full" placeholder="John Doe">
-</div>
+<!-- personal.blade.php -->
+<div class="bg-white shadow rounded-lg p-6">
+    <h1 class="text-3xl font-bold mb-6">Personal and Contact Information</h1>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="contact_number">Contact Number:</label>
-    <input type="tel" id="contact_number" class="form-input w-full" placeholder="e.g., +27 123 456 789">
-</div>
+    <div class="mb-4">
+        <label for="full_name" class="block text-gray-700 font-semibold mb-2">Full Name</label>
+        <input type="text" id="full_name" name="full_name" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="email_address">Email Address:</label>
-    <input type="email" id="email_address" class="form-input w-full" placeholder="johndoe@example.com">
-</div>
+    <div class="mb-4">
+        <label for="contact_number" class="block text-gray-700 font-semibold mb-2">Contact Number</label>
+        <input type="text" id="contact_number" name="contact_number" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="physical_address">Physical Address:</label>
-    <textarea id="physical_address" class="form-textarea w-full" rows="4" placeholder="Enter your physical address"></textarea>
+    <div class="mb-4">
+        <label for="email_address" class="block text-gray-700 font-semibold mb-2">Email Address</label>
+        <input type="text" id="email_address" name="email_address" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
+
+    <div class="mb-4">
+        <label for="physical_address" class="block text-gray-700 font-semibold mb-2">Physical Address</label>
+        <textarea id="physical_address" name="physical_address" class="border border-gray-300 p-2 rounded-md w-full h-24"></textarea>
+    </div>
 </div>

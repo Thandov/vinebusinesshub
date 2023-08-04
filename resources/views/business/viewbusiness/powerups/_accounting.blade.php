@@ -39,7 +39,7 @@
         <div class="md:grid md:grid-cols-7 gap-4">
             <div class="md:col-span-2">
                 <div class="p-6 bg-white border-b border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
-                    toggle powerup
+                    <x-btn btnType="submit" name="Activate" linking="" unqid="" klass="" color="blue" />
                 </div>
             </div>
             <div class="md:col-span-5 mb-4">
@@ -53,7 +53,7 @@
                 'business.viewbusiness.multistep.accounting.slide5',
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" />
+                <x-multistep-form :slides="$slides" linking="{{ route('bdashboard.accounting.taxRequest', ['id' => 1]) }}" />
             </div>
         </div>
         <x-powerupslist />

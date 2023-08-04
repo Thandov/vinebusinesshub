@@ -1,27 +1,19 @@
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="investments">Investments and Assets:</label>
-    <textarea id="investments" class="form-textarea w-full" rows="4" placeholder="List your investments and assets"></textarea>
-</div>
+<!-- investments.blade.php -->
+<div class="bg-white shadow rounded-lg p-6">
+    <h1 class="text-3xl font-bold mb-6">Investments and Business Information</h1>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2">Business Entity Type:</label>
-    <div class="flex">
-        <label class="mr-4">
-            <input type="radio" name="business_entity_type" value="sole_proprietorship" class="form-radio" checked>
-            <span class="ml-2">Sole Proprietorship</span>
-        </label>
-        <label class="mr-4">
-            <input type="radio" name="business_entity_type" value="partnership" class="form-radio">
-            <span class="ml-2">Partnership</span>
-        </label>
-        <label class="mr-4">
-            <input type="radio" name="business_entity_type" value="company" class="form-radio">
-            <span class="ml-2">Company</span>
-        </label>
+    <div class="mb-4">
+        <label for="investments" class="block text-gray-700 font-semibold mb-2">Ownership of Assets and Investments</label>
+        <textarea id="investments" name="investments" class="border border-gray-300 p-2 rounded-md w-full h-24"></textarea>
     </div>
-</div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="financial_year_end">Business Financial Year-end:</label>
-    <input type="text" id="financial_year_end" class="form-input w-full" placeholder="Enter the financial year-end (e.g., 31 December)">
+    <div class="mb-4">
+        <label for="business_entity_type" class="block text-gray-700 font-semibold mb-2">Business Entity Type (for business owners)</label>
+        <input type="text" id="business_entity_type" name="business_entity_type" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
+
+    <div class="mb-4">
+        <label for="financial_year_end" class="block text-gray-700 font-semibold mb-2">Business Financial Year-end (for business owners)</label>
+        <input type="text" id="financial_year_end" name="financial_year_end" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
 </div>

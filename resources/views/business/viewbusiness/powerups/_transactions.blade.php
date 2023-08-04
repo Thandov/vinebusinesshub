@@ -51,7 +51,7 @@
                 'business.viewbusiness.multistep.slide3',
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" />
+                <x-multistep-form :slides="$slides" linking="{{ route('bdashboard.accounting.taxRequest', ['id' => 1]) }}" />
             </div>
         </div>
         <x-powerupslist />

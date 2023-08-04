@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PowerupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,9 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 //For Businesses
 Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
+    Route::get('/business/submit-form', [PowerupController::class, 'store'])->name('dashboard.submit-form');
+    Route::POST('/bdashboard/accounting/taxRequest/{id}', [PowerupController::class, 'taxRequest'])->name('bdashboard.accounting.taxRequest');
+
     Route::get('/bdashboard/website/', function(){
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
@@ -66,6 +70,7 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
     })->name('bdashboard.accounting');
+
 
     Route::get('/bdashboard/Businessplan/', function(){
         $urlSegments = explode('/', request()->path());

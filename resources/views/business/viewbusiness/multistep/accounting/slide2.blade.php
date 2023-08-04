@@ -1,33 +1,47 @@
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2">Taxpayer Status:</label>
-    <div class="flex">
-        <label class="mr-4">
-            <input type="radio" name="taxpayer_status" value="individual" class="form-radio" checked>
-            <span class="ml-2">Individual</span>
-        </label>
-        <label>
-            <input type="radio" name="taxpayer_status" value="business" class="form-radio">
-            <span class="ml-2">Business</span>
-        </label>
+<!-- taxpayer.blade.php -->
+<div class="bg-white shadow rounded-lg p-6">
+    <h1 class="text-3xl font-bold mb-6">Taxpayer and Filing Information</h1>
+
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">Taxpayer Status</label>
+        <div class="flex space-x-4">
+            <label>
+                <input type="radio" name="taxpayer_status" value="individual" class="mr-2">
+                Individual
+            </label>
+            <label>
+                <input type="radio" name="taxpayer_status" value="business" class="mr-2">
+                Business
+            </label>
+        </div>
     </div>
-</div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="business_name">Business Name:</label>
-    <input type="text" id="business_name" class="form-input w-full" placeholder="ABC Company">
-</div>
+    <div class="mb-4">
+        <label for="business_name" class="block text-gray-700 font-semibold mb-2">Business Name and Registration Number (if applicable)</label>
+        <input type="text" id="business_name" name="business_name" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="business_registration">Business Registration Number:</label>
-    <input type="text" id="business_registration" class="form-input w-full" placeholder="123456789">
-</div>
+    <div class="mb-4">
+        <label for="identity_number" class="block text-gray-700 font-semibold mb-2">South African Identity Number (for individuals)</label>
+        <input type="text" id="identity_number" name="identity_number" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="identity_number">South African Identity Number:</label>
-    <input type="text" id="identity_number" class="form-input w-full" placeholder="e.g., 1234567890123">
-</div>
+    <div class="mb-4">
+        <label for="tax_reference_number" class="block text-gray-700 font-semibold mb-2">South African Revenue Service (SARS) Tax Reference Number</label>
+        <input type="text" id="tax_reference_number" name="tax_reference_number" class="border border-gray-300 p-2 rounded-md w-full">
+    </div>
 
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2" for="tax_reference_number">SARS Tax Reference Number:</label>
-    <input type="text" id="tax_reference_number" class="form-input w-full" placeholder="e.g., 9876543210">
+    <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">Tax Filing History (previous tax year filing status)</label>
+        <div class="flex space-x-4">
+            <label>
+                <input type="radio" name="tax_filing_history" value="filed" class="mr-2">
+                Filed
+            </label>
+            <label>
+                <input type="radio" name="tax_filing_history" value="notFiled" class="mr-2">
+                Not Filed
+            </label>
+        </div>
+    </div>
 </div>

@@ -1,24 +1,24 @@
 <!-- resources/views/components/multistep-form.blade.php -->
 
 @props(['slides'])
+@props(['linking'])
 
 <div class="flex items-start justify-center">
 
     <div class="w-full bg-white p-8 shadow-sm sm:rounded-lg overflow-hidden">
         <!-- Progress Bar -->
-        <div class="relative progresswrapper w-full bg-gray-300 rounded-lg h-4 mt-4">
+        <div class="relative progresswrapper w-full bg-gray-300 rounded-lg h-4 mb-6">
             <div id="progress" class="absolute top-0 left-0 h-full bg-blue-500 rounded-lg" style="width: 0%; transition: width 0.3s;"></div>
             <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-white font-bold">
                 <span id="progressPercentage">0%</span>
             </div>
         </div>
 
-        <form action="{{ route('submit') }}" method="POST" class="flex flex-col" id="multi-step-form">
+        <form action="{{$linking}}" method="POST" class="flex flex-col" id="multi-step-form">
             @csrf
-
             @foreach($slides as $index => $slideRoute)
             <?php $slideContent = view($slideRoute)->render(); ?>
-            <div class="mb-6 step @if($index === 0) block @else hidden @endif" data-step="{{ $index + 1 }}">
+            <div class="step @if($index === 0) block @else hidden @endif" data-step="{{ $index + 1 }}">
                 {!! $slideContent !!}
             </div>
             @endforeach

@@ -291,8 +291,4 @@ class BusinessController extends Controller
     
     }
 
-    public function uploadLogo(Request $request)
-    {
-        echo $request;
-    }
 }

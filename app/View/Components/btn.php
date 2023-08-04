@@ -4,21 +4,27 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class multistepForm extends Component
+class btn extends Component
 {
-    public $slides;
+    public $btnType;
+    public $name;
     public $linking;
-
+    public $unqid;
+    public $klass;
+    public $color;
     /**
      * Create a new component instance.
      *
-     * @param  array  $slides
      * @return void
      */
-    public function __construct($slides, $linking)
+    public function __construct($btnType, $name, $linking, $unqid, $klass, $color)
     {
-        $this->slides = $slides;
+        $this->btnType = $btnType;
+        $this->name = $name;
         $this->linking = $linking;
+        $this->unqid = $unqid;
+        $this->klass = $klass;
+        $this->color = $color;
     }
 
     /**
@@ -28,6 +34,6 @@ class multistepForm extends Component
      */
     public function render()
     {
-        return view('components.multistep-form');
+        return view('components.btn');
     }
 }
