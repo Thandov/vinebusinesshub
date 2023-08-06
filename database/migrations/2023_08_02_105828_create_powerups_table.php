@@ -15,7 +15,8 @@ class CreatePowerupsTable extends Migration
     {
         Schema::create('powerups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('powerid', 20)->index();
+            $table->string('name', 255)->unique()->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });
