@@ -15,11 +15,13 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->string('service_name')->unique();
             $table->integer('industryId')->nullable()->unsigned();
             $table->timestamps();
         });
         Schema::table('services', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('industryId')->references('id')->on('industries')->onDelete('cascade');
         });
     }

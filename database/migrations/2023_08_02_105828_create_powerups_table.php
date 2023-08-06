@@ -15,9 +15,15 @@ class CreatePowerupsTable extends Migration
     {
         Schema::create('powerups', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->string('puid')->nullable();
+            $table->longText('icon');
             $table->string('name');
             $table->decimal('price', 8, 2);
             $table->timestamps();
+        });
+        Schema::table('powerups', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
