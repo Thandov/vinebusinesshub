@@ -1,4 +1,4 @@
-<x-app-layout title="Staff Dashboard">
+<x-app-layout title="">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4">
             <div class="p-6 bg-white border-b border-gray-200">
@@ -39,19 +39,21 @@
         <div class="md:grid md:grid-cols-7 gap-4">
             <div class="md:col-span-2">
                 <div class="p-6 bg-white border-b border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
-                    toggle powerup
+                    <x-btn btnType="submit" name="Activate" linking="" unqid="" klass="" color="blue" />
                 </div>
             </div>
             <div class="md:col-span-5 mb-4">
                 @php
                 // Array of slide names without the '.blade.php' extension
                 $slides = [
-                'business.viewbusiness.multistep.slide1',
-                'business.viewbusiness.multistep.slide2',
-                'business.viewbusiness.multistep.slide3',
+                'business.viewbusiness.multistep.company_registration.slide1',
+                'business.viewbusiness.multistep.company_registration.slide2',
+                'business.viewbusiness.multistep.company_registration.slide3',
+                'business.viewbusiness.multistep.company_registration.slide4',
+                
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" />
+                <x-multistep-form :slides="$slides" linking="{{ route('bdashboard.accounting.taxRequest', ['id' => 1]) }}" />
             </div>
         </div>
         <x-powerupslist />
