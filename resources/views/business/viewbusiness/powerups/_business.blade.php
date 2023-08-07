@@ -38,7 +38,7 @@
         </div>
         <div class="md:grid md:grid-cols-7 gap-4">
             <div class="md:col-span-2">
-                <div class="p-6 bg-white border-b border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
+                <div class="p-6 bg-white border-b border-gray-200 overflow-hidden shadow-sm sm:rounded-lg mb-4">
                     toggle powerup
                 </div>
             </div>
@@ -46,12 +46,13 @@
                 @php
                 // Array of slide names without the '.blade.php' extension
                 $slides = [
-                'business.viewbusiness.multistep.slide1',
-                'business.viewbusiness.multistep.slide2',
-                'business.viewbusiness.multistep.slide3',
+                'business.viewbusiness.multistep.businessplan.slide1',
+                'business.viewbusiness.multistep.businessplan.slide2',
+                'business.viewbusiness.multistep.businessplan.slide3',
+                'business.viewbusiness.multistep.businessplan.slide4',
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" />
+                <x-multistep-form :slides="$slides" linking="tomka" />
             </div>
         </div>
         <x-powerupslist />

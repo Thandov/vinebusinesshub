@@ -15,7 +15,6 @@
         </label>
     </div>
 </div>
-
 <div class="mb-4">
     <label class="block text-gray-700 font-bold mb-2" for="specific_services">Specific Tax Services Required:</label>
     <textarea id="specific_services" class="form-textarea w-full" rows="4" placeholder="Specify the tax services you need"></textarea>

@@ -1,5 +1,4 @@
 <!-- company.blade.php -->
-<div class="bg-white shadow rounded-lg p-6">
     <h1 class="text-3xl font-bold mb-6"> Documentation and Compliance:</h1>
 
     <div class="mb-4">
@@ -21,5 +20,3 @@
         <label for="email_address" class="block text-gray-700 font-semibold mb-2">if yes please upload them</iframe> </label>
         <input type="file" name="documents[]" id="documents" multiple>
     </div>
-
-</div>

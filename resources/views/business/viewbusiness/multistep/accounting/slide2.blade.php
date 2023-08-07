@@ -1,5 +1,4 @@
 <!-- taxpayer.blade.php -->
-<div class="bg-white shadow rounded-lg p-6">
     <h1 class="text-3xl font-bold mb-6">Taxpayer and Filing Information</h1>
 
     <div class="mb-4">
@@ -44,4 +43,3 @@
             </label>
         </div>
     </div>
-</div>

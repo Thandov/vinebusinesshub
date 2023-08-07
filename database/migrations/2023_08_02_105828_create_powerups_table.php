@@ -16,11 +16,9 @@ class CreatePowerupsTable extends Migration
         Schema::create('powerups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('powerid', 20)->index();
-            $table->string('name', 255)->unique()->nullable();
             $table->unsignedInteger('user_id');
-            $table->string('puid')->nullable();
             $table->longText('icon');
-            $table->string('name');
+            $table->string('name', 255)->unique()->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });

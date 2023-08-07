@@ -1,5 +1,4 @@
 <!-- company.blade.php -->
-<div class="bg-white shadow rounded-lg p-6">
     <h1 class="text-3xl font-bold mb-6"> Business Details and Activities:</h1>
 
     <div class="mb-4">
@@ -16,5 +15,3 @@
         <label for="email_address" class="block text-gray-700 font-semibold mb-2"> What industry or sector does your company belong to? </label>
         <input type="text" id="company_sector" name="company_sector" class="border border-gray-300 p-2 rounded-md w-full">
     </div>
-
-</div>

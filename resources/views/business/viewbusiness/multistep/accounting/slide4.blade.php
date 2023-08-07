@@ -1,5 +1,4 @@
 <!-- investments.blade.php -->
-<div class="bg-white shadow rounded-lg p-6">
     <h1 class="text-3xl font-bold mb-6">Investments and Business Information</h1>
 
     <div class="mb-4">
@@ -16,4 +15,3 @@
         <label for="financial_year_end" class="block text-gray-700 font-semibold mb-2">Business Financial Year-end (for business owners)</label>
         <input type="text" id="financial_year_end" name="financial_year_end" class="border border-gray-300 p-2 rounded-md w-full">
     </div>
-</div>

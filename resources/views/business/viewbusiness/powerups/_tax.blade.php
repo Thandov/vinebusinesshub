@@ -51,7 +51,7 @@
                 'business.viewbusiness.multistep.slide3',
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" />
+                <x-multistep-form :slides="$slides" linking="tomka" />
             </div>
         </div>
         <x-powerupslist />

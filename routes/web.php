@@ -72,35 +72,35 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     })->name('bdashboard.accounting');
 
 
-    Route::get('/bdashboard/Businessplan/', function(){
+    Route::get('/bdashboard/business/', function(){
         $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._businessplan', compact('urlSegments'));
-    })->name('bdashboard.businessplan');
+        return view('business.viewbusiness.powerups._business', compact('urlSegments'));
+    })->name('bdashboard.business');
 
-    Route::get('/bdashboard/Companyregistration/', function(){
+    Route::get('/bdashboard/company/', function(){
         $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._companyregistration', compact('urlSegments'));
-    })->name('bdashboard.companyregistration');
+        return view('business.viewbusiness.powerups._company', compact('urlSegments'));
+    })->name('bdashboard.company');
 
-    Route::get('/bdashboard/Marketplace/', function(){
+    Route::get('/bdashboard/marketplace/', function(){
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._marketplace', compact('urlSegments'));
     })->name('bdashboard.marketplace');
 
-    Route::get('/bdashboard/Invoices/', function(){
+    Route::get('/bdashboard/invoices/', function(){
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._invoices', compact('urlSegments'));
     })->name('bdashboard.invoices');
 
-    Route::get('/bdashboard/Quotations/', function(){
+    Route::get('/bdashboard/quotations/', function(){
         $urlSegments = explode('/', request()->path());
         return view('business.viewbusiness.powerups._quotations', compact('urlSegments'));
     })->name('bdashboard.quotations');
 
-    Route::get('/bdashboard/Transactions/', function(){
+    Route::get('/bdashboard/transaction/', function(){
         $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._transactions', compact('urlSegments'));
-    })->name('bdashboard.transactions');
+        return view('business.viewbusiness.powerups._transaction', compact('urlSegments'));
+    })->name('bdashboard.transaction');
 
     Route::get('/bdashboard/tax/', function(){
         $urlSegments = explode('/', request()->path());
