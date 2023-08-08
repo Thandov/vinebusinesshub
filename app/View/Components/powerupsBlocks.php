@@ -6,15 +6,15 @@ use Illuminate\View\Component;
 
 class powerupsBlocks extends Component
 {
-    public $business;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($business)
+    public function __construct()
     {
-        $this->business = $business;
+
+//
     }
 
     /**

@@ -15,7 +15,7 @@ class CreatePowerupsTable extends Migration
     {
         Schema::create('powerups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('powerid', 20)->index();
+            $table->string('powerid', 20)->index(); /* power4 */
             $table->unsignedInteger('user_id');
             $table->longText('icon');
             $table->string('name', 255)->unique()->nullable();

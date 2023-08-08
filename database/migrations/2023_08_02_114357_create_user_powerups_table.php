@@ -16,8 +16,8 @@ class CreateUserPowerupsTable extends Migration
         Schema::create('user_powerups', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->nullable()->unsigned();
-            $table->string('powerup_id', 20)->index();
-            $table->boolean('is_active')->default(false);
+            $table->string('powerup_id', 20)->index(); /* power4 */
+            $table->boolean('is_active')->default(false); /* true */
             $table->timestamp('activation_date')->unique()->nullable();
             $table->timestamp('deactivation_date')->unique()->nullable();
             $table->timestamps();

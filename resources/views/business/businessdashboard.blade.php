@@ -96,7 +96,7 @@
                             <div class="ml-auto">
                             </div>
                         </div>
-                        <x-powerups-blocks business="{{json_encode($business)}}" />
+                        <x-powerups-blocks />
                     </div>
                 </div>
             </div>
