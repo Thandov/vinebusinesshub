@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\powerup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
 
 class PowerupController extends Controller
 {
@@ -12,9 +14,18 @@ class PowerupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($powerup)
     {
-        //
+        echo $powerup;
+        $urlSegments = explode('/', request()->path());
+        return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._business', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._company', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._marketplace', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._invoices', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._quotations', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._transaction', compact('urlSegments'));
+        return view('business.viewbusiness.powerups._tax', compact('urlSegments'));
     }
 
     /**
@@ -86,4 +97,30 @@ class PowerupController extends Controller
     {
         dd($request->input());
     }
+    public function activatepowerup(Request $request)
+    {
+        dd($request->input());
+        // Get user ID and powerup ID from the request
+        $powerupId = $request->input('powerid'); // Make sure you have the correct input name
+
+        // Find the user's powerup
+        $powerup = Powerup::find($powerupId);
+
+        if (!$powerup) {
+            return redirect()->back()->with('error', 'Powerup not found.');
+        }
+
+        // Check if the powerup is already active
+        if ($powerup->is_active) {
+            return redirect()->back()->with('error', 'Powerup is already active.');
+        }
+
+        // Update the powerup record
+        $powerup->is_active = true;
+        $powerup->activation_date = Carbon::now();
+        $powerup->save();
+
+        return redirect()->back()->with('success', 'Powerup activated successfully.');
+    }
+
 }
