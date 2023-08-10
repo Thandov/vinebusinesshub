@@ -9,7 +9,7 @@
                 <li>
                     <span class="mx-2">/</span>
                 </li>
-                <li>{{ $business[0]->business_name }}</li>
+                <li>{{ $business->business_name }}</li>
             </ol>
         </nav>
     </div>
@@ -21,20 +21,21 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-3">
-                                <div class=" inline-block rounded-lg shadow-lg logo_frame mr-5 overflow-hidden d-flex align-items-center justify-content-center">
-                                    <img src="/img/{{ $business[0]->logo }}" alt="" srcset="">
+                                <div
+                                    class=" inline-block rounded-lg shadow-lg logo_frame mr-5 overflow-hidden d-flex align-items-center justify-content-center">
+                                    <img src="/img/{{ $business->logo }}" alt="" srcset="">
                                 </div>
                             </div>
                             <div class="col-md-9 d-flex align-items-center justify-content-start">
                                 <div class="">
                                     <div class="row">
                                         <div class="col">
-                                            <h1 class="font-black text-3xl">{{ $business[0]->business_name }}</h1>
+                                            <h1 class="font-black text-3xl">{{ $business->business_name }}</h1>
                                         </div>
                                     </div>
                                     <div class="">
                                         <p class="text-sm font-medium leading-5 text-gray-500">
-                                            {{ $business[0]->business_bio }}
+                                            {{ $business->business_bio }}
                                         </p>
 
                                     </div>
@@ -50,17 +51,20 @@
                             <div class="col-md-12 align-items-center justify-content-center">
                                 <span class="font-black">Email:</span>
                                 <br>
-                                <a href="mailto:{{ $business[0]->email }}" class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->email }}</a>
+                                <a href="mailto:{{ $business->email }}"
+                                    class="text-sm font-medium leading-5 text-gray-500">{{ $business->email }}</a>
                             </div>
                             <div class="col-md-12 align-items-center justify-content-center">
                                 <span class="font-black">Contact:</span>
                                 <br>
-                                <a href="tel:+{{ $business[0]->business_number }}" class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->business_number }}</a>
+                                <a href="tel:+{{ $business->business_number }}"
+                                    class="text-sm font-medium leading-5 text-gray-500">{{ $business->business_number }}</a>
                             </div>
                             <div class="col-md-12 align-items-center justify-content-center">
                                 <span class="font-black">Website:</span>
                                 <br>
-                                <a href="http://{{ $business[0]->website }}" target="_blank" class="text-sm font-medium leading-5 text-gray-500">{{ $business[0]->website }}</a>
+                                <a href="http://{{ $business->website }}" target="_blank"
+                                    class="text-sm font-medium leading-5 text-gray-500">{{ $business->website }}</a>
                             </div>
                         </div>
 
@@ -70,30 +74,38 @@
 
                                 </div>
                                 <div class="row py-2">
-                                    @if ($business[0]->facebook)
-                                    <div class="col-4 d-flex align-items-center justify-content-center">
-                                        <a href="http://www.facebook.com/{{ $business[0]->facebook }}" target="_blank" rel="noopener noreferrer">
-                                            <img style="width: 25px" src="../img/facebook.png" alt="" srcset="">
-                                        </a>
-                                    </div>
+                                    @if ($business->facebook)
+                                        <div class="col-4 d-flex align-items-center justify-content-center">
+                                            <a href="http://www.facebook.com/{{ $business->facebook }}" target="_blank"
+                                                rel="noopener noreferrer">
+                                                <img style="width: 25px" src="../img/facebook.png" alt=""
+                                                    srcset="">
+                                            </a>
+                                        </div>
                                     @endif
-                                    @if ($business[0]->twitter)
-                                    <div class="col-4 d-flex align-items-center justify-content-center">
-                                        <a href="http://www.twitter.com/{{ $business[0]->twitter }}" target="_blank" rel="noopener noreferrer">
-                                            <img style="width: 25px" src="../img/twitter.png" alt="" srcset="">
-                                        </a>
-                                    </div>
+                                    @if ($business->twitter)
+                                        <div class="col-4 d-flex align-items-center justify-content-center">
+                                            <a href="http://www.twitter.com/{{ $business->twitter }}" target="_blank"
+                                                rel="noopener noreferrer">
+                                                <img style="width: 25px" src="../img/twitter.png" alt=""
+                                                    srcset="">
+                                            </a>
+                                        </div>
                                     @endif
-                                    @if ($business[0]->instagram)
-                                    <div class="col-4 d-flex align-items-center justify-content-center">
-                                        <a href="http://www.instagram.com/{{ $business[0]->instagram }}" target="_blank" rel="noopener noreferrer">
-                                            <img style="width: 25px" src="../img/instagram.png" alt="" srcset="">
-                                        </a>
-                                    </div>
+                                    @if ($business->instagram)
+                                        <div class="col-4 d-flex align-items-center justify-content-center">
+                                            <a href="http://www.instagram.com/{{ $business->instagram }}"
+                                                target="_blank" rel="noopener noreferrer">
+                                                <img style="width: 25px" src="../img/instagram.png" alt=""
+                                                    srcset="">
+                                            </a>
+                                        </div>
                                     @endif
-                                    @if ($business[0]->website ?? '')
-                                    <a href="http://{{ $business[0]->website }}" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Go
-                                        to our Website</a>
+                                    @if ($business->website ?? '')
+                                        <a href="http://{{ $business->website }}" target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="mt-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Go
+                                            to our Website</a>
                                     @endif
                                 </div>
                             </div>

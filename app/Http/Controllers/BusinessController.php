@@ -98,7 +98,7 @@ class BusinessController extends Controller
         $districts = DB::table('municipal_districts')
             ->select('*')
             ->get();
- 
+
         return view('business/businessdashboard', ['rep' => $rep, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
     }
 
@@ -251,9 +251,9 @@ class BusinessController extends Controller
 
     }
 
-    public function showBusiness($id)
+    public function showBusiness($businessName)
     {
-       
+
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
@@ -261,9 +261,9 @@ class BusinessController extends Controller
             ->leftjoin('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry', 'municipal_districts.municipal_district', 'municipalities.municipality')
-            ->where('businesses.id', $id)
-            ->get();
-
+            ->where('businesses.business_name', $businessName)
+            ->first();
+        // dd($business);
         $provinces = DB::table('provinces')
             ->select('*')
             ->get();
@@ -279,16 +279,16 @@ class BusinessController extends Controller
         $clientsservices = DB::table('clientsservices')
             ->select('*')
             ->leftjoin('services', 'services.id', '=', 'clientsservices.serviceId')
-            ->where('clientsservices.bid', $business[0]->id)
+            ->where('clientsservices.bid', $business->id)
             ->get();
 
         $rep = DB::table('users')
             ->select('*')
-            ->where('users.id', $business[0]->id)
+            ->where('users.id', $business->id)
             ->get();
 
         return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);
-    
+
     }
 
 }

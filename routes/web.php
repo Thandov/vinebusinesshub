@@ -10,11 +10,11 @@ use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\PendingApprovalsController;
+use App\Http\Controllers\PowerupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PowerupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
     Route::get('/business/submit-form', [PowerupController::class, 'store'])->name('dashboard.submit-form');
 
-    Route::get('/bdashboard/website/', function(){
+    Route::get('/bdashboard/website/', function () {
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
     //Acounting Powerup
@@ -134,7 +134,7 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/home/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+Route::get('/{businessName}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
