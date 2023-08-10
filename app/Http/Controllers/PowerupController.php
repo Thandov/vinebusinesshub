@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Powerup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class PowerupController extends Controller
@@ -15,9 +14,30 @@ class PowerupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($powerup)
     {
-        //
+        $urlSegments = explode('/', request()->path());
+
+        if ($powerup === 'accounting') {
+            return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
+        } elseif ($powerup === 'business') {
+            return view('business.viewbusiness.powerups._business', compact('urlSegments'));
+        } elseif ($powerup === 'company') {
+            return view('business.viewbusiness.powerups._company', compact('urlSegments'));
+        } elseif ($powerup === 'marketplace') {
+            return view('business.viewbusiness.powerups._marketplace', compact('urlSegments'));
+        } elseif ($powerup === 'invoices') {
+            return view('business.viewbusiness.powerups._invoices', compact('urlSegments'));
+        } elseif ($powerup === 'quotations') {
+            return view('business.viewbusiness.powerups._quotations', compact('urlSegments'));
+        } elseif ($powerup === 'transaction') {
+            return view('business.viewbusiness.powerups._transaction', compact('urlSegments'));
+        } elseif ($powerup === 'tax') {
+            return view('business.viewbusiness.powerups._tax', compact('urlSegments'));
+        } else {
+            // Handle the case where $powerup doesn't match any of the expected values
+            // For example, you might want to return a default view or show an error message.
+        }
     }
 
     /**
@@ -135,4 +155,6 @@ class PowerupController extends Controller
     {
         dd($request->input());
     }
+    
+
 }

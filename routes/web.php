@@ -14,7 +14,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PowerupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,53 +59,13 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
     Route::get('/business/submit-form', [PowerupController::class, 'store'])->name('dashboard.submit-form');
-    Route::POST('/bdashboard/accounting/activate', [PowerupController::class, 'activatepowerup'])->name('bdashboard.accounting.activate');
-    Route::POST('/bdashboard/accounting/accountingRequest/{id}', [PowerupController::class, 'accountingRequest'])->name('bdashboard.accounting.accountingRequest');
-    
-    Route::get('/bdashboard/website/', function(){
+
+    Route::get('/bdashboard/website/', function () {
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
     //Acounting Powerup
-    Route::get('/bdashboard/accounting/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
-    })->name('bdashboard.accounting');
-
-
-    Route::get('/bdashboard/business/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._business', compact('urlSegments'));
-    })->name('bdashboard.business');
-
-    Route::get('/bdashboard/company/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._company', compact('urlSegments'));
-    })->name('bdashboard.company');
-
-    Route::get('/bdashboard/marketplace/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._marketplace', compact('urlSegments'));
-    })->name('bdashboard.marketplace');
-
-    Route::get('/bdashboard/invoices/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._invoices', compact('urlSegments'));
-    })->name('bdashboard.invoices');
-
-    Route::get('/bdashboard/quotations/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._quotations', compact('urlSegments'));
-    })->name('bdashboard.quotations');
-
-    Route::get('/bdashboard/transaction/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._transaction', compact('urlSegments'));
-    })->name('bdashboard.transaction');
-
-    Route::get('/bdashboard/tax/', function(){
-        $urlSegments = explode('/', request()->path());
-        return view('business.viewbusiness.powerups._tax', compact('urlSegments'));
-    })->name('bdashboard.tax');
+    Route::get('/bdashboard/{powerup}', [PowerupController::class, 'index']);
+    Route::POST('/bdashboard/accounting/activatepowerup', [PowerupController::class, 'activatepowerup'])->name('bdashboard.accounting.activatepowerup');
 
     //View Business of single business no user logged in
     Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
@@ -174,7 +133,7 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/home/{id}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+Route::get('/{businessName}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
