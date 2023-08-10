@@ -1,4 +1,16 @@
 <x-app-layout title="">
+    {{-- Check if there are success or error messages in the session --}}
+    @if (session('success'))
+    <script>
+        Swal.fire('Success', '{{ session('success ') }}', 'success');
+    </script>
+    @endif
+
+    @if (session('error'))
+    <script>
+        Swal.fire('Error', '{{ session('error ') }}', 'error');
+    </script>
+    @endif
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4">
             <div class="p-6 bg-white border-b border-gray-200">
@@ -36,10 +48,17 @@
 
             </div>
         </div>
+        @php
+        $userid = Auth::user()->id;
+        @endphp
         <div class="md:grid md:grid-cols-7 gap-4">
             <div class="md:col-span-2">
                 <div class="p-6 bg-white border-b border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
-                    <x-btn btnType="submit" name="Activate" linking="" unqid="" klass="" color="blue" />
+                    <form action="/bdashboard/accounting/activate" method="post">
+                        @csrf
+                        <input type="hidden" name="userid" value="{{$userid}}">
+                        <x-btn btnType="submit" name="Activate" linking="" unqid="" klass="" color="blue" />
+                    </form>
                 </div>
             </div>
             <div class="md:col-span-5 mb-4">
@@ -53,7 +72,7 @@
                 'business.viewbusiness.multistep.accounting.slide5',
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" linking="{{ route('bdashboard.accounting.taxRequest', ['id' => 1]) }}" />
+                <x-multistep-form :slides="$slides" linking="{{ route('bdashboard.accounting.accountingRequest', ['id' => 1]) }}" />
             </div>
         </div>
         <x-powerupslist />

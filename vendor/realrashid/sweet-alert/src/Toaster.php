@@ -46,11 +46,14 @@ class Toaster
             'title' => '',
             'text' => '',
             'timer' => config('sweetalert.timer'),
+            'background' => config('sweetalert.background'),
             'width' => config('sweetalert.width'),
             'heightAuto' => config('sweetalert.height_auto'),
             'padding' => config('sweetalert.padding'),
             'showConfirmButton' => config('sweetalert.show_confirm_button'),
             'showCloseButton' => config('sweetalert.show_close_button'),
+            'confirmButtonText' => __(config('sweetalert.button_text.confirm')),
+            'cancelButtonText' => __(config('sweetalert.button_text.cancel')),
             'timerProgressBar' => config('sweetalert.timer_progress_bar'),
             'customClass' => [
                 'container' => config('sweetalert.customClass.container'),
@@ -80,9 +83,9 @@ class Toaster
     {
         unset($this->config['position'], $this->config['heightAuto'], $this->config['width'], $this->config['padding'], $this->config['showCloseButton']);
 
-        if(!config('sweetalert.middleware.autoClose')){
+        if (!config('sweetalert.middleware.autoClose')) {
             $this->removeTimer();
-        }else{
+        } else {
             unset($this->config['timer']);
             $this->config['timer'] = config('sweetalert.middleware.timer');
         }
@@ -113,6 +116,48 @@ class Toaster
         $this->flash();
         return $this;
     }
+
+    /**
+     * Show confirm alert before deleting data.
+     *
+     * @param  string $title
+     * @param  string $text
+     * @param  string $deleteUrl
+     * @param  string $deleteMethod
+     * @return void
+     * @author Rashid Ali <realrashid05@gmail.com>
+     */
+    public function confirmDelete($title, $text = null)
+    {
+        // Set the configuration options for the confirmation popup
+        $this->config['title'] = $title;
+        if (!is_null($text)){
+            $this->config['text'] = $text;
+        }
+
+        $this->config['showCloseButton'] = config('sweetalert.confirm_delete_show_close_button');
+        $this->config['showCancelButton'] = config('sweetalert.confirm_delete_show_cancel_button');
+        $this->config['confirmButtonText'] = config('sweetalert.confirm_delete_confirm_button_text');
+        $this->config['cancelButtonText'] = config('sweetalert.confirm_delete_cancel_button_text');
+        $this->config['confirmButtonColor'] = config('sweetalert.confirm_delete_confirm_button_color');
+        $this->config['icon'] = config('sweetalert.confirm_delete_icon');
+        $this->config['showLoaderOnConfirm'] = config('sweetalert.confirm_delete_show_loader_on_confirm');
+        $this->config['allowEscapeKey'] = false;
+        $this->config['allowOutsideClick'] = false;
+
+        if (array_key_exists('timer', $this->config)) {
+            unset($this->config['timer']);
+        }
+
+        if (array_key_exists('showConfirmButton', $this->config)) {
+            unset($this->config['showConfirmButton']);
+        }
+
+
+        $this->flash('delete');
+        return $this;
+    }
+
 
     /**
      * Display a success typed alert message with a text and a title.
@@ -191,7 +236,7 @@ class Toaster
      * @param string $imageAlt
      * @author Rashid Ali <realrashid05@gmail.com>
      */
-    public function image($title, $text,$imageUrl, $imageWidth, $imageHeight, $imageAlt)
+    public function image($title, $text, $imageUrl, $imageWidth, $imageHeight, $imageAlt = null)
     {
         $this->config['title'] = $title;
         $this->config['text'] = $text;
@@ -609,12 +654,12 @@ class Toaster
      *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
-    public function flash()
+    public function flash($type = 'config')
     {
         foreach ($this->config as $key => $value) {
-            $this->session->flash("alert.config.{$key}", $value);
+            $this->session->flash("alert.$type.{$key}", $value);
         }
-        $this->session->flash('alert.config', $this->buildConfig());
+        $this->session->flash("alert.$type", $this->buildConfig());
     }
 
     /**

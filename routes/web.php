@@ -60,8 +60,9 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
     Route::get('/business/submit-form', [PowerupController::class, 'store'])->name('dashboard.submit-form');
-    Route::POST('/bdashboard/accounting/taxRequest/{id}', [PowerupController::class, 'taxRequest'])->name('bdashboard.accounting.taxRequest');
-
+    Route::POST('/bdashboard/accounting/activate', [PowerupController::class, 'activatepowerup'])->name('bdashboard.accounting.activate');
+    Route::POST('/bdashboard/accounting/accountingRequest/{id}', [PowerupController::class, 'accountingRequest'])->name('bdashboard.accounting.accountingRequest');
+    
     Route::get('/bdashboard/website/', function(){
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
