@@ -78,7 +78,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-start mb-4">
-                            <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
                                 <i class="fas fa-cogs text-white"></i>
                             </div>
                             <div class="ml-5 w-0 flex-1">
@@ -106,7 +106,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-start mb-4">
-                            <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
                                 <i class="fas fa-cogs text-white"></i>
                             </div>
                             <div class="ml-5 w-0 flex-1">
@@ -132,7 +132,7 @@
                                         aria-controls="pills-home" aria-selected="true">
                                         <!-- Manage Business -->
                                         <div
-                                            class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
+                                            class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-green-500 p-4">
                                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 21 20">
@@ -150,7 +150,7 @@
                                         aria-controls="pills-profile" aria-selected="false">
                                         <!-- Business Representatives -->
                                         <div
-                                            class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
+                                            class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-green-500 p-4">
                                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 21 20">
@@ -168,7 +168,7 @@
                                         aria-controls="pills-services" aria-selected="false">
                                         <!-- Our Services -->
                                         <div
-                                            class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-white p-4">
+                                            class="bg-white shadow-md flex flex-col items-center text-center justify-center rounded-lg hover:bg-green-500 hover:text-green-500 p-4">
                                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 21 20">
@@ -239,7 +239,6 @@
                                                                 <label for="business_number"
                                                                     class="block text-sm font-medium text-gray-700">Business
                                                                     Number
-
                                                                     @error('business_number')
                                                                         <p class="text-red-500 text-medium">
                                                                             {{ $message }}
@@ -287,7 +286,6 @@
                                                                         id=charcount></span>
                                                                 </div>
                                                             </div>
-
                                                             <div class="col-span-12 md:col-span-12 ">
                                                                 <label for="company_reg"
                                                                     class="block text-sm font-medium text-gray-700">Company
@@ -304,8 +302,6 @@
                                                                     autocomplete="address"
                                                                     class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                             </div>
-
-
                                                             <div class="col-span-12 sm:col-span-12">
                                                                 <label for="industry"
                                                                     class="block text-sm font-medium text-gray-700">Industry</label>
@@ -325,7 +321,6 @@
                                                                     @endif
                                                                 </select>
                                                             </div>
-
                                                             <div class="col-span-12 sm:col-span-12">
                                                                 <label for="website"
                                                                     class="block text-sm font-medium text-gray-700">Website</label>
@@ -396,9 +391,7 @@
                                                 <div class="shadow overflow-hidden sm:rounded-md">
                                                     <div class="px-4 py-5 bg-white sm:p-6">
                                                         <div class="grid grid-cols-12 gap-6">
-
                                                         </div>
-
                                                         <div class="md:mt-0 md:col-span-2">
                                                             <form class="form-group" method="POST"
                                                                 action="{{ route('business.update') }}"
@@ -505,8 +498,6 @@
                                                                                     autocomplete="address"
                                                                                     class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                             </div>
-
-
                                                                             <div class="col-span-12 sm:col-span-12">
                                                                                 <label for="industry"
                                                                                     class="block text-sm font-medium text-gray-700">Industry</label>
@@ -528,7 +519,6 @@
                                                                                     @endif
                                                                                 </select>
                                                                             </div>
-
                                                                             <div class="col-span-12 sm:col-span-12">
                                                                                 <label for="website"
                                                                                     class="block text-sm font-medium text-gray-700">Website</label>
@@ -719,7 +709,6 @@
                                                                                 autocomplete="address-level2"
                                                                                 class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
                                                                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -940,12 +929,9 @@
                             });
                         </script>
                     @endif
-
                     <div class="col">
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1084,8 +1070,6 @@
 
     });
 
-
-
     function confirmDelete(id) {
         document.getElementById("deleteConfirmation").classList.remove("hidden");
     }
@@ -1102,7 +1086,6 @@
             window.location.href = "deleteBusinessandUser/" + id;
         }
     }
-
     //bio script
     function charcountupdate(value) {
         const maxLength = 1000;
@@ -1117,7 +1100,6 @@
             document.getElementById('business_bio').removeAttribute('readonly');
         }
     }
-
 
     function changeDistrict($id) {
         jQuery.ajax({

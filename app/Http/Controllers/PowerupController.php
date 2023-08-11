@@ -6,7 +6,6 @@ use App\Models\Powerup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
-
 class PowerupController extends Controller
 {
     /**
@@ -155,6 +154,5 @@ class PowerupController extends Controller
     {
         dd($request->input());
     }
-    
 
 }
