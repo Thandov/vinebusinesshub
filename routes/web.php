@@ -10,6 +10,7 @@ use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\PendingApprovalsController;
+use App\Http\Controllers\PowerupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
@@ -133,7 +134,7 @@ Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunic
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
-Route::get('/{businessName}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+Route::get('/business/{businessName}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -1,11 +1,8 @@
 <x-app-layout title="Home">
-
     <!--Carousel-->
     <section id="carousel">
         @include('_carousel')
     </section>
-
-
 
     @if ($message = session('success'))
         <div id="success-message" class="alert alert-success">
@@ -159,19 +156,18 @@
             </div>
         </div>
 
-
         @if (session('status'))
             <div class="alert alert-success">
                 {{ session('status') }}
             </div>
         @endif
 
-
         @if ($business->isEmpty())
             <p>No results found.</p>
         @else
             <div class="container py-3 md:px-10">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2 mt-md-0 w-auto" id="test">
+                <div class="grid grid-cols-2 py-4 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2 mt-md-0 w-auto"
+                    id="test">
                     @include('home._businesses', ['businesses' => $business])
                 </div>
                 <div id="pagination-links">{{ $business->links() }}</div>
@@ -223,14 +219,6 @@
             fetch_customer_data(query, searchOption, pageNumber);
         });
 
-        jQuery(document).on('change', '#municipalityOptions', function() {
-            var query = $.trim($(this).find('option:selected').text());
-            var searchOption = "municipalitySearch";
-            var viewType = "cardView";
-            var municipalityId = $(this).find(":selected").val();
-            var pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
-            fetch_customer_data(query, searchOption, pageNumber);
-        })
         jQuery(document).on('change', '#industryOptions', function() {
             var query = $.trim($(this).find('option:selected').text());
             var searchOption = "industrySearch";
@@ -276,7 +264,7 @@
     });
 
     function fetch_customer_data(query = "", searchOption = "", pageNumber = 1, selectedProvince = "",
-        selectedDistrict = "", selectedMunicipality = "") {
+        selectedDistrict = "") {
         console.log("Search Option: " + searchOption);
         jQuery.ajax({
             url: "{{ route('home.action') }}",
@@ -287,7 +275,6 @@
                 page: pageNumber,
                 selectedProvince: selectedProvince,
                 selectedDistrict: selectedDistrict,
-                selectedMunicipality: selectedMunicipality
             },
             dataType: 'json',
             success: function(data) {
@@ -369,33 +356,6 @@
 
                 var selectedDistrict = districtOptions.find(":selected").val();
                 changeMunicipality(selectedDistrict);
-            }
-        });
-    }
-
-
-
-    function changeMunicipality($id) {
-        jQuery.ajax({
-            url: "{{ route('home.changeMunicipality') }}",
-            menthod: 'GET',
-            data: {
-                id: $id
-            },
-            dataType: 'json',
-            success: function(data) {
-                jQuery('#municipalityOptions')
-                    .find('option')
-                    .remove()
-                    .end();
-                data.forEach(municipality => {
-                    jQuery('#municipalityOptions')
-                        .append('<option value="' + municipality.id + '">' +
-                            municipality
-                            .municipality +
-                            '</option>');
-                });
-                $("#municipalityOptions").val($("#municipalityOptions option:first").val());
             }
         });
     }
