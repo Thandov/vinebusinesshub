@@ -1,4 +1,6 @@
 const mix = require('laravel-mix');
+const path = require('path');
+
 
 /*
  |--------------------------------------------------------------------------
@@ -16,3 +18,10 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
     require('tailwindcss'),
     require('autoprefixer'),
 ]);
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js'),
+        }
+    }
+});

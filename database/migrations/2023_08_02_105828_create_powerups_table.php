@@ -19,6 +19,7 @@ class CreatePowerupsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->longText('icon');
             $table->string('name', 255)->unique()->nullable();
+            $table->string('slug', 255)->unique()->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });

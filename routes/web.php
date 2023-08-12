@@ -11,10 +11,10 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\PendingApprovalsController;
 use App\Http\Controllers\PowerupController;
+use App\Http\Controllers\UserPowerupsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\PowerupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,7 +68,8 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     })->name('bdashboard.website');
     //Acounting Powerup
     Route::get('/bdashboard/{powerup}', [PowerupController::class, 'index']);
-    Route::POST('/bdashboard/accounting/activatepowerup', [PowerupController::class, 'activatepowerup'])->name('bdashboard.accounting.activatepowerup');
+    Route::POST('/bdashboard/{powerup}/activatepowerup', [UserPowerupsController::class, 'activatepowerup']);
+    Route::POST('/bdashboard/accounting/deactivatepowerup', [UserPowerupsController::class, 'deactivatepowerup'])->name('bdashboard.accounting.activatepowerup');
 
     
     //Edit the business admin data
