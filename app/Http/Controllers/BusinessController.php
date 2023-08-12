@@ -253,7 +253,6 @@ class BusinessController extends Controller
 
     public function showBusiness($businessName)
     {
-
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
@@ -263,8 +262,8 @@ class BusinessController extends Controller
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry', 'municipal_districts.municipal_district', 'municipalities.municipality')
             ->where('businesses.business_name', $businessName)
             ->first();
-        // dd($business);
-        $provinces = DB::table('provinces')
+
+            $provinces = DB::table('provinces')
             ->select('*')
             ->get();
 

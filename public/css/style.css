@@ -12,22 +12,9 @@
   width: 150px;
 }
 
-.carousel {
-  height: 400px;
-
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.carousel-item img {
-  object-position: center -20%;
-}
-
-.carousel-caption {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-40%, -50%);
-  z-index: 1;
+/* You can adjust these styles to match your design */
+#progressPercentage {
+  opacity: 0; /* Hide initially, show when progress is updated */
 }
 
 .jumbotron.homehead {
@@ -121,10 +108,9 @@ ul.nav.nav-pills.sidepills .nav-item {
   .bizlogo {
     height: 100px;
   }
-}/*# sourceMappingURL=style.css.map */
-
+}
 .owl-carousel#headercara {
-  height: 500px;
+  height: 100%;
 }
 .owl-carousel#headercara div.owl-stage-outer {
   height: 100%;
@@ -188,21 +174,4 @@ ul.nav.nav-pills.sidepills .nav-item {
 .owl-carousel.towl div.owl-stage-outer div.owl-stage div.owl-item {
   height: 100%;
   width: 100vw;
-}
-
-.carousel-inner {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.carousel-item img {
-  object-position: center -20%;
-}
-
-.carousel-caption {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-40%, -50%);
-  z-index: 1;
-}
+}/*# sourceMappingURL=style.css.map */

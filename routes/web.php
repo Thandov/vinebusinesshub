@@ -14,6 +14,7 @@ use App\Http\Controllers\PowerupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\PowerupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,7 +61,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/business/myprofile', [DashboardController::class, 'businessprofile'])->name('dashboard.myprofile');
     Route::get('/business/submit-form', [PowerupController::class, 'store'])->name('dashboard.submit-form');
-
+//View Business of single business no user logged in
+    Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
     Route::get('/bdashboard/website/', function () {
         return view('business.viewbusiness.powerups._website');
     })->name('bdashboard.website');
@@ -68,8 +70,7 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::get('/bdashboard/{powerup}', [PowerupController::class, 'index']);
     Route::POST('/bdashboard/accounting/activatepowerup', [PowerupController::class, 'activatepowerup'])->name('bdashboard.accounting.activatepowerup');
 
-    //View Business of single business no user logged in
-    Route::get('/bdashboard', [BusinessController::class, 'show'])->name('bdashboard');
+    
     //Edit the business admin data
     Route::post('business/update', [BusinessController::class, 'updateBusiness'])->name('business.update');
     //Edit the business admin data insertclientservice

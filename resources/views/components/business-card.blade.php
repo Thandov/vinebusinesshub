@@ -19,7 +19,11 @@
                     <p class="card-text text-xs">{{ $industry }}</p>
                 </div>
                 <div class="">
+<<<<<<< Updated upstream
                     <a href="business/{{ $name }}"
+=======
+                    <a href="/business/{{ $name }}"
+>>>>>>> Stashed changes
                         class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-md font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full">View</a>
                 </div>
             </div>
