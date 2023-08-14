@@ -11,6 +11,22 @@
   height: 150px;
   width: 150px;
 }
+.carousel {
+  position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 400px; /* Adjust the height as needed */
+}
+.search-bar {
+  position:absolute;
+  top: 250px; /* Adjust this value to position the search bar vertically */
+ 
+  z-index: 100;
+  /* Additional styling for the search bar */
+}
+.carousel-item img {
+  object-position: center -20%;
+}
 
 /* You can adjust these styles to match your design */
 #progressPercentage {
