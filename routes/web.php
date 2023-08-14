@@ -14,7 +14,6 @@ use App\Http\Controllers\PowerupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\PowerupController;
 use Illuminate\Support\Facades\Route;
 
 /*
