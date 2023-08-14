@@ -10,7 +10,7 @@
                     <p class="mt-2 text-sm">Manage Business</p>
                 </div>
             </button>
-        </li>
+        </li> 
         <li class="nav-item" role="presentation">
             <button id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                 <!-- Business Representatives -->

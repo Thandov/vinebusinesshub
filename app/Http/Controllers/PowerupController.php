@@ -19,15 +19,11 @@ class PowerupController extends Controller
     {
         // Create an instance of UserPowerupsController
         $userPowerupsController = new UserPowerupsController();
-
-        
         $urlSegments = explode('/', request()->path());
-
         $powerid = Powerup::select('powerid')->where('slug', $powerup)->first();
         $actstatus = $userPowerupsController->activestatus($powerid->powerid);
         return view('business.viewbusiness.powerups._powerup', compact('urlSegments', 'powerup', 'powerid', 'actstatus'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
