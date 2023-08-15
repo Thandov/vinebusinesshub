@@ -61,3 +61,158 @@
             </div>
         </div>
     </div>
+
+    <script>
+        jQuery(document).ready(function() {
+            jQuery.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var selectedprovinceId = $(this).find(":selected").val();
+            changeDistrict(selectedprovinceId);
+            fetch_customer_data(query = "", searchOption = "", pageNumber = 1);
+
+            jQuery("#liveSearch, #provinceOptions, #districtOptions, #municipalityOptions").on("change",
+                function() {
+                    jQuery("#industryOptions").val("");
+                });
+
+            jQuery(document).on('change', '#provinceOptions', function() {
+                var query = $.trim($(this).find('option:selected').text());
+                var searchOption = "provinceSearch";
+                var viewType = "cardView";
+                var pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
+                var provinceId = $(this).find(":selected").val();
+                changeDistrict(provinceId);
+                fetch_customer_data(query, searchOption, pageNumber);
+            });
+
+
+            jQuery(document).on('change', '#industryOptions', function() {
+                var query = $.trim($(this).find('option:selected').text());
+                var searchOption = "industrySearch";
+                var viewType = "cardView";
+                var provinceOptions = document.getElementById("provinceOptions");
+                var selectedProvince = provinceOptions.selectedIndex !== -1 ? provinceOptions.options[
+                    provinceOptions.selectedIndex].text : null;
+
+                var districtOptions = document.getElementById("districtOptions");
+                var selectedDistrict = districtOptions.selectedIndex !== -1 ? districtOptions.options[
+                    districtOptions.selectedIndex].value : null;
+
+                var industryId = $(this).find(":selected").val();
+                var pageNumber = jQuery('#pagination-links .active a').text();
+                fetch_customer_data(query, searchOption, pageNumber, selectedProvince, selectedDistrict);
+            });
+
+
+
+        });
+
+        function fetch_customer_data(query = "", searchOption = "", pageNumber = 1, selectedProvince = "",
+            selectedDistrict = "") {
+            console.log("Search Option: " + searchOption);
+            jQuery.ajax({
+                url: "{{ route('home.action') }}",
+                method: 'GET',
+                data: {
+                    query: query,
+                    searchOption: searchOption,
+                    page: pageNumber,
+                    selectedProvince: selectedProvince,
+                    selectedDistrict: selectedDistrict,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.message) {
+                        // Display the "No results found" message
+                        jQuery('#test').html(data.message);
+                        jQuery('#pagination-links').html("");
+                    } else {
+                        // Display the business data and pagination links
+                        jQuery('#test').html(data.html);
+                        jQuery('#pagination-links').html(data.pagination);
+                    }
+                    console.log(data);
+                },
+                error: function(jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status === 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status === 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg);
+                }
+            });
+        }
+
+
+        $(document).on('click', '#pagination-links a', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                datatype: "html",
+                success: function(response) {
+                    $('#test').html(response.html);
+                    $('#pagination-links').html(response.pagination);
+
+                    history.pushState(null, null, url);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("search_description");
+            const dropdown = document.getElementById("dropdown");
+
+            // Show the dropdown when the input is clicked
+            searchInput.addEventListener("click", function() {
+                dropdown.classList.remove("hidden");
+            });
+
+            // Hide the dropdown when an item is selected
+            dropdown.addEventListener("click", function(event) {
+                if (event.target.classList.contains("dropdown-item")) {
+                    dropdown.classList.add("hidden");
+                    searchInput.value = event.target.textContent;
+                }
+            });
+
+            // Hide the dropdown when clicking outside
+            document.addEventListener("click", function(event) {
+                if (!dropdown.contains(event.target) && event.target !== searchInput) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+        });
+        script >
+            document.addEventListener("DOMContentLoaded", function() {
+                const dropdown = document.getElementById("dropdown");
+                const inputField = document.getElementById("search_description");
+                const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+
+                dropdownItems.forEach(item => {
+                    item.addEventListener("click", function() {
+                        const selectedItemText = item.textContent.trim();
+                        inputField.value = selectedItemText === "mpumalanga" ? selectedItemText : "";
+                    });
+                });
+            });
+    </script>
