@@ -47,29 +47,26 @@
                 </div>
 
                 <div class="relative">
-                    <label class="text-gray-700 font-semibold" for="search_location">
-                        <span class="inline-block w-6 h-6">
+                    <label class="text-gray-700 font-semibold relative" for="search_location">
+                        <span class="inline-block w-6 h-6 absolute top-2 left-0">
                             <svg width="30px" height="30px" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0000ff" class="mr-2 mt-2">
+                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0000ff">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
-                                    {" "}
                                     <path fill-rule="evenodd" clip-rule="evenodd"
                                         d="M50 0C72.3858 0 91.6667 19.2809 91.6667 41.6667C91.6667 58.5698 79.9449 76.4698 55.6803 101.485C51.5551 105.726 46.4449 105.726 42.3197 101.485C18.0551 76.4698 6.33333 58.5698 6.33333 41.6667C6.33333 19.2809 25.6142 0 48 0ZM48 25C56.2843 25 63.3333 32.049 63.3333 40.3333C63.3333 48.6177 56.2843 55.6667 48 55.6667C39.7157 55.6667 32.6667 48.6177 32.6667 40.3333C32.6667 32.049 39.7157 25 48 25Z"
-                                        fill="currentColor"></path>{" "}
+                                        fill="currentColor"></path>
                                     <path fill-rule="evenodd" clip-rule="evenodd"
                                         d="M48 85.3333C54.6282 85.3333 60 79.9615 60 73.3333C60 66.7051 54.6282 61.3333 48 61.3333C41.3718 61.3333 36 66.7051 36 73.3333C36 79.9615 41.3718 85.3333 48 85.3333Z"
-                                        fill="currentColor"></path>{" "}
+                                        fill="currentColor"></path>
                                 </g>
                             </svg>
-
                         </span>
                         <select aria-label="Near" autocomplete="off" role="textbox" aria-autocomplete="list"
                             tabindex="0" data-testid="suggest-location-input" id="search_location"
                             class="py-2 px-6 bg-gray-100 rounded-md border border-green-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-
-                            <option value="" disabled selected>Location, Address,City </option>
+                            <option value="" disabled selected>Location, Address, City</option>
                             @if ($provinces ?? '')
                                 @foreach ($provinces ?? '' as $province)
                                     <option value="{{ $province->id }}" data-name="{{ $province->province }}">
