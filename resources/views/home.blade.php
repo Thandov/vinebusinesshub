@@ -18,9 +18,7 @@
         </script>
     @endif
 
-
     <div class="bg-white py-4">
-
         <div class="container py-3 md:px-10">
             <div class="row">
                 <div class="bg-white my-3  rounded-lg">
@@ -296,19 +294,25 @@
                 searchInput.value = event.target.textContent;
             }
         });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const dropdown = document.getElementById("dropdown");
-        const inputField = document.getElementById("search_description");
-        const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
 
-        dropdownItems.forEach(item => {
-            item.addEventListener("click", function() {
-                const selectedItemText = item.textContent.trim();
-                inputField.value = selectedItemText === "mpumalanga" ? selectedItemText : "";
-            });
+        // Hide the dropdown when clicking outside
+        document.addEventListener("click", function(event) {
+            if (!dropdown.contains(event.target) && event.target !== searchInput) {
+                dropdown.classList.add("hidden");
+            }
         });
     });
+    script >
+        document.addEventListener("DOMContentLoaded", function() {
+            const dropdown = document.getElementById("dropdown");
+            const inputField = document.getElementById("search_description");
+            const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+
+            dropdownItems.forEach(item => {
+                item.addEventListener("click", function() {
+                    const selectedItemText = item.textContent.trim();
+                    inputField.value = selectedItemText === "mpumalanga" ? selectedItemText : "";
+                });
+            });
+        });
 </script>
