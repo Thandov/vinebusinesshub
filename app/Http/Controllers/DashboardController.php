@@ -63,16 +63,17 @@ class DashboardController extends Controller
         $numOfCols = 3;
         $bootstrapColWidth = 12 / $numOfCols;
         $business = [];
-    
+
         if ($query != '') {
             if ($searchOption === "businessNameSearch") {
                 $business = DB::table('businesses')
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
                     ->select('businesses.id', 'businesses.logo', 'businesses.business_name', 'industries.industry')
                     ->where('business_name', 'LIKE', $query . '%')
+                    ->orWhere('industry', 'LIKE', $query . '%')
                     ->paginate(12) // limit to 10 results per page
                     ->withQueryString(); // add this line to include other query parameters in the pagination link
-    
+
             } elseif ($searchOption === "provinceSearch") {
                 $business = DB::table('businesses')
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
@@ -81,7 +82,7 @@ class DashboardController extends Controller
                     ->where('province', 'LIKE', $query . '%')
                     ->paginate(12) // limit to 10 results per page
                     ->withQueryString(); // add this line to include other query parameters in the pagination link
-    
+
             } elseif ($searchOption === "districtSearch") {
                 $business = DB::table('businesses')
                     ->join('industries', 'industries.id', '=', 'businesses.industryId')
@@ -123,7 +124,7 @@ class DashboardController extends Controller
                         ->where('industry', 'LIKE', $query . '%')
                         ->paginate(12) // limit to 10 results per page
                         ->withQueryString(); // add this line to include other query parameters in the pagination link
-    
+
                 }
             }
         } else {
@@ -133,25 +134,24 @@ class DashboardController extends Controller
                 ->paginate(12) // limit to 10 results per page
                 ->withQueryString(); // add this line to include other query parameters in the pagination link
         }
-    
+
         if ($business->isEmpty()) {
-            $output = '<p>No results found.</p>'; 
+            $output = '<p>No results found.</p>';
         } else {
             foreach ($business as $row) {
-            
+
             }
         }
-    
+
         $html = view('home._businesses', ['business' => $business])->render();
         $pagination = $business->links()->render();
-    
+
         if ($request->isXmlHttpRequest()) {
             return response()->json(['html' => $html, 'pagination' => $pagination, 'message' => $output]);
         }
-    
+
         return view('home', compact('business', 'bootstrapColWidth'));
     }
-    
 
     public function changeDistrict(Request $request)
     {

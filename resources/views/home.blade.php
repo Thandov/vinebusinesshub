@@ -24,11 +24,13 @@
                 <div class="bg-white my-3  rounded-lg">
                     <form id="searchForm">
                         <div class="grid grid-cols-5 mx-0">
+
                             <div class="col-span-2 flex items-center justify-center">
                                 <input type="text" placeholder="Search Business" name="search"
                                     class="shadow-sm appearance-none border border-red-500 rounded-l-full w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline"
                                     id="liveSearch">
                             </div>
+
                             <div class="col-span-1">
                                 <select id="provinceOptions"
                                     class="shadow-sm appearance-none border border-red-500  w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
@@ -279,7 +281,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.getElementById("search_description");
+        const searchInput = document.getElementById("liveSearch");
         const dropdown = document.getElementById("dropdown");
 
         // Show the dropdown when the input is clicked
