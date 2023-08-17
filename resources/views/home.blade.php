@@ -304,6 +304,7 @@
             }
         });
     });
+
     script >
         document.addEventListener("DOMContentLoaded", function() {
             const dropdown = document.getElementById("dropdown");

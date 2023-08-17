@@ -671,6 +671,26 @@
                                                                                 @endif
                                                                             </select>
                                                                         </div>
+                                                                        <div class="col-span-12 sm:col-span-12">
+                                                                            <label for="district"
+                                                                                class="block text-sm font-medium text-gray-700">District</label>
+                                                                            <select id="districtOptions"
+                                                                                name="districtId"
+                                                                                autocomplete="districtId"
+                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                                                                                @if ($districts ?? '')
+                                                                                    @foreach ($districts as $dist)
+                                                                                        @if ($dist->provinceId === $business->provinceId)
+                                                                                            <option
+                                                                                                value="{{ $dist->id ?? '' }}"
+                                                                                                @if ($dist->id === $business->districtId) selected @endif>
+                                                                                                {{ $dist->municipal_district }}
+                                                                                            </option>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </select>
+                                                                        </div>
                                                                         <div
                                                                             class="col-span-6 sm:col-span-12 lg:col-span-12">
                                                                             <label for="municipality"

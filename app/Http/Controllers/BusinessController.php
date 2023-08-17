@@ -99,7 +99,11 @@ class BusinessController extends Controller
             ->select('*')
             ->get();
 
-        return view('business/businessdashboard', ['rep' => $rep, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
+        $towns = DB::table('towns')
+            ->select('*')
+            ->get();
+
+        return view('business/businessdashboard', ['rep' => $rep, 'towns' => $towns, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
     }
 
     /**
