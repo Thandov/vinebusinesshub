@@ -38,7 +38,7 @@ class AdminUserSeeder extends Seeder
             'provinceId' => null,
             'districtId' => null,
             'municipalityId' => null,
-            'town' => null,
+            'townId' => null,
             'address' => null,
             'company_reg' => null,
             'website' => null,

@@ -21,6 +21,8 @@ class PowerupController extends Controller
             return view('business.viewbusiness.powerups._accounting', compact('urlSegments'));
         } elseif ($powerup === 'business') {
             return view('business.viewbusiness.powerups._business', compact('urlSegments'));
+        } elseif ($powerup === 'branding') {
+            return view('business.viewbusiness.powerups._branding', compact('urlSegments'));
         } elseif ($powerup === 'company') {
             return view('business.viewbusiness.powerups._company', compact('urlSegments'));
         } elseif ($powerup === 'marketplace') {

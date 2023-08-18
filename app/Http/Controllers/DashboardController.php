@@ -42,7 +42,7 @@ class DashboardController extends Controller
     {
         if (Auth::user()->hasRole('business')) {
 
-            return redirect('business/businessdashboard/' . Auth::user()->id);
+            return redirect('/business/registration');
         } elseif (Auth::user()->hasRole('user')) {
             return view('profile/userboard');
         } elseif (Auth::user()->hasRole('admin')) {
@@ -164,6 +164,17 @@ class DashboardController extends Controller
 
         return $municipal_districts;
     }
+    public function changeTown(Request $request)
+    {
+
+        $towns = DB::table('towns')
+            ->leftjoin('provinces', 'provinces.id', '=', 'towns.provinceId')
+            ->where('towns.provinceId', $request->id)
+            ->select('towns.town', 'provinces.province', 'towns.id')
+            ->get();
+
+        return $towns;
+    }
     public function changeMunicipality(Request $request)
     {
 
@@ -175,4 +186,5 @@ class DashboardController extends Controller
 
         return $municipalities;
     }
+    
 }

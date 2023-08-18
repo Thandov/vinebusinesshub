@@ -627,6 +627,21 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="col-span-6 mt-4 sm:col-span-12">
+                                                                            <label for="address"
+                                                                                class="block text-sm font-medium text-gray-700">Street Address
+                                                                                @error('address')
+                                                                                    <p class="text-red-500 text-medium">
+                                                                                        {{ $message }}
+                                                                                    </p>
+                                                                                @enderror
+                                                                            </label>
+                                                                            <input type="text"
+                                                                                value="{{ $business->address ?? '' }}"
+                                                                                name="address" id="address"
+                                                                                autocomplete="address-level2"
+                                                                                class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                        </div>
                                                                         <div class="col-span-12 sm:col-span-12">
                                                                             <label for="province"
                                                                                 class="block text-sm font-medium text-gray-700">Province
@@ -671,26 +686,7 @@
                                                                                 @endif
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-span-12 sm:col-span-12">
-                                                                            <label for="district"
-                                                                                class="block text-sm font-medium text-gray-700">District</label>
-                                                                            <select id="districtOptions"
-                                                                                name="districtId"
-                                                                                autocomplete="districtId"
-                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                                                                                @if ($districts ?? '')
-                                                                                    @foreach ($districts as $dist)
-                                                                                        @if ($dist->provinceId === $business->provinceId)
-                                                                                            <option
-                                                                                                value="{{ $dist->id ?? '' }}"
-                                                                                                @if ($dist->id === $business->districtId) selected @endif>
-                                                                                                {{ $dist->municipal_district }}
-                                                                                            </option>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                @endif
-                                                                            </select>
-                                                                        </div>
+                                                                        
                                                                         <div
                                                                             class="col-span-6 sm:col-span-12 lg:col-span-12">
                                                                             <label for="municipality"
@@ -714,21 +710,26 @@
                                                                                 @endif
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-span-6 sm:col-span-12">
-                                                                            <label for="town"
-                                                                                class="block text-sm font-medium text-gray-700">Town
-                                                                                @error('town')
-                                                                                    <p class="text-red-500 text-medium">
-                                                                                        {{ $message }}
-                                                                                    </p>
-                                                                                @enderror
-                                                                            </label>
-                                                                            <input type="text"
-                                                                                value="{{ $business->town ?? '' }}"
-                                                                                name="town" id="town"
-                                                                                autocomplete="address-level2"
-                                                                                class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                                        <div class="col-span-12 sm:col-span-12">
+                                                                            <label for="town" class="block text-sm font-medium text-gray-700">Town</label>
+                                                                            <select id="townOptions"
+                                                                                name="townId"
+                                                                                autocomplete="townId"
+                                                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                                                                                @if ($towns ?? '')
+                                                                                    @foreach ($towns as $town)
+                                                                                        @if ($town->provinceId === $business->provinceId)
+                                                                                            <option
+                                                                                                value="{{ $town->id ?? '' }}"
+                                                                                                @if ($town->id === $business->townId) selected @endif>
+                                                                                                {{ $town->town }}
+                                                                                            </option>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </select>
                                                                         </div>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -1079,6 +1080,7 @@
                 viewType = "cardView";
             var provinceId = $(this).find(":selected").val();
             changeDistrict(provinceId);
+            changeTown(provinceId);
         });
         jQuery(document).on('change', '#districtOptions', function() {
             var query = jQuery(this).val(),
@@ -1149,6 +1151,35 @@
                 $("#districtOptions").val($("#districtOptions option:first").val());
                 var selectedDistrict = $("#districtOptions").find(":selected").val();
                 changeMunicipality(selectedDistrict);
+            }
+        });
+    }
+
+    function changeTown($id) {
+        jQuery.ajax({
+            url: "{{ route('home.changeTown') }}",
+            menthod: 'GET',
+            data: {
+                id: $id
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+
+                jQuery('#townOptions')
+                    .find('option')
+                    .remove()
+                    .end();
+                data.forEach(town => {
+                    console.log(town);
+                    console.log(town.town);
+                    console.log(town.id);
+                    jQuery('#townOptions')
+                        .append('<option value="' + town.id + '">' + town
+                            .town +
+                            '</option>');
+                });
+                $("#townOptions").val($("#townOptions option:first").val());
             }
         });
     }

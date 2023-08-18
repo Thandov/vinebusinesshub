@@ -192,6 +192,7 @@ return array(
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\AdminUserSeeder' => $baseDir . '/database/seeders/AdminUserSeeder.php',
     'Database\\Seeders\\BusinessSeeder' => $baseDir . '/database/seeders/BusinessSeeder.php',
+    'Database\\Seeders\\CitySeeder' => $baseDir . '/database/seeders/CitySeeder.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\IndustriesSeeder' => $baseDir . '/database/seeders/IndustriesSeeder.php',
     'Database\\Seeders\\LaratrustSeeder' => $baseDir . '/database/seeders/LaratrustSeeder.php',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -106,6 +107,60 @@ class BusinessController extends Controller
         return view('business/businessdashboard', ['rep' => $rep, 'towns' => $towns, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
     }
 
+
+    public function bus_reg()
+    {
+        
+        $urlSegments = explode('/', request()->path());
+
+        $id = auth()->user()->id;
+        $business = DB::table('businesses')
+            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+            ->where('businesses.company_rep', $id)
+            ->first();
+        $provinces = DB::table('provinces')
+            ->select('*')
+            ->get();
+
+        $services = DB::table('services')
+            ->select('*')
+            ->get();
+
+        $industries = DB::table('industries')
+            ->select('*')
+            ->get();
+
+        $clientsservices = DB::table('clientsservices')
+            ->select('*')
+            ->where('clientsservices.bid', $business->id)
+            ->get();
+
+        $rep = DB::table('users')
+            ->select('name', 'email')
+            ->where('users.id', $business->company_rep)
+            ->first();
+
+        $municipalities = DB::table('municipalities')
+            ->select('*')
+            ->get();
+
+        $districts = DB::table('municipal_districts')
+            ->select('*')
+            ->get();
+
+        $towns = DB::table('towns')
+            ->select('*')
+            ->get();
+
+
+        return view('/business/registration', compact('rep', 'urlSegments', 'towns', 'districts', 'business', 'provinces', 'services', 'industries', 'municipalities', 'clientsservices'));
+    }
+
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -156,6 +211,16 @@ class BusinessController extends Controller
 
     public function updateBusiness(Request $req)
     {
+
+        $id = auth()->user()->id;
+        $business = DB::table('businesses')
+            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+            ->where('businesses.company_rep', $id)
+            ->first();
+        
         $validated = $req->validate([
             'business_name' => 'required',
             'business_number' => 'required|numeric|max:999999999999999',
@@ -164,9 +229,9 @@ class BusinessController extends Controller
         ], [
             'business_number.max' => 'Invalid business number. The number must not exceed 15 digits.',
         ]);
-        $data = Business::find($req->id);
+        $data = Business::find($business->id);
         //dd($req->input());
-
+        
         if ($req->business_name != $data->business_name) {
             //update the record for business_name
             $data->business_name = $req->business_name;
@@ -187,9 +252,9 @@ class BusinessController extends Controller
             //update the record for address
             $data->address = $req->address;
         }
-        if ($req->town != $data->town) {
-            //update the record for town
-            $data->town = $req->town;
+        if ($req->townId != $data->townId) {
+            //update the record for townId
+            $data->townId = $req->townId;
         }
         if ($req->company_reg != $data->company_reg) {
             //update the record for company_reg
@@ -251,7 +316,7 @@ class BusinessController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', ' Profile Successfully updated');
+        return redirect('/');
 
     }
 

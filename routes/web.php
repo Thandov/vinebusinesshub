@@ -43,6 +43,9 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+
+Route::get('/business/registration', [BusinessController::class, 'bus_reg'])->name('registration');
+
 Route::get('/sendtestemail', function () {
     return view('sendtestemail');
 })->name('sendtestemail');
@@ -131,6 +134,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 //Change the district options
 Route::get('/home/changeDistrict', [DashboardController::class, 'changeDistrict'])->name('home.changeDistrict');
 Route::get('/home/changeMunicipality', [DashboardController::class, 'changeMunicipality'])->name('home.changeMunicipality');
+Route::get('/home/changeTown', [DashboardController::class, 'changeTown'])->name('home.changeTown');
 //Display the businesses search results on home page
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
