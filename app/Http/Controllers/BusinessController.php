@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -24,13 +25,14 @@ class BusinessController extends Controller
 
         $industry = DB::table('industries')
             ->select('industries.industry')
+            ->orderByRaw("CASE WHEN industries.industry = 'Other' THEN 1 ELSE 0 END, industries.industry")
             ->get();
 
         $provinces = DB::table('provinces')
             ->select('provinces.province')
             ->get();
 
-        return view('home', ['business' => $business, 'provinces' => $provinces, 'industry' => $industry]);
+        return view('/', ['business' => $business, 'provinces' => $provinces, 'industry' => $industry]);
     }
 
     /**
@@ -58,17 +60,16 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
+        $id = auth()->user()->id;
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
             ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
             ->where('businesses.company_rep', $id)
-            ->get();
-
-        
+            ->first();
         $provinces = DB::table('provinces')
             ->select('*')
             ->get();
@@ -83,13 +84,13 @@ class BusinessController extends Controller
 
         $clientsservices = DB::table('clientsservices')
             ->select('*')
-            ->where('clientsservices.bid', $business[0]->id)
+            ->where('clientsservices.bid', $business->id)
             ->get();
 
         $rep = DB::table('users')
-            ->select('*')
-            ->where('users.id', $business[0]->company_rep)
-            ->get();
+            ->select('name', 'email')
+            ->where('users.id', $business->company_rep)
+            ->first();
 
         $municipalities = DB::table('municipalities')
             ->select('*')
@@ -99,7 +100,40 @@ class BusinessController extends Controller
             ->select('*')
             ->get();
 
-        return view('business/businessdashboard', ['rep' => $rep, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services,  'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
+        $towns = DB::table('towns')
+            ->select('*')
+            ->get();
+
+        return view('business/businessdashboard', ['rep' => $rep, 'towns' => $towns, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
+    }
+
+
+    public function bus_reg()
+    {
+        $urlSegments = explode('/', request()->path());
+
+        $id = auth()->user()->id;
+        $business = DB::table('businesses')
+        ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+        ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+        ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+        ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+        ->where('businesses.company_rep', $id)
+            ->first();
+
+        $businessData = [
+            'rep' => DB::table('users')->select('name', 'email')->where('users.id', $business->company_rep)->first(),
+            'business' => $business,
+            'provinces' => DB::table('provinces')->select('id', 'province')->get(),
+            'services' => DB::table('services')->select('id', 'industryId', 'category_id', 'service_name')->get(),
+            'industries' => DB::table('industries')->select('id', 'industry')->get(),
+            'clientsservices' => DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get(),
+            'municipalities' => DB::table('municipalities')->select('id', 'municipality', 'districtId')->get(),
+            'districts' => DB::table('municipal_districts')->select('id', 'municipal_district', 'provinceId')->get(),
+            'towns' => DB::table('towns')->select('*')->get(),
+        ];
+
+        return view('/business/registration', compact('businessData', 'urlSegments'));
     }
 
     /**
@@ -146,18 +180,33 @@ class BusinessController extends Controller
 
         $data->delete();
 
-        return redirect('/home');
+        return redirect('/')->with('success', ' Profile Successfully deleted');
+
     }
 
     public function updateBusiness(Request $req)
     {
+
+        $id = auth()->user()->id;
+        $business = DB::table('businesses')
+            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+            ->where('businesses.company_rep', $id)
+            ->first();
+        
         $validated = $req->validate([
-            'business_bio' => 'required|unique:businesses|max:1000',
+            'business_name' => 'required',
+            'business_number' => 'required|numeric|max:999999999999999',
+            'email' => 'required|email',
+            'business_bio' => 'required',
+        ], [
+            'business_number.max' => 'Invalid business number. The number must not exceed 15 digits.',
         ]);
-    
-
-        $data = Business::find($req->id);
-
+        $data = Business::find($business->id);
+        //dd($req->input());
+        
         if ($req->business_name != $data->business_name) {
             //update the record for business_name
             $data->business_name = $req->business_name;
@@ -178,9 +227,9 @@ class BusinessController extends Controller
             //update the record for address
             $data->address = $req->address;
         }
-        if ($req->town != $data->town) {
-            //update the record for town
-            $data->town = $req->town;
+        if ($req->townId != $data->townId) {
+            //update the record for townId
+            $data->townId = $req->townId;
         }
         if ($req->company_reg != $data->company_reg) {
             //update the record for company_reg
@@ -216,21 +265,20 @@ class BusinessController extends Controller
         }
 
         $data->activation_status = 1;
-        
+
         if (!empty($req->file('file-upload'))) {
             $filename = $data->logo;
 
             //If first time uploading logo
-            if (is_null($data->logo) || $data->logo !==  $req->file('file-upload')) {
+            if (is_null($data->logo) || $data->logo !== $req->file('file-upload')) {
                 //update the record for business_name
                 $name = str_replace(' ', '_', strtolower($req->business_name));
                 $image = $req->file('file-upload');
-                $newImageName = time().'-'.$name.'.'.$req->file('file-upload')->extension();
+                $newImageName = time() . '-' . $name . '.' . $req->file('file-upload')->extension();
                 $req->file('file-upload')->move(public_path('img'), $newImageName);
                 $data->logo = $newImageName;
-            } 
-           
-           
+            }
+
         }
         if ($req->marketingpic != $data->marketingpic) {
             //update the record for business_name
@@ -243,10 +291,11 @@ class BusinessController extends Controller
 
         $data->save();
 
-        return redirect()->back();
+        return redirect('/');
+
     }
 
-    public function showBusiness($id)
+    public function showBusiness($businessName)
     {
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
@@ -255,11 +304,10 @@ class BusinessController extends Controller
             ->leftjoin('municipalities', 'municipalities.id', '=', 'businesses.municipalityId')
             ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
             ->select('users.name', 'businesses.*', 'provinces.province', 'industries.industry', 'municipal_districts.municipal_district', 'municipalities.municipality')
-            ->where('businesses.id', $id)
-            ->get();
+            ->where('businesses.business_name', $businessName)
+            ->first();
 
-
-        $provinces = DB::table('provinces')
+            $provinces = DB::table('provinces')
             ->select('*')
             ->get();
 
@@ -274,19 +322,16 @@ class BusinessController extends Controller
         $clientsservices = DB::table('clientsservices')
             ->select('*')
             ->leftjoin('services', 'services.id', '=', 'clientsservices.serviceId')
-            ->where('clientsservices.bid', $business[0]->id)
+            ->where('clientsservices.bid', $business->id)
             ->get();
 
         $rep = DB::table('users')
             ->select('*')
-            ->where('users.id', $business[0]->id)
+            ->where('users.id', $business->id)
             ->get();
 
-        return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services,  'industries' => $industries,  'clientsservices' => $clientsservices]);
+        return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);
+
     }
 
-    public function uploadLogo(Request $request)
-    {
-        echo $request;
-    }
 }

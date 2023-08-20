@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Services;
 use App\Models\Industry;
-use App\Models\Province;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Session;
-use Illuminate\Http\RedirectResponse;
 
 class IndustryController extends Controller
 {
@@ -43,7 +38,7 @@ class IndustryController extends Controller
     {
         //
 
-        for ($i=0; $i<count($request->service_name); $i++) {
+        for ($i = 0; $i < count($request->service_name); $i++) {
             $datasave = [
                 'industry' => $request->service_name[$i],
             ];
@@ -97,26 +92,12 @@ class IndustryController extends Controller
     {
         //
     }
-    
+
     public function deleteIndustry($id)
     {
         $data = Industry::find($id);
         $data->delete();
         return redirect('adminpanel');
     }
-
-    public function insertIndustry(Request $request)
-    {
-
-        for ($i=0; $i<count($request->service_name); $i++) {
-            $datasave = [
-                'industry' => $request->service_name[$i],
-            ];
-            DB::table('industries')->insert($datasave);
-        }
-
-        return json_encode(array("statuscode" => 1, "message" =>  $request->service_name[0]." Inserted"));
-    }
-
 
 }

@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Business;
+use App\Models\Municipality;
+use App\Models\MunicipalDistrict;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -35,13 +37,29 @@ class BusinessFactory extends Factory
         $website = explode(' ', trim(str_replace(',', '', $company_name)));
         $company_rep = 1;
 
+        $provinceId = rand(1, 9);
+
+    // Retrieve all district IDs for the selected province
+    $districtIds = MunicipalDistrict::where('provinceId', $provinceId)->pluck('id')->toArray();
+
+    // Select a random district ID from the retrieved IDs
+    $districtId = $this->faker->randomElement($districtIds);
+
+    // Retrieve all municipality IDs for the selected district
+    $municipalityIds = Municipality::where('districtId', $districtId)->pluck('id')->toArray();
+
+    // Select a random municipality ID from the retrieved IDs
+    $municipalityId = $this->faker->randomElement($municipalityIds);
+
         return [
             'company_rep' => $user->id,
             'business_name' => $this->faker->word(),
             'business_number' => '0' . rand(1, 8) . rand(1, 9) . $numb,
             'business_bio' => $this->faker->text($maxNbChars = 255),
             'email' => $arr[0] . '@' . $website[0] . '.co.za',
-            'provinceId' => rand(1, 9),
+            'provinceId' => $provinceId,
+        'districtId' => $districtId,
+        'municipalityId' => $municipalityId,
             'town' => $this->faker->city(),
             'address' => $this->faker->city(),
             'company_reg' => 1,

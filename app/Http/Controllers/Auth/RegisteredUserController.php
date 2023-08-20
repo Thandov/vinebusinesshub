@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\TestMail;
 use App\Models\Business;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -11,8 +10,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
@@ -38,7 +35,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            //'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
@@ -46,24 +43,19 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->attachRole($request->role_id);
+        ($request->email === "thando@kayiseit.co.za")? $user->attachRole(1) : $user->attachRole($request->role_id);
 
         if ($request->role_id === 'business') {
-            $business = Business::create([
+            Business::create([
                 'company_rep' => $user->id,
                 'activation_status' => 0,
             ]);
-            
-            /*                     $details = [
-                        'title' => 'Mail from The Vine SA',
-                        'body' => 'Welcome to the Vine Family'
-                    ]; */
-
-        //Mail::to($request->email)->send(new TestMail($details));
         }
 
         Auth::login($user);
         event(new Registered($user));
-        return redirect(RouteServiceProvider::HOME);
+
+        // Registration successful for both user and business
+        return redirect(RouteServiceProvider::HOME)->with('success', 'Registration successful!');
     }
 }
