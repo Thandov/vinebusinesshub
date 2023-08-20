@@ -110,56 +110,31 @@ class BusinessController extends Controller
 
     public function bus_reg()
     {
-        
         $urlSegments = explode('/', request()->path());
 
         $id = auth()->user()->id;
         $business = DB::table('businesses')
-            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
-            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
-            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
-            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
-            ->where('businesses.company_rep', $id)
-            ->first();
-        $provinces = DB::table('provinces')
-            ->select('*')
-            ->get();
-
-        $services = DB::table('services')
-            ->select('*')
-            ->get();
-
-        $industries = DB::table('industries')
-            ->select('*')
-            ->get();
-
-        $clientsservices = DB::table('clientsservices')
-            ->select('*')
-            ->where('clientsservices.bid', $business->id)
-            ->get();
-
-        $rep = DB::table('users')
-            ->select('name', 'email')
-            ->where('users.id', $business->company_rep)
+        ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+        ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+        ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+        ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+        ->where('businesses.company_rep', $id)
             ->first();
 
-        $municipalities = DB::table('municipalities')
-            ->select('*')
-            ->get();
+        $businessData = [
+            'rep' => DB::table('users')->select('name', 'email')->where('users.id', $business->company_rep)->first(),
+            'business' => $business,
+            'provinces' => DB::table('provinces')->select('id', 'province')->get(),
+            'services' => DB::table('services')->select('id', 'industryId', 'category_id', 'service_name')->get(),
+            'industries' => DB::table('industries')->select('id', 'industry')->get(),
+            'clientsservices' => DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get(),
+            'municipalities' => DB::table('municipalities')->select('id', 'municipality', 'districtId')->get(),
+            'districts' => DB::table('municipal_districts')->select('id', 'municipal_district', 'provinceId')->get(),
+            'towns' => DB::table('towns')->select('*')->get(),
+        ];
 
-        $districts = DB::table('municipal_districts')
-            ->select('*')
-            ->get();
-
-        $towns = DB::table('towns')
-            ->select('*')
-            ->get();
-
-
-        return view('/business/registration', compact('rep', 'urlSegments', 'towns', 'districts', 'business', 'provinces', 'services', 'industries', 'municipalities', 'clientsservices'));
+        return view('/business/registration', compact('businessData', 'urlSegments'));
     }
-
-
 
     /**
      * Show the form for editing the specified resource.

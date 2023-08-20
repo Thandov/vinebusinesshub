@@ -51,23 +51,21 @@
 
             </div>
         </div>
+
         @php
         $userid = Auth::user()->id;
         @endphp
-        <div class="md:grid md:grid-cols-7 gap-4">
-            <div class="md:col-span-2">
-                
-            </div>
-            <div class="md:col-span-5 mb-4">
+        <div class="bg-white shadow-sm sm:rounded-lg gap-4">
+            <div class="mb-4">
                 @php
                 // Array of slide names without the '.blade.php' extension
                 $slides = [
-                'business.registration_multi_form.slide1',
+                'business.registration_multi_form.slide2',
                 'business.registration_multi_form.slide2',
                 'business.registration_multi_form.slide3',
                 ];
                 @endphp
-                <x-multistep-form :slides="$slides" linking="{{ route('business.update') }}" />
+                <x-businessregistration-multstep-form :slides="$slides" linking="{{ route('business.update') }}" :businessData="$businessData" />
             </div>
         </div>
         <x-powerupslist />
