@@ -1,5 +1,4 @@
 <x-app-layout title="Home">
-    <!--Carousel-->
     <section id="carousel">
         @include('_carousel')
     </section>
@@ -17,7 +16,6 @@
             });
         </script>
     @endif
-
     <div class="bg-white py-4">
         <div class="container py-3 md:px-10">
             <div class="row">
@@ -234,9 +232,6 @@
             }
         });
     }
-
-
-
 
     $(document).on('click', '#pagination-links a', function(e) {
         e.preventDefault();

@@ -74,7 +74,7 @@
         </div> -->
         <div class="contentwrapper h-full col-span-3">
             <!-- Power Tools -->
-            <div class="max-w-7xl mx-auto mb-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto mb-4 sm:px-6 lg:px-8 py-3">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-start mb-4">
@@ -629,7 +629,8 @@
                                                                         </div>
                                                                         <div class="col-span-6 mt-4 sm:col-span-12">
                                                                             <label for="address"
-                                                                                class="block text-sm font-medium text-gray-700">Street Address
+                                                                                class="block text-sm font-medium text-gray-700">Street
+                                                                                Address
                                                                                 @error('address')
                                                                                     <p class="text-red-500 text-medium">
                                                                                         {{ $message }}
@@ -686,7 +687,7 @@
                                                                                 @endif
                                                                             </select>
                                                                         </div>
-                                                                        
+
                                                                         <div
                                                                             class="col-span-6 sm:col-span-12 lg:col-span-12">
                                                                             <label for="municipality"
@@ -711,9 +712,9 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="col-span-12 sm:col-span-12">
-                                                                            <label for="town" class="block text-sm font-medium text-gray-700">Town</label>
-                                                                            <select id="townOptions"
-                                                                                name="townId"
+                                                                            <label for="town"
+                                                                                class="block text-sm font-medium text-gray-700">Town</label>
+                                                                            <select id="townOptions" name="townId"
                                                                                 autocomplete="townId"
                                                                                 class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                                                                                 @if ($towns ?? '')
@@ -729,7 +730,7 @@
                                                                                 @endif
                                                                             </select>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                 </div>
                                                                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
