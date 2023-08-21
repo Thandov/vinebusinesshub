@@ -12,7 +12,6 @@
                     <form class="flex" action="/search" id="searchForm" role="search" method="get"
                         wtx-context="0F597C7B-F589-4E02-8330-57B884DD41B2">
                         <div class="flex items-center">
-
                             <div class="relative">
                                 <label class="text-gray-600 font-semibold" for="search_description">
                                     <div
@@ -43,14 +42,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Rest of your form and button code -->
                     </form>
                 </div>
                 <!-- Location search -->
-
                 <div class="relative">
-                    <label class="text-gray-700 font-semibold relative" for="search_location">
-                        <span class="inline-block w-6 h-6 absolute top-2 left-2">
+                    <label class="text-gray-700 px-2 font-semibold relative" for="search_location">
+                        <span class="inline-block w-6 h-6 absolute top-2 left-4">
                             <svg width="30px" height="30px" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0000ff">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -65,19 +62,11 @@
                                 </g>
                             </svg>
                         </span>
-                        <select aria-label="Near" autocomplete="off" role="textbox" aria-autocomplete="list"
-                            tabindex="0" data-testid="suggest-location-input"
-                            class="py-2 px-6  ml-2 bg-gray-100 rounded-md border border-green-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            id="provinceOptions">
-                            <option value="" disabled selected>Location, Address, City</option>
-                            @if ($provinces ?? '')
-                                @foreach ($provinces ?? '' as $province)
-                                    <option value="{{ $province->id }}" data-name="{{ $province->province }}">
-                                        {{ $province->province }}
-                                    </option>
-                                @endforeach
-                            @endif
-                        </select>
+                        <input aria-label="Find" autocomplete="off" role="textbox" aria-autocomplete="list"
+                            tabindex="0" name="search" data-testid="suggest-desc-input" id="provinceOptions"
+                            class="py-2 pl-10 pr-3 bg-gray-100 rounded-md border border-green-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            type="text" placeholder="Location, Address, City" value=""
+                            wtx-context="3A6C263E-3349-4427-BC18-53E01C7A4833" />
                     </label>
                     <button aria-label="Search" type="submit"
                         class="py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600"

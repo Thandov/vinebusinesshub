@@ -117,15 +117,21 @@
             fetch_customer_data(query, searchOption, pageNumber);
         });
 
-        jQuery(document).on('change', '#provinceOptions', function() {
-            var query = $.trim($(this).find('option:selected').text());
+        jQuery(document).on('keyup', '#provinceOptions', function() {
+            var query = jQuery(this).val();
             var searchOption = "provinceSearch";
-            var viewType = "cardView";
             var pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
-            var provinceId = $(this).find(":selected").val();
-            changeDistrict(provinceId);
             fetch_customer_data(query, searchOption, pageNumber);
         });
+        // jQuery(document).on('change', '#provinceOptions', function() {
+        //     var query = $.trim($(this).find('option:selected').text());
+        //     var searchOption = "provinceSearch";
+        //     var viewType = "cardView";
+        //     var pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
+        //     var provinceId = $(this).find(":selected").val();
+        //     changeDistrict(provinceId);
+        //     fetch_customer_data(query, searchOption, pageNumber);
+        // });
 
         jQuery(document).on('change', '#districtOptions', function() {
             var query = $.trim($(this).find('option:selected').text());

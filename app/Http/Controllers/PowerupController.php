@@ -35,6 +35,8 @@ class PowerupController extends Controller
             return view('business.viewbusiness.powerups._transaction', compact('urlSegments'));
         } elseif ($powerup === 'tax') {
             return view('business.viewbusiness.powerups._tax', compact('urlSegments'));
+        } elseif ($powerup === 'queue') {
+            return view('business.viewbusiness.powerups._queue', compact('urlSegments'));
         } else {
             // Handle the case where $powerup doesn't match any of the expected values
             // For example, you might want to return a default view or show an error message.
