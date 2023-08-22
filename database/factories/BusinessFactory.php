@@ -6,6 +6,7 @@ use App\Models\Business;
 use App\Models\Municipality;
 use App\Models\MunicipalDistrict;
 use App\Models\User;
+use App\Models\Town;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BusinessFactory extends Factory
@@ -45,6 +46,12 @@ class BusinessFactory extends Factory
     // Select a random district ID from the retrieved IDs
     $districtId = $this->faker->randomElement($districtIds);
 
+    // Retrieve all district IDs for the selected province
+    $townIds = Town::where('provinceId', $provinceId)->pluck('id')->toArray();
+
+    // Select a random district ID from the retrieved IDs
+    $townId = $this->faker->randomElement($townIds);
+
     // Retrieve all municipality IDs for the selected district
     $municipalityIds = Municipality::where('districtId', $districtId)->pluck('id')->toArray();
 
@@ -58,9 +65,9 @@ class BusinessFactory extends Factory
             'business_bio' => $this->faker->text($maxNbChars = 255),
             'email' => $arr[0] . '@' . $website[0] . '.co.za',
             'provinceId' => $provinceId,
-        'districtId' => $districtId,
-        'municipalityId' => $municipalityId,
-            'town' => $this->faker->city(),
+            'districtId' => $districtId,
+            'municipalityId' => $municipalityId,
+            'townId' => $townId,
             'address' => $this->faker->city(),
             'company_reg' => 1,
             'website' => 'wwww.' . $website[0] . '.co.za',

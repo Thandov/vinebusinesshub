@@ -17,7 +17,7 @@
         </script>
     @endif
     <div class="bg-white py-4">
-        <div class="container py-3 md:px-10">
+        <!-- <div class="container py-3 md:px-10">
             <div class="row">
                 <div class="bg-white my-3  rounded-lg">
                     <form id="searchForm">
@@ -70,7 +70,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         @if (session('status'))
             <div class="alert alert-success">
