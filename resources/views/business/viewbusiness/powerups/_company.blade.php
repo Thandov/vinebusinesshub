@@ -53,8 +53,9 @@
             <div class="md:col-span-5 mb-4">
                 @php
                     // Array of slide names without the '.blade.php' extension
-                    $slides = ['business.viewbusiness.multistep.company_registration.slide1', 'business.viewbusiness.multistep.company_registration.slide2', 'business.viewbusiness.multistep.company_registration.slide3', 'business.viewbusiness.multistep.company_registration.slide4'];
+                    $slides = ['business.viewbusiness.multistep.businessplan.slide1', 'business.viewbusiness.multistep.businessplan.slide2', 'business.viewbusiness.multistep.businessplan.slide3', 'business.viewbusiness.multistep.businessplan.slide4'];
                 @endphp
+                <x-multistep-form :slides="$slides" linking="tomka" />
             </div>
         </div>
         <x-powerupslist />

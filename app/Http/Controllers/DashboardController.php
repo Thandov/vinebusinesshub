@@ -186,5 +186,5 @@ class DashboardController extends Controller
 
         return $municipalities;
     }
-    
+
 }
