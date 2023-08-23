@@ -1,18 +1,18 @@
-Social Media
-
-<div class="col-span-12 sm:col-span-12">
-    <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
-    <input type="text" value="{{ $business->website ?? '' }}" name="website" id="website" autocomplete="address-level2" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-</div>
-<div class="col-span-12 md:col-span-4 ">
-    <label for="facebook" class="block text-sm font-medium text-gray-700">Facebook</label>
-    <input type="text" value="{{ $business->facebook ?? '' }}" name="facebook" id="facebook" autocomplete="address-level2" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-</div>
-<div class="col-span-12 md:col-span-4 ">
-    <label for="twitter" class="block text-sm font-medium text-gray-700">Twitter</label>
-    <input type="text" value="{{ $business->twitter ?? '' }}" name="twitter" id="twitter" autocomplete="address-level2" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-</div>
-<div class="col-span-12 md:col-span-4 ">
-    <label for="instagram" class="block text-sm font-medium text-gray-700">Instagram</label>
-    <input type="text" value="{{ $business->instagram ?? '' }}" name="instagram" id="instagram" autocomplete="address-level2" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+<h1>Idustry ad Services</h1>
+<div class="grid grid-cols-2 gap-6">
+    <div class="md:col-span-1 col-span-2">
+        <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
+        <select id="industryId" name="industryId" autocomplete="industry" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+            @if ($industries ?? '')
+            @php
+            $sortedIndustries = $industries->sortByDesc('id');
+            @endphp
+            @foreach ($sortedIndustries as $industry)
+            <option value="{{ $industry->id ?? '' }}" {{ $industry->id === $business->industryId ? 'selected' : '' }}>
+                {{ $industry->industry }}
+            </option>
+            @endforeach
+            @endif
+        </select>
+    </div>
 </div>
