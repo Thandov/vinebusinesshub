@@ -1,6 +1,5 @@
 <div class="jumbotron bg-gray-400 bg-gradient position-relative">
     <div class="owl-carousel owl-theme" id="headercara">
-
         <x-carousel-item pic="../img/carousel/server_bae.png" topTitle="Aaaa" mainTitle="asasA" bottomTitle="dddd" />
         <x-carousel-item pic="../img/carousel/skills2.jpg" topTitle="We specialize" mainTitle="Commercial Cleaning"
             bottomTitle="dddd" />
@@ -8,12 +7,13 @@
     <div class="search-bar">
         <div class="p-2 ml-16 md:px-10">
             <div class="flex items-center border rounded-lg">
+
                 <div class="relative-16">
                     <form class="flex" action="/search" id="searchForm" role="search" method="get"
                         wtx-context="0F597C7B-F589-4E02-8330-57B884DD41B2">
                         <div class="flex items-center">
                             <div class="relative">
-                                <label class="text-gray-600 font-semibold" for="search_description">
+                                <label class="text-gray-600 font-semibold" for="liveSearch">
                                     <div
                                         class="inline-block w-6 h-6 absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 stroke-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -42,11 +42,11 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+
                 </div>
                 <!-- Location search -->
                 <div class="relative">
-                    <label class="text-gray-700 px-2 font-semibold relative" for="search_location">
+                    <label class="text-gray-700 px-2 font-semibold relative" for="provinceOptions">
                         <span class="inline-block w-6 h-6 absolute top-2 left-4">
                             <svg width="30px" height="30px" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0000ff">
@@ -73,8 +73,11 @@
                         data-activated="false" data-testid="suggest-submit" value="submit" data-button="true">
                         Search
                     </button>
-                    </form>
                 </div>
+                <input type="hidden" name="searchOption" value="combinedSearch">
+
+                </form>
             </div>
         </div>
     </div>
+</div>

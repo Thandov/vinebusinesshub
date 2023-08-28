@@ -34,25 +34,25 @@
                                     class="shadow-sm appearance-none border border-red-500  w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Province</option>
                                     {{ $provinces ?? '' }} @if ($provinces ?? '')
-                                        @foreach ($provinces ?? '' as $province)
-                                            <option value="{{ $province->id }}" data-name="{{ $province->province }}">
+@foreach ($provinces ?? '' as $province)
+<option value="{{ $province->id }}" data-name="{{ $province->province }}">
                                                 {{ $province->province }}
                                             </option>
-                                        @endforeach
-                                    @endif
+@endforeach
+@endif
                                 </select>
                             </div>
                             <select id="districtOptions"
                                 class="shadow-sm appearance-none border border-red-500  w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="" selected disabled>District</option>
                                 @if ($districts ?? '')
-                                    @foreach ($districts ?? '' as $district)
-                                        <option value="{{ $district->id }}"
+@foreach ($districts ?? '' as $district)
+<option value="{{ $district->id }}"
                                             data-name="{{ $district->municipal_district }}">
                                             {{ $district->municipal_district }}
                                         </option>
-                                    @endforeach
-                                @endif
+@endforeach
+@endif
                             </select>
 
                             <div class="col-span-1">
@@ -60,10 +60,10 @@
                                     class="shadow-sm appearance-none border border-red-500 rounded-r-full w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Industry</option>
                                     @if ($industry ?? '')
-                                        @foreach ($industry as $indust)
-                                            <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
-                                        @endforeach
-                                    @endif
+@foreach ($industry as $indust)
+<option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
+@endforeach
+@endif
                                 </select>
                             </div>
                         </div>
@@ -108,19 +108,16 @@
                 jQuery("#industryOptions").val("");
             });
 
-        jQuery(document).on('keyup', '#liveSearch', function() {
-            var query = jQuery(this).val();
-            var searchOption = "businessNameSearch";
-            var pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
-            fetch_customer_data(query, searchOption, pageNumber);
+        jQuery(document).on('keyup', '#liveSearch, #provinceOptions', function() {
+            var descriptionQuery = jQuery('#liveSearch').val();
+            var locationQuery = jQuery('#provinceOptions').val();
+            var pageNumber = jQuery('#pagination-links .active a').text();
+
+            fetch_customer_data(descriptionQuery, locationQuery, pageNumber);
         });
 
-        jQuery(document).on('keyup', '#provinceOptions', function() {
-            var query = jQuery(this).val();
-            var searchOption = "provinceSearch";
-            var pageNumber = jQuery('#pagination-links .active a').text(); // get current page number
-            fetch_customer_data(query, searchOption, pageNumber);
-        });
+
+
         // jQuery(document).on('change', '#provinceOptions', function() {
         //     var query = $.trim($(this).find('option:selected').text());
         //     var searchOption = "provinceSearch";
@@ -185,18 +182,17 @@
 
     });
 
-    function fetch_customer_data(query = "", searchOption = "", pageNumber = 1, selectedProvince = "",
-        selectedDistrict = "") {
+    function fetch_customer_data(descriptionQuery, locationQuery, pageNumber) {
+
         console.log("Search Option: " + searchOption);
         jQuery.ajax({
             url: "{{ route('home.action') }}",
             method: 'GET',
             data: {
-                query: query,
-                searchOption: searchOption,
-                page: pageNumber,
-                selectedProvince: selectedProvince,
-                selectedDistrict: selectedDistrict,
+                descriptionQuery: descriptionQuery,
+                locationQuery: locationQuery,
+                searchOption: 'combinedSearch',
+                page: pageNumber
             },
             dataType: 'json',
             success: function(data) {
