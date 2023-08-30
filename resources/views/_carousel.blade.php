@@ -6,6 +6,7 @@
     </div>
     <div class="search-bar">
         <div class="p-2 ml-16 md:px-10">
+            <form class="flex" action="{{ route('search') }}" method="get" id="searchForm" role="search">
             <div class="flex items-center border rounded-lg">
 
                 <div class="relative-16">
@@ -31,14 +32,14 @@
                                         type="text" placeholder="What's on your mind??" value=""
                                         wtx-context="3A6C263E-3349-4427-BC18-53E01C7A4833" />
                                 </label>
-                                <div id="dropdown"
-                                    class="hidden absolute bg-white border border-gray-300 mt-2 w-full z-10">
-                                    <div class="dropdown-item px-3 py-2 cursor-pointer hover:bg-green-300">Plumbing
+                                <div class="relative">
+                                    <div id="dropdown" class="hidden absolute bg-white border border-gray-300 mt-2 w-full z-10">
+                                        @foreach ($industry as $indust)
+                                        <a href="{{ route('search') }}?search={{ $indust->industry }}" class="dropdown-item px-3 py-2 cursor-pointer hover:bg-green-300">{{ $indust->industry }}</a>
+                                        @endforeach
                                     </div>
-                                    <div class="dropdown-item px-3 py-2 cursor-pointer hover:bg-green-300">Auto Repairs
-                                    </div>
-                                    <div class="dropdown-item px-3 py-2 cursor-pointer hover:bg-green-300">Hair and
-                                        beauty</div>
+                                </div>
+                                
                                 </div>
                             </div>
                         </div>
@@ -81,3 +82,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("click", function(event) {
+        const dropdown = document.getElementById("dropdown");
+        const searchInput = document.getElementById("search_description");
+        const triggerDropdown = document.getElementById("trigger-dropdown");
+
+        if (triggerDropdown.contains(event.target)) {
+            dropdown.classList.toggle("hidden");
+        } else if (!dropdown.contains(event.target) && event.target !== searchInput) {
+            dropdown.classList.add("hidden");
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const dropdown = document.getElementById("dropdown");
+        const inputField = document.getElementById("search_description");
+        const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+
+        dropdownItems.forEach(item => {
+            item.addEventListener("click", function() {
+                const selectedItemText = item.textContent.trim();
+                inputField.value = selectedItemText === "mpumalanga" ? selectedItemText : "";
+
+                // You can perform a search or navigation action here using the selected item's data
+                const selectedIndustry = item.getAttribute("data-industry");
+                // Perform your search or navigation action with the selectedIndustry data
+                console.log("Selected Industry:", selectedIndustry);
+            });
+        });
+    });
+</script>

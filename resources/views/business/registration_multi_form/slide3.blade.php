@@ -1,4 +1,4 @@
-<h1>Idustry ad Services</h1>
+<h1 class="text-3xl font-bold text-center text-gray-800 mb-12">INDUSTRY AND SERVICES</h1>
 <div class="grid grid-cols-2 gap-6">
     <div class="md:col-span-1 col-span-2">
         <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>

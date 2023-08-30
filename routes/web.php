@@ -15,6 +15,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -149,3 +151,7 @@ Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->nam
 Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'resend'])->middleware(['auth', 'throttle:3,1'])->name('verification.resend');
 
 require __DIR__ . '/auth.php';
+
+//search 
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+

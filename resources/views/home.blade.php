@@ -60,7 +60,7 @@
                                     class="shadow-sm appearance-none border border-red-500 rounded-r-full w-full py-2 text-gray-700 my-1 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" selected disabled>Industry</option>
                                     @if ($industry ?? '')
-@foreach ($industry as $indust)
+    @foreach ($industry as $indust)
 <option value="{{ $indust->industry }}">{{ $indust->industry }}</option>
 @endforeach
 @endif
@@ -316,3 +316,6 @@
             });
         });
 </script>
+
+
+

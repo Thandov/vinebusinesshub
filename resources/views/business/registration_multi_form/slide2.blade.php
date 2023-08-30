@@ -1,4 +1,4 @@
-<h1>Upload Pictures</h1>
+<h1 class="text-3xl font-bold text-center text-gray-800 mb-12">UPLOAD YOUR PROFESSIONAL LOGO</h1>
 <div class="grid grid-cols-12 gap-6">
     <div class="col-span-12">
         <label for="logo" class="block text-sm font-medium text-gray-700">

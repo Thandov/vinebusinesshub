@@ -1,4 +1,4 @@
-<h1>Business Information</h1>
+<h1 class="text-3xl font-bold text-center text-gray-800 mb-12">ENTER YOUR BUSINESS INFORMATION</h1>
 <input type="hidden" name="id" value="{{ $business->id ?? '' }}">
 <div class="shadow overflow-hidden sm:rounded-md mb-5">
     <div class="px-4 py-5 bg-white sm:p-6">
