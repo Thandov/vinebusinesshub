@@ -551,6 +551,7 @@ class ComposerStaticInit039be5820dc31e829e0a994266d2a0e3
         'App\\Http\\Controllers\\PowerupController' => __DIR__ . '/../..' . '/app/Http/Controllers/PowerupController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\ProvinceController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProvinceController.php',
+        'App\\Http\\Controllers\\SearchController' => __DIR__ . '/../..' . '/app/Http/Controllers/SearchController.php',
         'App\\Http\\Controllers\\ServicesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ServicesController.php',
         'App\\Http\\Controllers\\UserPowerupsController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserPowerupsController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

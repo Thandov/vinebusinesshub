@@ -4,6 +4,20 @@
         <p class="col-span-1 md:col-span-6 col-start-2 lead">Connecting you to your local businesses.</p>
 
     </div>
+    <a href="#" class="mx-5">
+        <div class="box w-96 h-96 rounded-lg overflow-hidden bg-white shadow-md hover:shadow-lg border">
+            <div class="bg-cover bg-center rounded-t-lg h-2/3" style="background-image: url(../img/placeholder/placeholder.jpeg)"></div>
+
+            <div class=" h-1/3">
+                <div class="font-bold text-xl text-green-600 px-3 pt-3">The Vine SA</div>
+                <p class="text-sm text-blue-700 font-bold py-1 px-3">industry</p>
+                <div class="flex justify-start">
+                    <p class="text-sm font-light px-3">123 business str, Mbombela, 1201</p>
+                </div>
+            </div>
+        </div>
+    </a>
+
     <div class="grid grid-cols-1 md:grid-cols-6 my-12">
 
         <div class="col-span-3 grid place-items-center">

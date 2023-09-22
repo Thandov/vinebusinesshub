@@ -82,7 +82,7 @@
             <p>No results found.</p>
         @else
             <div class="container py-3 md:px-10">
-                <div class="grid grid-cols-2 py-4 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2 mt-md-0 w-auto"
+                <div class="grid grid-cols-1 py-4 md:grid-cols-3 gap-4 mt-2 mt-md-0 w-auto"
                     id="test">
                     @include('home._businesses', ['businesses' => $business])
                 </div>

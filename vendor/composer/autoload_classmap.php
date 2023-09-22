@@ -30,6 +30,7 @@ return array(
     'App\\Http\\Controllers\\PowerupController' => $baseDir . '/app/Http/Controllers/PowerupController.php',
     'App\\Http\\Controllers\\ProfileController' => $baseDir . '/app/Http/Controllers/ProfileController.php',
     'App\\Http\\Controllers\\ProvinceController' => $baseDir . '/app/Http/Controllers/ProvinceController.php',
+    'App\\Http\\Controllers\\SearchController' => $baseDir . '/app/Http/Controllers/SearchController.php',
     'App\\Http\\Controllers\\ServicesController' => $baseDir . '/app/Http/Controllers/ServicesController.php',
     'App\\Http\\Controllers\\UserPowerupsController' => $baseDir . '/app/Http/Controllers/UserPowerupsController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
