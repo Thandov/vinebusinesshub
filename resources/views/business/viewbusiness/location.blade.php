@@ -1,6 +1,5 @@
 <div class="px-4 py-5 bg-white sm:p-6">
     <div class="grid grid-cols-12 gap-6">
-
         <div class="col-span-12 md:col-span-6">
             <label for="address" class="block text-sm font-medium text-gray-700">Street
                 address
@@ -21,9 +20,9 @@
                 @enderror
             </label>
             <select id="provinceOptions" name="province" autocomplete="province" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                @if ($provinces ?? '')
-                @foreach ($provinces as $prov)
-                <option value="{{ $prov->id ?? '' }}" @if ($prov->id === $business->provinceId) selected @endif>
+                @if ($businessData['provinces'] ?? '')
+                @foreach ($businessData['provinces'] as $prov)
+                <option value="{{ $prov->id ?? '' }}">
                     {{ $prov->province }}
                 </option>
                 @endforeach
@@ -74,6 +73,5 @@
                 @endif
             </select>
         </div>
-
     </div>
 </div>

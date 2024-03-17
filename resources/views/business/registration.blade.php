@@ -4,7 +4,6 @@
         {{ session('success') }}
     </div>
     @endif
-
     {{-- Display error message --}}
     @if(session('error'))
     <div class="alert alert-danger">
@@ -60,6 +59,7 @@
                 @php
                 // Array of slide names without the '.blade.php' extension
                 $slides = [
+                'business.registration_multi_form.slide3',
                 'business.registration_multi_form.slide',
                 'business.registration_multi_form.slide1',
                 'business.registration_multi_form.slide2',
@@ -71,4 +71,180 @@
         </div>
         <x-powerupslist />
     </div>
+
 </x-app-layout>
+<script>
+    jQuery(document).ready(function() {
+        var selectedprovinceId = $(this).find(":selected").val();
+
+        jQuery.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $(document).on('change', '#industryId', function(e) {
+            e.preventDefault();
+
+            var otherOption = $(this).find(":selected").val();
+            if (otherOption === "1") {
+                console.log("Other option selected");
+                $('#newIndustry').modal('show');
+            }
+        });
+
+
+        $(function() {
+            $('#insertIndustry').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#success-message').html(response.message)
+                            .removeClass(
+                                'd-none');
+                        setTimeout(function() {
+                            $('#newIndustry').modal('hide');
+                        }, 2000);
+                    },
+                    error: function(xhr, status, error) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.message) {
+                            $('#error-message').html(response.message)
+                                .removeClass(
+                                    'd-none');
+                            setTimeout(function() {
+                                $('#error-message').addClass(
+                                    'd-none').html(
+                                    '');
+                            }, 5000);
+                        }
+                    }
+                });
+            });
+            $('#newIndustry').on('hidden.bs.modal', function() {
+                $('#success-message').addClass('d-none').html('');
+                $('#error-message').addClass('d-none').html('');
+            });
+        });
+
+
+        jQuery(document).on('click', '.changeLogoBtn', function(e) {
+            e.preventDefault();
+            $("#logouploader").css("display", "block");
+        });
+        jQuery(document).on('change', '#provinceOptions', function() {
+            var query = jQuery(this).val(),
+                searchOption = "provinceSearch",
+                viewType = "cardView";
+            var provinceId = $(this).find(":selected").val();
+            changeDistrict(provinceId);
+            changeTown(provinceId);
+        });
+        jQuery(document).on('change', '#districtOptions', function() {
+            var query = jQuery(this).val(),
+                searchOption = "industrySearch",
+                viewType = "cardView";
+            var provinceId = $(this).find(":selected").val();
+            changeMunicipality(provinceId);
+        });
+
+    });
+
+    function changeDistrict($id) {
+        jQuery.ajax({
+            url: "{{ route('home.changeDistrict') }}",
+            menthod: 'GET',
+            data: {
+                id: $id
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+
+                jQuery('#districtOptions')
+                    .find('option')
+                    .remove()
+                    .end();
+                data.forEach(district => {
+                    console.log(district);
+                    console.log(district.municipal_district);
+                    console.log(district.id);
+                    jQuery('#districtOptions')
+                        .append('<option onclick=" changeMunicipality(' + district.id +
+                            ');" value="' +
+                            district.id + '">' + district.municipal_district +
+                            '</option>');
+                });
+                $("#districtOptions").val($("#districtOptions option:first").val());
+                var selectedDistrict = $("#districtOptions").find(":selected").val();
+                changeMunicipality(selectedDistrict);
+            }
+        });
+    }
+
+    function changeTown($id) {
+        jQuery.ajax({
+            url: "{{ route('home.changeTown') }}",
+            menthod: 'GET',
+            data: {
+                id: $id
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+
+                jQuery('#townOptions')
+                    .find('option')
+                    .remove()
+                    .end();
+                data.forEach(town => {
+                    console.log(town);
+                    console.log(town.town);
+                    console.log(town.id);
+                    jQuery('#townOptions')
+                        .append('<option value="' + town.id + '">' + town
+                            .town +
+                            '</option>');
+                });
+                $("#townOptions").val($("#townOptions option:first").val());
+            }
+        });
+    }
+
+    function changeMunicipality($id) {
+        jQuery.ajax({
+            url: "{{ route('home.changeMunicipality') }}",
+            method: 'GET',
+            data: {
+                id: $id
+            },
+            dataType: 'json',
+            success: function(data) {
+                jQuery('#municipalityOptions')
+                    .find('option')
+                    .remove()
+                    .end();
+                data.forEach(municipality => {
+                    console.log(municipality);
+                    console.log(municipality.municipality);
+                    console.log(municipality.id);
+                    jQuery('#municipalityOptions')
+                        .append('<option value="' + municipality.id + '">' + municipality
+                            .municipality +
+                            '</option>');
+                });
+                $("#municipalityOptions").val($("#municipalityOptions option:first").val());
+
+            }
+        });
+
+
+
+    }
+</script>

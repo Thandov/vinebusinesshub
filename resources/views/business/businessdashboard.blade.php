@@ -517,6 +517,23 @@
     </div>
 </x-app-layout>
 <script>
+    function confirmDelete(id) {
+        document.getElementById("deleteConfirmation").classList.remove("hidden");
+    }
+
+    function cancelDelete() {
+        document.getElementById("deleteConfirmation").classList.add("hidden");
+    }
+
+    function approveDelete(id) {
+        // Display a confirmation dialog
+        if (confirm(
+                "This will delete your user profile and your business profile. Are you sure you want to proceed?")) {
+            // Perform the deletion operation using the provided id
+            window.location.href = "deleteBusinessandUser/" + id;
+        }
+    }
+
     function readURL(input) {
         if (input.files && input.files) {
             var reader = new FileReader();
@@ -527,6 +544,26 @@
             $('#logo-preview').show();
         }
 
+    }
+    //bio script
+    function charcountupdate(value) {
+        const maxLength = 1000;
+        const charCount = value.length;
+        const charCountElement = document.getElementById('charcount');
+        charCountElement.textContent = `${charCount} / ${maxLength}`;
+
+        // Disable further typing if the limit is reached
+        if (charCount >= maxLength) {
+            document.getElementById('business_bio').setAttribute('readonly', 'readonly');
+        } else {
+            document.getElementById('business_bio').removeAttribute('readonly');
+        }
+    }
+
+    function charcountupdate(str) {
+        var lng = str.length;
+        document.getElementById("charcount").innerHTML = '<span id="countNumber" class="text-green-700">' + lng +
+            '</span>' + ' out of 1000 characters';
     }
     $(document).ready(function() {
         $("#change-logo-btn").click(function() {
@@ -622,37 +659,6 @@
 
     });
 
-    function confirmDelete(id) {
-        document.getElementById("deleteConfirmation").classList.remove("hidden");
-    }
-
-    function cancelDelete() {
-        document.getElementById("deleteConfirmation").classList.add("hidden");
-    }
-
-    function approveDelete(id) {
-        // Display a confirmation dialog
-        if (confirm(
-                "This will delete your user profile and your business profile. Are you sure you want to proceed?")) {
-            // Perform the deletion operation using the provided id
-            window.location.href = "deleteBusinessandUser/" + id;
-        }
-    }
-    //bio script
-    function charcountupdate(value) {
-        const maxLength = 1000;
-        const charCount = value.length;
-        const charCountElement = document.getElementById('charcount');
-        charCountElement.textContent = `${charCount} / ${maxLength}`;
-
-        // Disable further typing if the limit is reached
-        if (charCount >= maxLength) {
-            document.getElementById('business_bio').setAttribute('readonly', 'readonly');
-        } else {
-            document.getElementById('business_bio').removeAttribute('readonly');
-        }
-    }
-
     function changeDistrict($id) {
         jQuery.ajax({
             url: "{{ route('home.changeDistrict') }}",
@@ -713,13 +719,6 @@
             }
         });
     }
-
-    function charcountupdate(str) {
-        var lng = str.length;
-        document.getElementById("charcount").innerHTML = '<span id="countNumber" class="text-green-700">' + lng +
-            '</span>' + ' out of 1000 characters';
-    }
-
     function changeMunicipality($id) {
         jQuery.ajax({
             url: "{{ route('home.changeMunicipality') }}",
