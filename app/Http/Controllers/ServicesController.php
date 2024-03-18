@@ -49,10 +49,32 @@ class ServicesController extends Controller
      * @param  \App\Models\Services  $services
      * @return \Illuminate\Http\Response
      */
-    public function show(Services $services)
+    public function show(Request $request)
     {
-        //
-    }
+        // Assuming $request->id holds the value you want to match
+        $industryId = $request->id; // Example value
+
+        // Retrieve all services where the id matches the industryId
+        $services = Services::where('industryId', $industryId)->get();
+
+        // Initialize an empty array to hold the HTML markup
+        $html = '';
+
+        // Loop through each service and generate HTML markup
+        foreach ($services as $service) {
+            $html .= '<div class="mt-1 space-y-4 md:col-span-12">';
+            $html .= '<div class="flex items-start">';
+            $html .= '<div class="flex items-center h-5">';
+            $html .= '<input name="serviceId[]" value="' . $service->id . '" type="checkbox" class="mr-3 focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">';
+            $html .= '<label for="comments" class="font-medium text-gray-700">' . $service->service_name . '</label>';
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
+        }
+
+        // Return the HTML markup as JSON response
+        return response()->json(['html' => $html]);
+     }
 
     /**
      * Show the form for editing the specified resource.

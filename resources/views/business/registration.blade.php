@@ -59,7 +59,7 @@
                 @php
                 // Array of slide names without the '.blade.php' extension
                 $slides = [
-                'business.registration_multi_form.slide3',
+                'business.registration_multi_form.slide4',
                 'business.registration_multi_form.slide',
                 'business.registration_multi_form.slide1',
                 'business.registration_multi_form.slide2',
@@ -159,7 +159,7 @@
     function changeDistrict($id) {
         jQuery.ajax({
             url: "{{ route('home.changeDistrict') }}",
-            menthod: 'GET',
+            method: 'GET',
             data: {
                 id: $id
             },
@@ -191,7 +191,7 @@
     function changeTown($id) {
         jQuery.ajax({
             url: "{{ route('home.changeTown') }}",
-            menthod: 'GET',
+            method: 'GET',
             data: {
                 id: $id
             },

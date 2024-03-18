@@ -47,6 +47,7 @@ Route::get('/about', function () {
 
 
 Route::get('/business/registration', [BusinessController::class, 'bus_reg'])->name('registration');
+Route::get('/business/registration/show', [ServicesController::class, 'show'])->name('business.registration.show');
 
 Route::get('/sendtestemail', function () {
     return view('sendtestemail');

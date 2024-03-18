@@ -25,7 +25,7 @@ class AdminpanelController extends Controller
     {
         $industries = DB::table('industries')
             ->select('industries.industry', 'industries.id')
-            ->paginate(3, ['*'], 'industries') // limit to 10 results per page
+            ->paginate(15, ['*'], 'industries') // limit to 10 results per page
             ->withQueryString(); // add this line to include other query parameters in the pagination link
 
         $services = DB::table('services')

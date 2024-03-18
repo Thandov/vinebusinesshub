@@ -662,7 +662,7 @@
     function changeDistrict($id) {
         jQuery.ajax({
             url: "{{ route('home.changeDistrict') }}",
-            menthod: 'GET',
+            method: 'GET',
             data: {
                 id: $id
             },
@@ -694,7 +694,7 @@
     function changeTown($id) {
         jQuery.ajax({
             url: "{{ route('home.changeTown') }}",
-            menthod: 'GET',
+            method: 'GET',
             data: {
                 id: $id
             },
