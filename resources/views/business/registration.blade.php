@@ -64,12 +64,12 @@
                 'business.registration_multi_form.slide1',
                 'business.registration_multi_form.slide2',
                 'business.registration_multi_form.slide3',
+                'business.registration_multi_form.slide4',
                 ];
                 @endphp
                 <x-businessregistration-multstep-form :slides="$slides" linking="{{ route('business.update') }}" :businessData="$businessData" />
             </div>
         </div>
-        <x-powerupslist />
     </div>
 
 </x-app-layout>
@@ -144,7 +144,7 @@
                 viewType = "cardView";
             var provinceId = $(this).find(":selected").val();
             changeDistrict(provinceId);
-            changeTown(provinceId);
+            //changeTown(provinceId);
         });
         jQuery(document).on('change', '#districtOptions', function() {
             var query = jQuery(this).val(),
