@@ -16,6 +16,7 @@
 
         <form action="{{$linking}}" method="POST" class="flex flex-col" id="multi-step-form">
             @csrf
+            <input type="hidden" name="business_id" value="{{$businessData['business']->id}}">
             @foreach($slides as $index => $slideRoute)
             <?php $slideContent = view($slideRoute, ['businessData' => $businessData])->render(); ?>
             <div class="step @if($index === 0) block @else hidden @endif" data-step="{{ $index + 1 }}">

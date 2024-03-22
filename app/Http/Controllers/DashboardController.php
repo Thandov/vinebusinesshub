@@ -109,6 +109,21 @@ class DashboardController extends Controller
         return view('home', compact('business', 'bootstrapColWidth'));
     }
 
+    public function changeIndustry(Request $request)
+    {
+
+        return response()->json(['id' => $request->id]);
+
+
+        $industries = DB::table('industries')
+            ->leftjoin('provinces', 'provinces.id', '=', 'industries.provinceId')
+            ->where('industries.provinceId', $request->id)
+            ->select('industries.municipal_district', 'provinces.province', 'municipal_districts.id')
+            ->get();
+
+        return $industries;
+    }
+
     public function changeDistrict(Request $request)
     {
 

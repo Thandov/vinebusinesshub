@@ -48,6 +48,7 @@ Route::get('/about', function () {
 
 Route::get('/business/registration', [BusinessController::class, 'bus_reg'])->name('registration');
 Route::get('/business/registration/show', [ServicesController::class, 'show'])->name('business.registration.show');
+Route::get('/home/registration', [DashboardController::class, 'changeIndustry'])->name('home.changeIndustry');
 
 Route::get('/sendtestemail', function () {
     return view('sendtestemail');
@@ -142,6 +143,7 @@ Route::get('/home/changeTown', [DashboardController::class, 'changeTown'])->name
 Route::get('/home/action', [DashboardController::class, 'action'])->name('home.action');
 //View Business of single business no user logged in
 Route::get('/business/{businessName}', [BusinessController::class, 'showBusiness'])->name('viewBusiness');
+
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

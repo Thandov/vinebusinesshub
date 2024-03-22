@@ -1,5 +1,4 @@
 <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">Tell Us about your Business</h1>
-<input type="hidden" name="id" value="{{ $business->id ?? '' }}">
 <div class="grid grid-cols-12 gap-6">
     <div class="col-span-12 md:col-span-6">
         <label for="business_name" class="text-base font-semibold leading-7 text-gray-900">Business

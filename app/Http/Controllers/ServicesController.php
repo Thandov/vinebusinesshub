@@ -162,6 +162,8 @@ class ServicesController extends Controller
     public function insertclientservice(Request $request)
     {
 
+        return response->json(["res" => $request->input()]);
+
         $service_name = $request->serviceId;
 
         $data = DB::table('clientsservices')

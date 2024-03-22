@@ -186,7 +186,6 @@ class BusinessController extends Controller
 
     public function updateBusiness(Request $req)
     {
-
         $id = auth()->user()->id;
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
