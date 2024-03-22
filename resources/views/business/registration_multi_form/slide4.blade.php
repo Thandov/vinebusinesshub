@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $industries = $businessData['industries']->sortBy('industry');
 $industryCount = count($businessData['industries']);
@@ -6,8 +6,10 @@ $industryCount = count($businessData['industries']);
 $clientsservices[] = $businessData['clientsservices'];
 $clientsservicesCount = count($clientsservices);
 
-$clientsindustryTemp = $businessData['industryIds'];
-$clientsindustry = $clientsindustryTemp[0];
+if ($businessData['industryIds'] != null) {
+    $clientsindustryTemp = $businessData['industryIds'];
+    $clientsindustry = $clientsindustryTemp[0];
+}
 ?>
 <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">INDUSTRY AND SERVICES</h1>
 <div class="grid grid-cols-2 gap-6">
@@ -16,7 +18,7 @@ $clientsindustry = $clientsindustryTemp[0];
         <select id="industryId" name="industryId" autocomplete="industry" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
             @if($businessData['industries'] ?? '')
             @foreach($businessData['industries']->sortBy('industry') as $industry)
-            <option value="{{ $industry->id ?? '' }}" {{ $industry->id === $clientsindustry ? 'selected' : '' }}>
+            <option value="{{ $industry->id ?? ''}}" @if ($industry->id == $clientsindustry ) selected @else ''; @endif >
                 {{ $industry->industry }}
             </option>
             @endforeach

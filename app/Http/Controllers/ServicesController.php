@@ -50,10 +50,9 @@ class ServicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
-    { 
+    {
         $jsonString = $request->selectedServices;
         $clientServices = json_decode($jsonString, true);
-
         // Assuming $request->id holds the value you want to match
         $industryId = $request->id; // Example value
 
@@ -62,9 +61,12 @@ class ServicesController extends Controller
 
         // Initialize an empty array to hold the HTML markup
         $html = '';
-
+        $ticktok = 0;
         // Loop through each service and generate HTML markup
-        foreach ($services as $service) {
+        foreach ($services as $key => $service) {
+            foreach ($clientServices as $key => $clientService) {
+                $html .= $clientServices;
+            }
             $html .= '<div class="mt-1 space-y-4 md:col-span-12">';
             $html .= '<div class="flex items-start">';
             $html .= '<div class="flex items-center h-5">';
@@ -74,11 +76,12 @@ class ServicesController extends Controller
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
+            $ticktok += 1;
         }
 
         // Return the HTML markup as JSON response
         return response()->json(['html' => $html]);
-     }
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -165,7 +168,7 @@ class ServicesController extends Controller
 
     public function insertclientservice(Request $request)
     {
-        
+
         $service_name = $request->serviceId;
 
         $data = DB::table('clientsservices')
