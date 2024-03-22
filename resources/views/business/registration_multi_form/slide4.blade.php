@@ -1,36 +1,42 @@
+<?php 
+
+$industries = $businessData['industries']->sortBy('industry');
+$industryCount = count($businessData['industries']);
+
+$clientsservices[] = $businessData['clientsservices'];
+$clientsservicesCount = count($clientsservices);
+
+$clientsindustryTemp = $businessData['industryIds'];
+$clientsindustry = $clientsindustryTemp[0];
+?>
 <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">INDUSTRY AND SERVICES</h1>
 <div class="grid grid-cols-2 gap-6">
     <div class="md:col-span-1 col-span-2">
         <label for="industry" class="text-base font-semibold leading-7 text-gray-900">Industry</label>
         <select id="industryId" name="industryId" autocomplete="industry" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
             @if($businessData['industries'] ?? '')
-                @foreach($businessData['industries']->sortBy('industry') as $industry)
-                    <option value="{{ $industry->id ?? '' }}">
-                        {{ $industry->industry }}
-                    </option>
-                @endforeach
+            @foreach($businessData['industries']->sortBy('industry') as $industry)
+            <option value="{{ $industry->id ?? '' }}" {{ $industry->id === $clientsindustry ? 'selected' : '' }}>
+                {{ $industry->industry }}
+            </option>
+            @endforeach
             @endif
         </select>
     </div>
     <div class="col-span-1">
         <div class="md:mt-0 md:col-span-8 md:col-start-3">
-                <input type="hidden" name="bid" value="">
-                <input type="hidden" name="regindustryId" id="regindustryId" value="">
-                <div class="shadow overflow-hidden sm:rounded-md">
-                    <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                        <legend class="md:col-span-12 text-base font-medium text-gray-900">
-                            <h3 class="text-base font-semibold leading-7 text-gray-900" id="industryTitle">Services</h3>
-                        </legend>
-                        <div id="servicesreg"></div>
-                    </div>
-                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                            Save
-                        </button>
-                    </div>
+            <input type="hidden" name="regindustryId" id="regindustryId" value="">
+            <input type="hidden" name="selectedServices" id="selectedServices" value="{{ $businessData['clientsservices'] ?? '' }}">
+            <div class="shadow overflow-hidden sm:rounded-md">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <legend class="md:col-span-12 text-base font-medium text-gray-900">
+                        <h3 class="text-base font-semibold leading-7 text-gray-900" id="industryTitle">Services</h3>
+                    </legend>
+                    <div id="servicesreg"></div>
                 </div>
-                <div class="md:mt-8 md:col-span-2 grid grid-cols-3 gap-6">
-                </div>
+            </div>
+            <div class="md:mt-8 md:col-span-2 grid grid-cols-3 gap-6">
+            </div>
         </div>
     </div>
 </div>

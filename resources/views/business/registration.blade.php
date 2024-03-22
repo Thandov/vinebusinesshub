@@ -56,13 +56,10 @@
         @endphp
         <div class="bg-white shadow-sm sm:rounded-lg gap-4">
             <div class="mb-4">
+               
                 @php
                     // Array of slide names without the '.blade.php' extension
-                    $slides = [
-                    
-                    'business.registration_multi_form.slide1',
-                    'business.registration_multi_form.slide2',
-                    'business.registration_multi_form.slide3',
+                    $slides = [                  
                     'business.registration_multi_form.slide4',
                     ];
                 @endphp
@@ -126,12 +123,15 @@
         // Assuming you have logic to retrieve services based on the selected industry id
         // Here, we'll just set the value of regindustryId to the selected id
         var regIndustryInput = document.getElementById("regindustryId");
+        var selectedServices = document.getElementById("selectedServices");
+
         regIndustryInput.value = id;
         jQuery.ajax({
             url: "{{ route('business.registration.show') }}",
             method: 'GET',
             data: {
-                id: id
+                id: id,
+                selectedServices: selectedServices.value,
             },
             dataType: 'json',
             success: function (response) {

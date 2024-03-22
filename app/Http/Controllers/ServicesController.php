@@ -50,7 +50,10 @@ class ServicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
-    {
+    { 
+        $jsonString = $request->selectedServices;
+        $clientServices = json_decode($jsonString, true);
+
         // Assuming $request->id holds the value you want to match
         $industryId = $request->id; // Example value
 
@@ -65,8 +68,9 @@ class ServicesController extends Controller
             $html .= '<div class="mt-1 space-y-4 md:col-span-12">';
             $html .= '<div class="flex items-start">';
             $html .= '<div class="flex items-center h-5">';
-            $html .= '<input name="serviceId[]" value="' . $service->id . '" type="checkbox" class="mr-3 focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">';
-            $html .= '<label for="comments" class="font-medium text-gray-700">' . $service->service_name . '</label>';
+            $html .= '<label for="custserv' . $service->id . '" class="font-medium text-gray-700">';
+            $html .= '<input name="serviceId[]" id="custserv' . $service->id . '" value="' . $service->id . '" type="checkbox" class="mr-3 focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">';
+            $html .= $service->service_name . '</label>';
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
@@ -161,9 +165,7 @@ class ServicesController extends Controller
 
     public function insertclientservice(Request $request)
     {
-
-        return response->json(["res" => $request->input()]);
-
+        
         $service_name = $request->serviceId;
 
         $data = DB::table('clientsservices')

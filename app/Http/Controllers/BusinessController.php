@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\User;
+use App\Services\ClientService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,12 @@ use Illuminate\Support\Facades\Storage;
 
 class BusinessController extends Controller
 {
+    protected $clientService;
+
+    public function __construct(ClientService $clientService)
+    {
+    $this->clientService = $clientService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -119,21 +126,34 @@ class BusinessController extends Controller
         ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
         ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
         ->where('businesses.company_rep', $id)
-            ->first();
+        ->first();
 
+        $industryIds = [];
+        $clientsservices = DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get();
+        
+        foreach ($clientsservices as $clientService) 
+        {
+            $industryId = $clientService->industryId;
+            if (!in_array($industryId, $industryIds)) 
+            {
+                $industryIds[] = $industryId;
+            }
+        }
+        
         $businessData = [
             'rep' => DB::table('users')->select('name', 'email')->where('users.id', $business->company_rep)->first(),
             'business' => $business,
             'provinces' => DB::table('provinces')->select('id', 'province')->get(),
             'services' => DB::table('services')->select('id', 'industryId', 'category_id', 'service_name')->get(),
             'industries' => DB::table('industries')->select('id', 'industry')->get(),
-            'clientsservices' => DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get(),
             'municipalities' => DB::table('municipalities')->select('id', 'municipality', 'districtId')->get(),
             'districts' => DB::table('municipal_districts')->select('id', 'municipal_district', 'provinceId')->get(),
             'towns' => DB::table('towns')->select('*')->get(),
+            'clientsservices' => $clientsservices,
+            'industryIds' => $industryIds,
         ];
 
-        return view('/business/registration', compact('businessData', 'urlSegments'));
+        return view('/business/registration', compact('businessData', 'industryIds', 'urlSegments'));
     }
 
     /**
@@ -186,6 +206,10 @@ class BusinessController extends Controller
 
     public function updateBusiness(Request $req)
     {
+
+            $arr = ["bid" => $req->business_id, "serviceId" => $req->serviceId, "industryId" => $req->industryId];
+            $this->clientService->insertclientservice($arr);
+        
         $id = auth()->user()->id;
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
