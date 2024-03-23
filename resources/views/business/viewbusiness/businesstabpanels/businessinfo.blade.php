@@ -1,4 +1,4 @@
-<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+<div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
     <form class="form-group" method="POST" action="{{ route('business.update') }}" enctype="multipart/form-data">
         @csrf
         <div class="pr-4 sm:px-0">

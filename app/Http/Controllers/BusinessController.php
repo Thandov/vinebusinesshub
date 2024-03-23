@@ -89,11 +89,6 @@ class BusinessController extends Controller
             ->select('*')
             ->get();
 
-        $clientsservices = DB::table('clientsservices')
-            ->select('*')
-            ->where('clientsservices.bid', $business->id)
-            ->get();
-
         $rep = DB::table('users')
             ->select('name', 'email')
             ->where('users.id', $business->company_rep)
@@ -110,8 +105,20 @@ class BusinessController extends Controller
         $towns = DB::table('towns')
             ->select('*')
             ->get();
+            
+        $industryIds = [];
+        $clientsservices = DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get();
 
-        return view('business/businessdashboard', ['rep' => $rep, 'towns' => $towns, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices]);
+        foreach ($clientsservices as $clientService)
+        {
+            $industryId = $clientService->industryId;
+            if (!in_array($industryId, $industryIds))
+            {
+            $industryIds[] = $industryId;
+            }
+        }
+
+        return view('business/businessdashboard', ['rep' => $rep, 'towns' => $towns, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices, 'industryIds' => $industryIds]);
     }
 
 

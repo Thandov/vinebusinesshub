@@ -1,16 +1,24 @@
-<?php 
-echo '<pre>';
-echo '</pre>';
- 
+
+<?php
+
+$industries = $industries->sortBy('industry');
+$industryCount = count($industries);
+
+$clientsservicesCount = count($clientsservices);
+$clientsindustry = "";
+if ($industryIds != null) {
+    $clientsindustryTemp = $industryIds;
+    $clientsindustry = $clientsindustryTemp[0];
+}
 ?>
-<div class="tab-pane fade" id="pills-services" role="tabpanel" aria-labelledby="pills-services-tab">
+<div class="tab-pane fade show active" id="pills-services" role="tabpanel" aria-labelledby="pills-services-tab">
     <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">INDUSTRY AND SERVICES</h1>
     <div class="grid grid-cols-2 gap-6">
         <div class="md:col-span-1 col-span-2">
             <label for="industry" class="text-base font-semibold leading-7 text-gray-900">Industry</label>
             <select id="industryId" name="industryId" autocomplete="industry" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 @if($industries ?? '')
-                    @foreach($industries->sortBy('industry') as $industry)
+                    @foreach($industries->sortBy('industries') as $industry)
                         <option value="{{ $industry->id ?? '' }}" @if(isset($clientsindustry) !=null) @if ($industry->id == $clientsindustry ) selected @else ''; @endif @endif >
                             {{ $industry->industry }}
                         </option>

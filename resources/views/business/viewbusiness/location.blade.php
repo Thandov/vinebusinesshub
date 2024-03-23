@@ -1,4 +1,10 @@
-    <div class="grid grid-cols-12 gap-6">
+   <?php 
+   if(!isset($provinces)){
+    $provinces = $businessData['provinces'];
+   }
+
+   ?>
+   <div class="grid grid-cols-12 gap-6">
         <div class="col-span-12 md:col-span-6">
             <label for="address" class="text-base font-semibold leading-7 text-gray-900">Street
                 address
