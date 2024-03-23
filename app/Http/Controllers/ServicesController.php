@@ -64,14 +64,19 @@ class ServicesController extends Controller
         $ticktok = 0;
         // Loop through each service and generate HTML markup
         foreach ($services as $key => $service) {
+            $classes = '';
+
             foreach ($clientServices as $key => $clientService) {
-                $html .= $clientServices;
+                 if ($service->id == $clientService['serviceId']) {
+                 $classes = "checked";
+                 break; // Exit the loop if a match is found
+                 }
             }
             $html .= '<div class="mt-1 space-y-4 md:col-span-12">';
             $html .= '<div class="flex items-start">';
             $html .= '<div class="flex items-center h-5">';
             $html .= '<label for="custserv' . $service->id . '" class="font-medium text-gray-700">';
-            $html .= '<input name="serviceId[]" id="custserv' . $service->id . '" value="' . $service->id . '" type="checkbox" class="mr-3 focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">';
+            $html .= '<input '.$classes.' name="serviceId[]" id="custserv' . $service->id . '" value="' . $service->id . '" type="checkbox" class="mr-3 focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">';
             $html .= $service->service_name . '</label>';
             $html .= '</div>';
             $html .= '</div>';

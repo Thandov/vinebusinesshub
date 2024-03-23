@@ -12,15 +12,10 @@
         </div>
         <div class="col-span-12 md:col-span-6">
             <label for="province" class="text-base font-semibold leading-7 text-gray-900">Province
-                @error('province')
-                <p class="text-red-500 text-medium">
-                    {{ $message }}
-                </p>
-                @enderror
-            </label>
+                @error('province') <p class="text-red-500 text-medium"> {{ $message }} </p> @enderror </label>
             <select id="provinceOptions" name="province" autocomplete="province" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                @if ($businessData['provinces'] ?? '')
-                @foreach ($businessData['provinces'] as $prov)
+                @if ($provinces ?? '')
+                @foreach ($provinces as $prov)
                 <option value="{{ $prov->id ?? '' }}">
                     {{ $prov->province }}
                 </option>
