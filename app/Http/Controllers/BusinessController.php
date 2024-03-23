@@ -364,4 +364,33 @@ class BusinessController extends Controller
 
     }
 
+    public function saveclientservices(Request $request)
+    {
+        $arr = ["bid" => $request->bid, "serviceId" => $request->serviceId, "industryId" => $request->industryId];
+        $this->clientService->insertclientservice($arr);
+        return redirect()->back()->with('success', 'Client services saved successfully.');
+    }
+
+    public function updateClientLocation(Request $request)
+    {
+    $business = Business::find($request->bid); // Find the business by bid
+
+    if ($business) {
+    // Business found, update its information
+    $business->update([
+    'address' => $request->address,
+    'provinceId' => $request->provinceId,
+    'districtId' => $request->districtId,
+    'municipalityId' => $request->municipalityId,
+    'town' => $request->town, // Assuming you want to set it to null if not provided
+    ]);
+
+    // Redirect or return response after successful update
+    return response()->json(['success' => 'Business information updated successfully.']);
+    } else {
+    // Business not found
+    return response()->json(['error' => 'Business not found.'], 404);
+    }
+    }
+
 }

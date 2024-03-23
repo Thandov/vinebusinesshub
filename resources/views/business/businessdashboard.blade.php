@@ -234,88 +234,6 @@
 
     });
 
-    jQuery(document).ready(function () {
-        var selectedprovinceId = $(this).find(":selected").val();
-
-        jQuery.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $(document).on('change', '#industryId', function (e) {
-            e.preventDefault();
-
-            var otherOption = $(this).find(":selected").val();
-            if (otherOption === "1") {
-                console.log("Other option selected");
-                $('#newIndustry').modal('show');
-            }
-        });
-
-
-        $(function () {
-            $('#insertIndustry').submit(function (e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        $('#success-message').html(response.message)
-                            .removeClass(
-                                'd-none');
-                        setTimeout(function () {
-                            $('#newIndustry').modal('hide');
-                        }, 2000);
-                    },
-                    error: function (xhr, status, error) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.message) {
-                            $('#error-message').html(response.message)
-                                .removeClass(
-                                    'd-none');
-                            setTimeout(function () {
-                                $('#error-message').addClass(
-                                    'd-none').html(
-                                    '');
-                            }, 5000);
-                        }
-                    }
-                });
-            });
-            $('#newIndustry').on('hidden.bs.modal', function () {
-                $('#success-message').addClass('d-none').html('');
-                $('#error-message').addClass('d-none').html('');
-            });
-        });
-
-
-        jQuery(document).on('click', '.changeLogoBtn', function (e) {
-            e.preventDefault();
-            $("#logouploader").css("display", "block");
-        });
-        jQuery(document).on('change', '#provinceOptions', function () {
-            var query = jQuery(this).val(),
-                searchOption = "provinceSearch",
-                viewType = "cardView";
-            var provinceId = $(this).find(":selected").val();
-            changeDistrict(provinceId);
-            changeTown(provinceId);
-        });
-        jQuery(document).on('change', '#districtOptions', function () {
-            var query = jQuery(this).val(),
-                searchOption = "industrySearch",
-                viewType = "cardView";
-            var provinceId = $(this).find(":selected").val();
-            changeMunicipality(provinceId);
-        });
-
-    });
-
     function changeDistrict($id) {
         jQuery.ajax({
             url: "{{ route('home.changeDistrict') }}",
@@ -400,11 +318,117 @@
                             '</option>');
                 });
                 $("#municipalityOptions").val($("#municipalityOptions option:first").val());
+            }
+        });
+    }
 
+    function getCurrentIndustry(query) {
+        document.getElementById("industryTitle").innerHTML = query;
+        // Get the select element by its id
+        var selectElement = document.getElementById("industryId");
+        // Get the value of the selected option
+        var selectedValue = selectElement.value;
+        getIndustryServices(selectedValue);
+    }
+
+    function getIndustryServices(id) {
+        // Assuming you have logic to retrieve services based on the selected industry id
+        // Here, we'll just set the value of regindustryId to the selected id
+        var regIndustryInput = document.getElementById("regindustryId");
+        var selectedServices = document.getElementById("selectedServices");
+
+        regIndustryInput.value = id;
+        jQuery.ajax({
+            url: "{{ route('business.registration.show') }}",
+            method: 'GET',
+            data: {
+                id: id,
+                selectedServices: selectedServices.value,
+            },
+            dataType: 'json',
+            success: function (response) {
+                // Append the HTML markup to the 'servicesreg' div
+                $('#servicesreg').html(response.html);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+        console.log(regIndustryInput);
+    }
+
+    jQuery(document).ready(function () {
+        var selectedprovinceId = $('#industryId').find(":selected").val();
+        var name = $('#industryId').find(":selected").html();
+        getCurrentIndustry(name);
+
+        jQuery.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
+        $(document).on('change', '#industryId', function () {
+            var query = jQuery(this).val();
+            var industryId = $(this).find(":selected").val();
+            var name = $(this).find(":selected").html();
+            var regIndustryInput = document.getElementById("regindustryId");
+            regIndustryInput.value = industryId;
+            getCurrentIndustry(name);
+        });
+        jQuery(document).on('click', '.changeLogoBtn', function (e) {
+            e.preventDefault();
+            $("#logouploader").css("display", "block");
+        });
+        jQuery(document).on('change', '#provinceOptions', function () {
+            var query = jQuery(this).val(),
+                searchOption = "provinceSearch",
+                viewType = "cardView";
+            var provinceId = $(this).find(":selected").val();
+            changeDistrict(provinceId);
+            //changeTown(provinceId);
+        });
+        jQuery(document).on('change', '#districtOptions', function () {
+            var query = jQuery(this).val(),
+                searchOption = "industrySearch",
+                viewType = "cardView";
+            var provinceId = $(this).find(":selected").val();
+            changeMunicipality(provinceId);
+        });
 
+        $('#insertIndustry').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
 
-    }
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $('#success-message').html(response.message)
+                        .removeClass('d-none');
+                    setTimeout(function () {
+                        $('#newIndustry').modal('hide');
+                    }, 2000);
+                },
+                error: function (xhr, status, error) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.message) {
+                        $('#error-message').html(response.message)
+                            .removeClass('d-none');
+                        setTimeout(function () {
+                            $('#error-message').addClass('d-none').html('');
+                        }, 5000);
+                    }
+                }
+            });
+        });
+        
+        $('#newIndustry').on('hidden.bs.modal', function () {
+            $('#success-message').addClass('d-none').html('');
+            $('#error-message').addClass('d-none').html('');
+        });
+    });
 </script>

@@ -12,8 +12,7 @@
                 Delete Profile
             </a>
             <div id="deleteConfirmation" class="hidden">
-                <p class="mt-4 text-sm text-gray-600">Are you sure you want to delete
-                    your user profile and your business profile?</p>
+                <p class="mt-4 text-sm text-gray-600">Are you sure you want to delete your user profile and your business profile?</p>
                 <div class="mt-2">
                     <button onclick="cancelDelete()" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Cancel</button>
                     <button onclick="approveDelete('{{ $business->id }}')" class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Delete</button>

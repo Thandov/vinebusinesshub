@@ -11,9 +11,9 @@
         </div>
     @endif
     @php
-        $user_id = Auth::user()->id;    
-        @endphp
- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        $user_id = Auth::user()->id;
+    @endphp
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4">
             <div class="p-6 bg-white border-b border-gray-200">
                 <nav class="flex" aria-label="Breadcrumb">
@@ -56,10 +56,10 @@
         @endphp
         <div class="bg-white shadow-sm sm:rounded-lg gap-4">
             <div class="mb-4">
-               
+
                 @php
                     // Array of slide names without the '.blade.php' extension
-                    $slides = [                  
+                    $slides = [
                     'business.registration_multi_form.slide1',
                     'business.registration_multi_form.slide2',
                     'business.registration_multi_form.slide3',
@@ -74,8 +74,8 @@
 </x-app-layout>
 <script>
     jQuery(document).ready(function () {
-        var selectedprovinceId = $(this).find(":selected").val();
-        var name = $(this).find(":selected").html();
+        var selectedprovinceId = $('#industryId').find(":selected").val();
+        var name = $('#industryId').find(":selected").html();
         getCurrentIndustry(name);
         jQuery.ajaxSetup({
             headers: {
