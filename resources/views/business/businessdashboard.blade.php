@@ -135,6 +135,7 @@
                             <div class="col-span-4">
                                 <div class="tab-content" id="v-pills-tabContent">
                                     @include('business.viewbusiness.businesstabpanels.businessinfo')
+                                    @include('business.viewbusiness.businesstabpanels.mediapanel')
                                     @include('business.viewbusiness.businesstabpanels.locationpanel')
                                     @include('business.viewbusiness.businesstabpanels.industrypanel')
                                     @include('business.viewbusiness.businesstabpanels.userinfo')

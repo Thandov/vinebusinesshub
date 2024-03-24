@@ -16,7 +16,7 @@ class BusinessController extends Controller
 
     public function __construct(ClientService $clientService)
     {
-    $this->clientService = $clientService;
+        $this->clientService = $clientService;
     }
     /**
      * Display a listing of the resource.
@@ -49,6 +49,51 @@ class BusinessController extends Controller
      */
     public function create()
     {
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateLogo(Request $request)
+    {
+        $id = auth()->user()->id;
+        $business = DB::table('businesses')
+            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+            ->where('businesses.company_rep', $id)
+            ->first();
+
+        $data = Business::find($business->id);
+        if ($request->hasFile('profile_picture')) {
+            $filename = $data->logo;
+            $file_path = 'img/' . $filename;
+
+            //Delete the image from the img file
+            if (file_exists($file_path)) {
+                if (unlink($file_path)) {
+                    // File deleted successfully
+                } else {
+                    // Error occurred while deleting the file
+                    // You can log the error or handle it in any appropriate way
+                }
+            } else {
+                // File not found, handle the situation appropriately
+            }
+
+            //If first time uploading logo
+            //update the record for business_name
+            $name = str_replace(' ', '_', strtolower($request->business_name));
+            $image = $request->file('profile_picture');
+            $newImageName = time() . '-' . $name . '.' . $request->file('profile_picture')->extension();
+            $request->file('profile_picture')->move(public_path('img'), $newImageName);
+            $data->logo = $newImageName;
+        }
+        $data->save();
+        return redirect()->back()->with(['success' => 'Business Logo updated successfully.']);
     }
 
     /**
@@ -105,16 +150,14 @@ class BusinessController extends Controller
         $towns = DB::table('towns')
             ->select('*')
             ->get();
-            
+
         $industryIds = [];
         $clientsservices = DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get();
 
-        foreach ($clientsservices as $clientService)
-        {
+        foreach ($clientsservices as $clientService) {
             $industryId = $clientService->industryId;
-            if (!in_array($industryId, $industryIds))
-            {
-            $industryIds[] = $industryId;
+            if (!in_array($industryId, $industryIds)) {
+                $industryIds[] = $industryId;
             }
         }
 
@@ -128,25 +171,23 @@ class BusinessController extends Controller
 
         $id = auth()->user()->id;
         $business = DB::table('businesses')
-        ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
-        ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
-        ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
-        ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
-        ->where('businesses.company_rep', $id)
-        ->first();
+            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
+            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
+            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
+            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
+            ->where('businesses.company_rep', $id)
+            ->first();
 
         $industryIds = [];
         $clientsservices = DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get();
-        
-        foreach ($clientsservices as $clientService) 
-        {
+
+        foreach ($clientsservices as $clientService) {
             $industryId = $clientService->industryId;
-            if (!in_array($industryId, $industryIds)) 
-            {
+            if (!in_array($industryId, $industryIds)) {
                 $industryIds[] = $industryId;
             }
         }
-        
+
         $businessData = [
             'rep' => DB::table('users')->select('name', 'email')->where('users.id', $business->company_rep)->first(),
             'business' => $business,
@@ -208,17 +249,16 @@ class BusinessController extends Controller
         $data->delete();
 
         return redirect('/')->with('success', ' Profile Successfully deleted');
-
     }
 
     public function updateBusiness(Request $req)
     {
 
-        
 
-            $arr = ["bid" => $req->business_id, "serviceId" => $req->serviceId, "industryId" => $req->industryId];
-            $this->clientService->insertclientservice($arr);
-        
+
+        $arr = ["bid" => $req->business_id, "serviceId" => $req->serviceId, "industryId" => $req->industryId];
+        $this->clientService->insertclientservice($arr);
+
         $id = auth()->user()->id;
         $business = DB::table('businesses')
             ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
@@ -227,7 +267,7 @@ class BusinessController extends Controller
             ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
             ->where('businesses.company_rep', $id)
             ->first();
-        
+
         $validated = $req->validate([
             'business_name' => 'required',
             'business_number' => 'required|numeric|max:999999999999999',
@@ -238,7 +278,7 @@ class BusinessController extends Controller
         ]);
         $data = Business::find($business->id);
         //dd($req->input());
-        
+
         if ($req->business_name != $data->business_name) {
             //update the record for business_name
             $data->business_name = $req->business_name;
@@ -298,19 +338,17 @@ class BusinessController extends Controller
 
         $data->activation_status = 1;
 
-        if ($req->hasFile('file-upload') || $req->hasFile('profile_picture')) {
+        if ($req->hasFile('profile_picture')) {
             $filename = $data->logo;
-
             //If first time uploading logo
-            if (is_null($data->logo) || $data->logo !== $req->file('file-upload')) {
+            if (is_null($data->logo) || $data->logo !== $req->file('profile_picture')) {
                 //update the record for business_name
                 $name = str_replace(' ', '_', strtolower($req->business_name));
-                $image = $req->file('file-upload');
-                $newImageName = time() . '-' . $name . '.' . $req->file('file-upload')->extension();
-                $req->file('file-upload')->move(public_path('img'), $newImageName);
+                $image = $req->file('profile_picture');
+                $newImageName = time() . '-' . $name . '.' . $req->file('profile_picture')->extension();
+                $req->file('profile_picture')->move(public_path('img'), $newImageName);
                 $data->logo = $newImageName;
             }
-
         }
         if ($req->marketingpic != $data->marketingpic) {
             //update the record for business_name
@@ -320,11 +358,9 @@ class BusinessController extends Controller
             //update the record for business_name
             $data->provinceId = $req->provinceId;
         }
-        
-        $data->save();
-dd($req->provinceId);
-        return redirect('/bdashboard');
 
+        $data->save();
+        return redirect('/bdashboard');
     }
 
     public function showBusiness($businessName)
@@ -339,7 +375,7 @@ dd($req->provinceId);
             ->where('businesses.business_name', $businessName)
             ->first();
 
-            $provinces = DB::table('provinces')
+        $provinces = DB::table('provinces')
             ->select('*')
             ->get();
 
@@ -363,7 +399,6 @@ dd($req->provinceId);
             ->get();
 
         return view('viewBusiness', ['rep' => $rep, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'clientsservices' => $clientsservices]);
-
     }
 
     public function saveclientservices(Request $request)
@@ -375,23 +410,22 @@ dd($req->provinceId);
 
     public function updateClientLocation(Request $request)
     {
-    $business = Business::find($request->bid); // Find the business by bid
-   
-    if ($business) {
-        // Business found, update its information
-        $business->update([
-        'address' => $request->address,
-        'provinceId' => (int)$request->provinceId,
-        'districtId' => (int)$request->districtId,
-        'municipalityId' => (int)$request->municipalityId,
-        'town' => $request->town, // Assuming you want to set it to null if not provided
-        ]);
-        // Redirect or return response after successful update
-        return redirect()->back()->with(['success' => 'Business information updated successfully.']);
+        $business = Business::find($request->bid); // Find the business by bid
+
+        if ($business) {
+            // Business found, update its information
+            $business->update([
+                'address' => $request->address,
+                'provinceId' => (int)$request->provinceId,
+                'districtId' => (int)$request->districtId,
+                'municipalityId' => (int)$request->municipalityId,
+                'town' => $request->town, // Assuming you want to set it to null if not provided
+            ]);
+            // Redirect or return response after successful update
+            return redirect()->back()->with(['success' => 'Business information updated successfully.']);
         } else {
-        // Business not found
-        return redirect()->back()->with(['error' => 'Business not found.'], 404);
+            // Business not found
+            return redirect()->back()->with(['error' => 'Business not found.'], 404);
         }
     }
-
 }

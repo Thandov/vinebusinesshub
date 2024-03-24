@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
     Route::post('business/update', [BusinessController::class, 'updateBusiness'])->name('business.update');
     Route::post('business/saveclientservices', [BusinessController::class, 'saveclientservices'])->name('business.saveclientservices');
     Route::post('business/updateClientLocation', [BusinessController::class, 'updateClientLocation'])->name('business.updateClientLocation');
+    Route::post('business/updateLogo', [BusinessController::class, 'updateLogo'])->name('business.updateLogo');
     
     //Edit the business admin data insertclientservice
     //Upload Logo for business
