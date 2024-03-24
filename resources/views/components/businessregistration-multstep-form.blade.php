@@ -18,18 +18,20 @@
                     @csrf
                     <input type="hidden" name="business_id" value="{{ $businessData['business']->id }}">
                     @foreach($slides as $index => $slideRoute)
-                        <?php $slideContent = view($slideRoute, ['businessData' => $businessData])->render(); ?>
-                        @if($index === 0) $tmpclass = 'block' @else $tmpclass='hidden' @endif
-                            <div class="step {{ $tmpclass }}" data-step="{{ $index + 1 }}">
-                                {!! $slideContent !!}
-                            </div>
-                        @endforeach
-
-                        <div class="flex justify-between mt-4">
-                            <button type="button" onclick="prevStep()" class="prev-button px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600" @if(count($slides)===0) style="display: none;" @endif>Previous</button>
-                            <button type="button" onclick="nextStep()" class="next-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" @if(count($slides)===0) style="display: none;" @endif>Next</button>
-                            <button type="submit" class="submit-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" @if(count($slides) !==0) style="display: none;" @endif>Submit</button>
+                        <?php $slideContent = view($slideRoute, ['businessData' => $businessData])->render(); 
+                        $tmpclass = $index === 0 ? 'block' : 'hidden';
+                        ?>
+                    
+                        <div class="step {{ $tmpclass }}" data-step="{{ $index + 1 }}">
+                            {!! $slideContent !!}
                         </div>
+                    @endforeach
+
+                    <div class="flex justify-between mt-4">
+                        <button type="button" onclick="prevStep()" class="prev-button px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600" @if(count($slides)===0) style="display: none;" @endif>Previous</button>
+                        <button type="button" onclick="nextStep()" class="next-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" @if(count($slides)===0) style="display: none;" @endif>Next</button>
+                        <button type="submit" class="submit-button ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" @if(count($slides) !==0) style="display: none;" @endif>Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

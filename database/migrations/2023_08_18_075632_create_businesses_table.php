@@ -23,7 +23,7 @@ class CreateBusinessesTable extends Migration
             $table->integer('provinceId')->nullable()->unsigned();
             $table->integer('districtId')->nullable()->unsigned();
             $table->integer('municipalityId')->nullable()->unsigned();
-            $table->integer('townId')->nullable()->unsigned();
+            $table->string('town')->nullable();
             $table->string('address')->nullable();
             $table->string('company_reg')->nullable();
             $table->string('website')->nullable();
@@ -39,7 +39,6 @@ class CreateBusinessesTable extends Migration
         Schema::table('businesses', function (Blueprint $table) {
             $table->foreign('provinceId')->references('id')->on('provinces')->onDelete('cascade');
             $table->foreign('districtId')->references('id')->on('municipal_districts')->onDelete('cascade');
-            $table->foreign('townId')->references('id')->on('towns')->onDelete('cascade');
             $table->foreign('company_rep')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('industryId')->references('id')->on('industries')->onDelete('cascade');
         });

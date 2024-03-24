@@ -18,10 +18,10 @@
         <div class="col-span-12 md:col-span-6">
             <label for="province" class="text-base font-semibold leading-7 text-gray-900">Province
                 @error('province') <p class="text-red-500 text-medium"> {{ $message }} </p> @enderror </label>
-            <select id="provinceOptions" name="province" autocomplete="province" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                <select id="provinceOptions" name="provinceId" autocomplete="province" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 @if ($provinces ?? '')
                 @foreach ($provinces as $prov)
-                <option value="{{ $prov->id ?? '' }}">
+                <option value="{{ $prov->id ?? '' }}" @if(isset($business->provinceId) !=null) @if ($prov->id == $business->provinceId ) selected @else ''; @endif @endif>
                     {{ $prov->province }}
                 </option>
                 @endforeach

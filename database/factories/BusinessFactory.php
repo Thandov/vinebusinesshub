@@ -46,12 +46,6 @@ class BusinessFactory extends Factory
     // Select a random district ID from the retrieved IDs
     $districtId = $this->faker->randomElement($districtIds);
 
-    // Retrieve all district IDs for the selected province
-    $townIds = Town::where('provinceId', $provinceId)->pluck('id')->toArray();
-
-    // Select a random district ID from the retrieved IDs
-    $townId = $this->faker->randomElement($townIds);
-
     // Retrieve all municipality IDs for the selected district
     $municipalityIds = Municipality::where('districtId', $districtId)->pluck('id')->toArray();
 
@@ -67,7 +61,7 @@ class BusinessFactory extends Factory
             'provinceId' => $provinceId,
             'districtId' => $districtId,
             'municipalityId' => $municipalityId,
-            'townId' => $townId,
+            'town' => $this->faker->city(),
             'address' => $this->faker->city(),
             'company_reg' => 1,
             'website' => 'wwww.' . $website[0] . '.co.za',

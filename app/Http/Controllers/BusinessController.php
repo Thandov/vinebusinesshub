@@ -257,9 +257,9 @@ class BusinessController extends Controller
             //update the record for address
             $data->address = $req->address;
         }
-        if ($req->townId != $data->townId) {
-            //update the record for townId
-            $data->townId = $req->townId;
+        if ($req->town != $data->town) {
+            //update the record for town
+            $data->town = $req->town;
         }
         if ($req->company_reg != $data->company_reg) {
             //update the record for company_reg
@@ -374,23 +374,22 @@ class BusinessController extends Controller
     public function updateClientLocation(Request $request)
     {
     $business = Business::find($request->bid); // Find the business by bid
-
+   
     if ($business) {
-    // Business found, update its information
-    $business->update([
-    'address' => $request->address,
-    'provinceId' => $request->provinceId,
-    'districtId' => $request->districtId,
-    'municipalityId' => $request->municipalityId,
-    'town' => $request->town, // Assuming you want to set it to null if not provided
-    ]);
-
-    // Redirect or return response after successful update
-    return response()->json(['success' => 'Business information updated successfully.']);
-    } else {
-    // Business not found
-    return response()->json(['error' => 'Business not found.'], 404);
-    }
+        // Business found, update its information
+        $business->update([
+        'address' => $request->address,
+        'provinceId' => (int)$request->provinceId,
+        'districtId' => (int)$request->districtId,
+        'municipalityId' => (int)$request->municipalityId,
+        'town' => $request->town, // Assuming you want to set it to null if not provided
+        ]);
+        // Redirect or return response after successful update
+        return redirect()->back()->with(['success' => 'Business information updated successfully.']);
+        } else {
+        // Business not found
+        return redirect()->back()->with(['error' => 'Business not found.'], 404);
+        }
     }
 
 }
