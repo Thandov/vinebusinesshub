@@ -214,6 +214,8 @@ class BusinessController extends Controller
     public function updateBusiness(Request $req)
     {
 
+        
+
             $arr = ["bid" => $req->business_id, "serviceId" => $req->serviceId, "industryId" => $req->industryId];
             $this->clientService->insertclientservice($arr);
         
@@ -296,7 +298,7 @@ class BusinessController extends Controller
 
         $data->activation_status = 1;
 
-        if (!empty($req->file('file-upload'))) {
+        if ($req->hasFile('file-upload') || $req->hasFile('profile_picture')) {
             $filename = $data->logo;
 
             //If first time uploading logo
@@ -314,14 +316,14 @@ class BusinessController extends Controller
             //update the record for business_name
             $data->marketingpic = $req->marketingpic;
         }
-        if ($req->province != $data->province) {
+        if ($req->provinceId != $data->provinceId || $data->provinceId == null) {
             //update the record for business_name
-            $data->provinceId = $req->province;
+            $data->provinceId = $req->provinceId;
         }
-
+        
         $data->save();
-
-        return redirect('/');
+dd($req->provinceId);
+        return redirect('/bdashboard');
 
     }
 
