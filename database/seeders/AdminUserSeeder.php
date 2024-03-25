@@ -47,7 +47,7 @@ class AdminUserSeeder extends Seeder
             'twitter' => null,
             'instagram' => null,
             'logo' => null,
-            'marketingpic' => null,
+            'banner' => null,
             'activation_status' => null,
             'created_at' => now(),
             ]);

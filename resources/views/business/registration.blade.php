@@ -1,17 +1,17 @@
 <x-app-layout title="">
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
     @endif
     {{-- Display error message --}}
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
     @php
-        $user_id = Auth::user()->id;
+    $user_id = Auth::user()->id;
     @endphp
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4">
@@ -28,22 +28,22 @@
                             </a>
                         </li>
                         @php
-                            $url = '/';
+                        $url = '/';
                         @endphp
                         @foreach($urlSegments as $index => $segment)
-                            @php
-                                $url .= $segment . '/';
-                            @endphp
-                            @if($segment != 'bdashboard')
-                                <li @if($loop->last) aria-current="page" @endif>
-                                    <a href="{{ $url }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                                        <svg class="mr-2 w-4 h-4 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        {{ ucfirst($segment) }}
-                                    </a>
-                                </li>
-                            @endif
+                        @php
+                        $url .= $segment . '/';
+                        @endphp
+                        @if($segment != 'bdashboard')
+                        <li @if($loop->last) aria-current="page" @endif>
+                            <a href="{{ $url }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                                <svg class="mr-2 w-4 h-4 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ ucfirst($segment) }}
+                            </a>
+                        </li>
+                        @endif
                         @endforeach
                     </ol>
                 </nav>
@@ -52,19 +52,19 @@
         </div>
 
         @php
-            $userid = Auth::user()->id;
+        $userid = Auth::user()->id;
         @endphp
         <div class="bg-white shadow-sm sm:rounded-lg gap-4">
             <div class="mb-4">
 
                 @php
-                    // Array of slide names without the '.blade.php' extension
-                    $slides = [
-                    'business.registration_multi_form.slide1',
-                    'business.registration_multi_form.slide2',
-                    'business.registration_multi_form.slide3',
-                    'business.registration_multi_form.slide4',
-                    ];
+                // Array of slide names without the '.blade.php' extension
+                $slides = [
+                'business.registration_multi_form.slide1',
+                'business.registration_multi_form.slide2',
+                'business.registration_multi_form.slide3',
+                'business.registration_multi_form.slide4',
+                ];
                 @endphp
                 <x-businessregistration-multstep-form :slides="$slides" linking="{{ route('business.update') }}" :businessData="$businessData" />
             </div>
@@ -73,7 +73,40 @@
 
 </x-app-layout>
 <script>
-    jQuery(document).ready(function () {
+    function previewImages(event) {
+        const previewContainer = document.getElementById('preview-container');
+        const files = event.target.files;
+        for (const file of files) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('h-40', 'w-full', 'object-cover', 'rounded-md');
+
+                // Create a container for each image with remove button
+                const container = document.createElement('div');
+                container.classList.add('relative');
+
+                // Create remove button
+                const removeBtn = document.createElement('button');
+                removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                removeBtn.classList.add('absolute', 'top-2', 'right-2', 'px-2', 'py-1', 'bg-red-500', 'text-white', 'rounded');
+                removeBtn.onclick = function() {
+                    container.remove(); // Remove the container when remove button is clicked
+                };
+
+                // Append image and remove button to the container
+                container.appendChild(img);
+                container.appendChild(removeBtn);
+
+                // Append container to the preview container
+                previewContainer.appendChild(container);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    jQuery(document).ready(function() {
         var selectedprovinceId = $('#industryId').find(":selected").val();
         var name = $('#industryId').find(":selected").html();
         getCurrentIndustry(name);
@@ -83,7 +116,7 @@
             }
         });
 
-        $(document).on('change', '#industryId', function () {
+        $(document).on('change', '#industryId', function() {
             var query = jQuery(this).val();
             var industryId = $(this).find(":selected").val();
             var name = $(this).find(":selected").html();
@@ -91,11 +124,11 @@
             regIndustryInput.value = industryId;
             getCurrentIndustry(name);
         });
-        jQuery(document).on('click', '.changeLogoBtn', function (e) {
+        jQuery(document).on('click', '.changeLogoBtn', function(e) {
             e.preventDefault();
             $("#logouploader").css("display", "block");
         });
-        jQuery(document).on('change', '#provinceOptions', function () {
+        jQuery(document).on('change', '#provinceOptions', function() {
             var query = jQuery(this).val(),
                 searchOption = "provinceSearch",
                 viewType = "cardView";
@@ -103,7 +136,7 @@
             changeDistrict(provinceId);
             //changeTown(provinceId);
         });
-        jQuery(document).on('change', '#districtOptions', function () {
+        jQuery(document).on('change', '#districtOptions', function() {
             var query = jQuery(this).val(),
                 searchOption = "industrySearch",
                 viewType = "cardView";
@@ -137,11 +170,11 @@
                 selectedServices: selectedServices.value,
             },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 // Append the HTML markup to the 'servicesreg' div
                 $('#servicesreg').html(response.html);
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
@@ -156,7 +189,7 @@
                 id: $id
             },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
 
                 jQuery('#districtOptions')
@@ -188,7 +221,7 @@
                 id: $id
             },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
 
                 jQuery('#townOptions')
@@ -217,7 +250,7 @@
                 id: $id
             },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 jQuery('#municipalityOptions')
                     .find('option')
                     .remove()

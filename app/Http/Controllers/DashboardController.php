@@ -35,7 +35,7 @@ class DashboardController extends Controller
             ->leftjoin('municipal_districts', 'municipal_districts.id', '=', 'municipalities.districtId')
             ->select('municipalities.municipality', 'municipal_districts.municipal_district', 'municipal_districts.id')
             ->get();
-
+ 
         return view('home', compact('business', 'industry', 'provinces', 'municipal_districts'));
     }
     public function index()

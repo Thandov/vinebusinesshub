@@ -32,7 +32,7 @@ class CreateBusinessesTable extends Migration
             $table->string('twitter')->nullable();
             $table->string('instagram')->nullable();
             $table->string('logo')->nullable();
-            $table->string('marketingpic')->nullable();
+            $table->string('banner')->nullable();
             $table->string('activation_status')->nullable();
             $table->timestamps();
         });

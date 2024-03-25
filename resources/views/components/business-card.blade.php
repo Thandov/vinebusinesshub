@@ -41,12 +41,11 @@ $option = 1;
             <div class="font-bold text-xl text-green-600 px-3 pt-3">{{ $name }}</div>
             <p class="text-sm text-blue-300 font-bold py-1 px-3">{{ $industry }}</p>
             <div class="flex justify-end">
-                <p class="text-sm font-light px-3">address</p>
+                <p class="text-sm font-light px-3">{{ $address }}</p>
             </div>
         </div>
     </div>
 </a>
-
 @elseif ($option === 2)
 <div class="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden my-10">
     <div class="px-4 py-2">
