@@ -72,9 +72,9 @@
                 </div>
             </div>
         </div> -->
-        <div class="contentwrapper h-full col-span-3">
+        <div class="grid grid-cols-6 contentwrapper h-full col-span-3">
             <!-- Power Tools -->
-            <div class="max-w-7xl mx-auto mb-4 sm:px-6 lg:px-8 py-3">
+            <div class="col-span-2 mx-auto py-3">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-start mb-4">
@@ -97,12 +97,12 @@
                             <div class="ml-auto">
                             </div>
                         </div>
-                        <x-powerups-blocks />
+                        <x-powerups-block-sidebar />
                     </div>
                 </div>
             </div>
             <!-- Profile -->
-            <div class="max-w-7xl mx-auto mb-4 sm:px-6 lg:px-8">
+            <div class="col-span-4 mx-auto py-3">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-start mb-4">
