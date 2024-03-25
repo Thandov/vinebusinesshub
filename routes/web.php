@@ -112,6 +112,8 @@ Route::group(['middleware' => ['auth', 'role:business|admin']], function () {
             return redirect('/thank-you')->with('success', 'Form submitted successfully!');
         }
     })->name('submit');
+
+    Route::delete('/delete-image/{id}', [BusinessController::class, 'deleteImage']);
 });
 
 //For Admin

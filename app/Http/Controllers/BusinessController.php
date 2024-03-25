@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\User;
+use App\Models\Gallery;
 use App\Services\ClientService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -56,44 +57,61 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function updateLogo(Request $request)
+    public function updateLogo(Request $request, Business $business)
     {
         $id = auth()->user()->id;
-        $business = DB::table('businesses')
-            ->leftjoin('industries', 'industries.id', '=', 'businesses.industryId')
-            ->leftjoin('provinces', 'provinces.id', '=', 'businesses.provinceId')
-            ->leftjoin('users', 'users.id', '=', 'businesses.company_rep')
-            ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
-            ->where('businesses.company_rep', $id)
-            ->first();
+        $business = Business::where('company_rep', $id)->firstOrFail();
 
-        $data = Business::find($business->id);
+        // Handle logo upload
         if ($request->hasFile('profile_picture')) {
-            $filename = $data->logo;
-            $file_path = 'img/' . $filename;
+            $filename = $business->logo;
+            $file_path = public_path('img/' . $filename);
 
-            //Delete the image from the img file
+            // Delete the old logo file
             if (file_exists($file_path)) {
-                if (unlink($file_path)) {
-                    // File deleted successfully
-                } else {
-                    // Error occurred while deleting the file
-                    // You can log the error or handle it in any appropriate way
-                }
-            } else {
-                // File not found, handle the situation appropriately
+                unlink($file_path);
             }
 
-            //If first time uploading logo
-            //update the record for business_name
+            // Update logo with the new file
             $name = str_replace(' ', '_', strtolower($request->business_name));
             $image = $request->file('profile_picture');
-            $newImageName = time() . '-' . $name . '.' . $request->file('profile_picture')->extension();
-            $request->file('profile_picture')->move(public_path('img'), $newImageName);
-            $data->logo = $newImageName;
+            $newImageName = time() . '-' . $name . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('img'), $newImageName);
+            $business->logo = $newImageName;
         }
-        $data->save();
-        return redirect()->back()->with(['success' => 'Business Logo updated successfully.']);
+
+        // Handle gallery images upload
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $newImageName = time() . '-' . $photo->getClientOriginalName();
+                $photo->move(public_path('img'), $newImageName);
+
+                // Create a new gallery record for each uploaded photo
+                Gallery::create([
+                    'user_id' => auth()->user()->id,
+                    'bid' => $business->id,
+                    'image' => $newImageName,
+                ]);
+            }
+        }
+
+        $business->save();
+
+        return redirect()->back()->with(['success' => 'Business Logo and Images updated successfully.']);
+    }
+
+    public function deleteImage($id)
+    {
+        $image = Gallery::find($id);
+
+        if ($image) {
+            // Delete image record from the database
+            $image->delete();
+
+            return response()->json(['message' => 'Image deleted successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Image not found'], 404);
+        }
     }
 
     /**
@@ -112,6 +130,7 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function show()
     {
         $id = auth()->user()->id;
@@ -122,38 +141,20 @@ class BusinessController extends Controller
             ->select('users.name', 'users.email_verified_at', 'businesses.*', 'provinces.province', 'industries.industry')
             ->where('businesses.company_rep', $id)
             ->first();
-        $provinces = DB::table('provinces')
-            ->select('*')
-            ->get();
 
-        $services = DB::table('services')
-            ->select('*')
-            ->get();
+        // Retrieve the images associated with the current business
+        $images = Gallery::where('bid', $business->id)->get();
 
-        $industries = DB::table('industries')
-            ->select('*')
-            ->get();
-
-        $rep = DB::table('users')
-            ->select('name', 'email')
-            ->where('users.id', $business->company_rep)
-            ->first();
-
-        $municipalities = DB::table('municipalities')
-            ->select('*')
-            ->get();
-
-        $districts = DB::table('municipal_districts')
-            ->select('*')
-            ->get();
-
-        $towns = DB::table('towns')
-            ->select('*')
-            ->get();
-
+        // Retrieve other data from the database as before
+        $provinces = DB::table('provinces')->select('*')->get();
+        $services = DB::table('services')->select('*')->get();
+        $industries = DB::table('industries')->select('*')->get();
+        $rep = DB::table('users')->select('name', 'email')->where('users.id', $business->company_rep)->first();
+        $municipalities = DB::table('municipalities')->select('*')->get();
+        $districts = DB::table('municipal_districts')->select('*')->get();
+        $towns = DB::table('towns')->select('*')->get();
         $industryIds = [];
         $clientsservices = DB::table('clientsservices')->select('*')->where('clientsservices.bid', $business->id)->get();
-
         foreach ($clientsservices as $clientService) {
             $industryId = $clientService->industryId;
             if (!in_array($industryId, $industryIds)) {
@@ -161,8 +162,21 @@ class BusinessController extends Controller
             }
         }
 
-        return view('business/businessdashboard', ['rep' => $rep, 'towns' => $towns, 'districts' => $districts, 'business' => $business, 'provinces' => $provinces, 'services' => $services, 'industries' => $industries, 'municipalities' => $municipalities, 'clientsservices' => $clientsservices, 'industryIds' => $industryIds]);
+        return view('business/businessdashboard', [
+            'rep' => $rep,
+            'towns' => $towns,
+            'districts' => $districts,
+            'business' => $business,
+            'provinces' => $provinces,
+            'services' => $services,
+            'industries' => $industries,
+            'municipalities' => $municipalities,
+            'clientsservices' => $clientsservices,
+            'industryIds' => $industryIds,
+            'images' => $images, // Pass the retrieved images to the view
+        ]);
     }
+
 
 
     public function bus_reg()
@@ -253,8 +267,6 @@ class BusinessController extends Controller
 
     public function updateBusiness(Request $req)
     {
-
-
 
         $arr = ["bid" => $req->business_id, "serviceId" => $req->serviceId, "industryId" => $req->industryId];
         $this->clientService->insertclientservice($arr);
@@ -348,6 +360,19 @@ class BusinessController extends Controller
                 $newImageName = time() . '-' . $name . '.' . $req->file('profile_picture')->extension();
                 $req->file('profile_picture')->move(public_path('img'), $newImageName);
                 $data->logo = $newImageName;
+            }
+        }
+        if ($req->hasFile('photos')) {
+            foreach ($req->file('photos') as $photo) {
+                $newImageName = time() . '-' . $photo->getClientOriginalName();
+                $photo->move(public_path('img'), $newImageName);
+
+                // Create a new gallery record for each uploaded photo
+                Gallery::create([
+                    'user_id' => auth()->user()->id,
+                    'bid' => $business->id,
+                    'image' => $newImageName,
+                ]);
             }
         }
         if ($req->marketingpic != $data->marketingpic) {

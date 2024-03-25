@@ -1,6 +1,6 @@
-<div class="col-span-2 flex items-center mt-1 justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md" style="height: 250px; position: relative">
+<div class="col-span-2 grid items-center my-4 justify-center p-5 border-2 border-gray-300 border-dashed rounded-md" style="position: relative">
     @if (isset($image) && $image ?? '')
-    <img id="profile_picture_preview" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="{{ asset('img/'.$image) }}" alt="sasas Picture">
+    <img id="profile_picture_preview" class="inline-block h-56 w-56 rounded-full ring-2 ring-white" src="{{ asset('img/'.$image) }}" alt="sasas Picture">
     @else
     <img id="profile_picture_preview" src="#" alt="Profile Picture"> <!-- Add a default image source or leave it blank -->
     @endif
